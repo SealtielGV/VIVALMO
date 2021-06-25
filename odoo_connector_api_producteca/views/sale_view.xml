@@ -81,7 +81,7 @@
                       <tree delete="0" edit="0" create="0">
                         <field name="name"/>
                         <field name="date"/>
-                        <field name="payment_id"/>
+                        <field name="account_payment_id"/>
                         <field name="amount"/>
                         <field name="status"/>
                       </tree>
