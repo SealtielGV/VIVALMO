@@ -15,11 +15,12 @@ class ProductTemplateBindToProducteca(models.TransientModel):
 
     connectors = fields.Many2many("producteca.account", string='Producteca Accounts')
 
-    def product_template_add_to_connector(self, context):
+    def product_template_add_to_connector(self, context=False):
 
         _logger.info("product_template_add_to_connector (Producteca)")
 
         company = self.env.user.company_id
+        context = context or self.env.context
         product_ids = context['active_ids']
         product_obj = self.env['product.template']
 
@@ -34,11 +35,12 @@ class ProductTemplateBindToProducteca(models.TransientModel):
                 product.producteca_bind_to( producteca )                                 
                         
                 
-    def product_template_remove_from_connector(self, context):
+    def product_template_remove_from_connector(self, context=False):
 
         _logger.info("product_template_remove_from_connector (Producteca)")
 
         company = self.env.user.company_id
+        context = context or self.env.context
         product_ids = context['active_ids']
         product_obj = self.env['product.template']
 
@@ -62,11 +64,12 @@ class ProductProductBindToProducteca(models.TransientModel):
 
     connectors = fields.Many2many("producteca.account", string='Producteca Accounts')
 
-    def product_product_add_to_connector(self, context):
+    def product_product_add_to_connector(self, context=False):
 
         _logger.info("product_product_add_to_connector (Producteca)")
 
         company = self.env.user.company_id
+        context = context or self.env.context
         product_ids = context['active_ids']
         product_obj = self.env['product.product']
 
@@ -81,11 +84,12 @@ class ProductProductBindToProducteca(models.TransientModel):
                 product.producteca_bind_to( producteca )                                 
                         
                 
-    def product_product_remove_from_connector(self, context):
+    def product_product_remove_from_connector(self, context=False):
 
         _logger.info("product_product_remove_from_connector (Producteca)")
 
         company = self.env.user.company_id
+        context = context or self.env.context
         product_ids = context['active_ids']
         product_obj = self.env['product.product']
 
