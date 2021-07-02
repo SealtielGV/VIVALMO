@@ -664,6 +664,8 @@ class ProductecaConnectionAccount(models.Model):
 
                 else:
                     fields[key] = val
+                    if key =="date":
+                        fields[key] = ml_datetime(val)
 
         _logger.info(fields)
         _logger.info("Searching sale order: " + str(psoid))
