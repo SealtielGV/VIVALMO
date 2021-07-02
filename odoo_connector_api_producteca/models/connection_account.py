@@ -456,7 +456,7 @@ class ProductecaConnectionAccount(models.Model):
         if not billing and "location_streetName" in contact:
             return contact["location_streetName"]+" "+contact["location_streetNumber"]
         else:
-            return contact["billingInfo_streetName"]+" "+contact["billingInfo_streetNumber"]
+            return str("billingInfo_streetName" in contact and contact["billingInfo_streetName"])+" "+str("billingInfo_streetNumber" in contact and contact["billingInfo_streetNumber"])
 
     def city(self, contact, billing=False ):
         if not billing and "location_city" in contact:
