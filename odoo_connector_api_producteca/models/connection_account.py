@@ -637,8 +637,9 @@ class ProductecaConnectionAccount(models.Model):
             "connection_account": account.id,
             "name": "PR-"+str(psoid)
         }
+        #"warehouseIntegration"
         key_bind = ["channel","tags","integrations","cartId",
-                    "warehouse","warehouseIntegration","amount",
+                    "warehouse","amount",
                     "shippingCost","financialCost","paidApproved",
                     "paymentStatus","deliveryStatus","paymentFulfillmentStatus",
                     "deliveryFulfillmentStatus","deliveryMethod","paymentTerm",
