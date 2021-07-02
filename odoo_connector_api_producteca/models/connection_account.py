@@ -729,7 +729,8 @@ class ProductecaConnectionAccount(models.Model):
         contactkey_bind = ["name","contactPerson","mail",
                     "phoneNumber","taxId","location",
                     "type","profile",
-                    "billingInfo","id"]
+                    #"billingInfo",
+                    "id"]
 
         #process "contact"
         partner_id = False
