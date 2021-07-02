@@ -460,9 +460,9 @@ class ProductecaConnectionAccount(models.Model):
 
     def city(self, contact, billing=False ):
         if not billing and "location_city" in contact:
-            return contact["location_city"]
+            return str("location_city" in contact and contact["location_city"])
         else:
-            return contact["billingInfo_city"]
+            return str("billingInfo_city" in contact and contact["billingInfo_city"])
 
 
     #return odoo country id
