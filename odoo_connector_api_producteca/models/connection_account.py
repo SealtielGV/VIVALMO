@@ -747,7 +747,8 @@ class ProductecaConnectionAccount(models.Model):
                     val = contact[key]
                     if type(val)==dict:
                         for skey in val:
-                            contactfields[key+"_"+skey] = val[skey]
+                            if (not (skey=="country")):
+                                contactfields[key+"_"+skey] = val[skey]
                     else:
                         contactfields[key] = val
 
