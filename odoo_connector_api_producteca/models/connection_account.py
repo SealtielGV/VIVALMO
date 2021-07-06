@@ -1209,17 +1209,24 @@ class ProductecaConnectionAccount(models.Model):
                     "card",
                     "hasCancelableStatus",
                     "installments"]
+                model = self.env["producteca.payment"]
                 for k in paykey_bind:
                     key = k
+                    fieldname = key
                     if key in payment:
                         val = payment[key]
                         if type(val)==dict:
                             for skey in val:
+                                fieldname = key+"_"+skey
+                                if not fieldname in model._fields:
+                                    continue;
                                 if type(val[skey])==dict:
                                     payfields[key+"_"+skey] = str(val[skey])
                                 else:
                                     payfields[key+"_"+skey] = val[skey]
                         else:
+                            if not fieldname in model._fields:
+                                continue;
                             payfields[key] = val
 
                 _logger.info(payfields)
