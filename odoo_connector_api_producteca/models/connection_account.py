@@ -925,6 +925,7 @@ class ProductecaConnectionAccount(models.Model):
                 'partner_shipping_id': partner_shipping_id.id,
                 'pricelist_id': (plist and plist.id),
                 'warehouse_id': (whouse and whouse.id),
+                'company_id': company.id,
             }
             if (account and account.configuration and account.configuration.seller_user):
                 sale_order_fields["user_id"] = account.configuration.seller_user.id
