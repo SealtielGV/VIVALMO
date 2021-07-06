@@ -786,7 +786,7 @@ class ProductecaConnectionAccount(models.Model):
 
             country_id = self.country(contact=contactfields)
 
-            buyer_name = ("name" in contactfields and contactfields["name"])
+            buyer_name = ( "contactPerson" in contactfields and contactfields["contactPerson"] ) or ( "name" in contactfields and contactfields["name"] )
             firstName = ("billingInfo_firstName" in contactfields and contactfields["billingInfo_firstName"])
             lastName = ("billingInfo_lastName" in contactfields and contactfields["billingInfo_lastName"])
             if not buyer_name and firstName and lastName:
@@ -804,7 +804,7 @@ class ProductecaConnectionAccount(models.Model):
                 'city': self.city(contact=contactfields,billing=True),
                 'country_id': country_id,
                 'state_id': self.ostate( country=country_id, contact=contactfields,billing=True ),
-                'zip': contactfields["billingInfo_zipCode"],
+                'zip': ("billingInfo_zipCode" in contactfields and contactfields["billingInfo_zipCode"]),
                 'phone': self.full_phone( contactfields ),
                 'producteca_bindings': [(6, 0, [client.id])]
                 #'email': Buyer['email'],
