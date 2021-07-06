@@ -968,10 +968,10 @@ class ProductecaConnectionAccount(models.Model):
                     key = k
                     if key in line:
                         val = line[key]
+                        fieldname = key
                         if type(val)==dict:
                             for skey in val:
                                 fieldname = key+"_"+skey
-
                                 if not fieldname in model._fields:
                                     continue;
 
@@ -980,7 +980,6 @@ class ProductecaConnectionAccount(models.Model):
                                 else:
                                     linefields[key+"_"+skey] = val[skey]
                         else:
-                            fieldname = key
                             if not fieldname in model._fields:
                                 continue;
                             linefields[key] = val
@@ -1074,17 +1073,24 @@ class ProductecaConnectionAccount(models.Model):
                     "method",
                     "integration",
                     "receiver"]
+                model = self.env["producteca.shipment"]
                 for k in shpkey_bind:
                     key = k
                     if key in shipment:
                         val = shipment[key]
+                        fieldname = key
                         if type(val)==dict:
                             for skey in val:
+                                fieldname = key+"_"+skey
+                                if not fieldname in model._fields:
+                                    continue;
                                 if type(val[skey])==dict:
                                     shpfields[key+"_"+skey] = str(val[skey])
                                 else:
                                     shpfields[key+"_"+skey] = val[skey]
                         else:
+                            if not fieldname in model._fields:
+                                continue;
                             shpfields[key] = val
 
                 _logger.info(shpfields)
