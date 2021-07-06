@@ -205,8 +205,10 @@ class OcapiCatalog(http.Controller):
         _logger.info("sales: "+str(connector))
         _logger.info(post)
         if not post.get("sales"):
+            _logger.error("no sales order found.")
             return { "error": "no sales order" }
         connection = self.get_connection_account(connector,**post)
         if not connection:
+            _logger.error("connection not found.")
             return {}
         return connection.import_sales(**post)
