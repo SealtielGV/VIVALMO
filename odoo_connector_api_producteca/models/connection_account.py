@@ -963,17 +963,26 @@ class ProductecaConnectionAccount(models.Model):
                     "quantity",
                     "conversation",
                     "reserved"]
+                model = self.env["producteca.sale_order_line"]
                 for k in lineskey_bind:
                     key = k
                     if key in line:
                         val = line[key]
                         if type(val)==dict:
                             for skey in val:
+                                fieldname = key+"_"+skey
+
+                                if not fieldname in model._fields:
+                                    continue;
+
                                 if type(val[skey])==dict:
                                     linefields[key+"_"+skey] = str(val[skey])
                                 else:
                                     linefields[key+"_"+skey] = val[skey]
                         else:
+                            fieldname = key
+                            if not fieldname in model._fields:
+                                continue;
                             linefields[key] = val
 
                 _logger.info(linefields)
