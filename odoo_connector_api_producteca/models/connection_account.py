@@ -663,9 +663,9 @@ class ProductecaConnectionAccount(models.Model):
                                     fields[key+"_"+skey] = str(valL[skey])
 
                 else:
-                    fields[key] = val
                     if key =="date":
-                        fields[key] = ml_datetime(val)
+                        val = ml_datetime(val)
+                    fields[key] = val
 
         _logger.info(fields)
         _logger.info("Searching sale order: " + str(psoid))
@@ -1091,6 +1091,8 @@ class ProductecaConnectionAccount(models.Model):
                         else:
                             if not fieldname in model._fields:
                                 continue;
+                            if key =="date":
+                                val = ml_datetime(val)
                             shpfields[key] = val
 
                 _logger.info(shpfields)
