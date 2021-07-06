@@ -1227,6 +1227,8 @@ class ProductecaConnectionAccount(models.Model):
                         else:
                             if not fieldname in model._fields:
                                 continue;
+                            if key =="date":
+                                val = ml_datetime(val)
                             payfields[key] = val
 
                 _logger.info(payfields)
