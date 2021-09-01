@@ -59,29 +59,29 @@ class AddendaProduct(models.Model):
 class AddendaProduct(models.Model):
 	_inherit = 'product.product'
 	
-	x_code = fields.Char(string='Código', index=True)
-	x_size = fields.Char(string='Talla', index=True)
-	x_model = fields.Char(string='Modelo', index=True)
+	x_code = fields.Char(string='Código de artículo Coppel', index=True)
+	x_size = fields.Char(string='Talla de artículo Coppel', index=True)
+	x_model = fields.Char(string='Modelo Coppel', index=True)
 
 class AddendaSale(models.Model):
 	"""docstring for AddendaFields"""
 	_inherit = 'sale.order'
 
-	x_order_no = fields.Char(string='Num. Pedido')
-	x_warehouse_code = fields.Char(string='Num. Bodega')
-	x_name_warehouse = fields.Char(string='Nombre bodega')
-	x_street_warehouse = fields.Char(string='Calle bodega')
+	x_order_no = fields.Char(string='Número de pedido Coppel')
+	x_warehouse_code = fields.Char(string='Número de bodega Coppel')
+	x_name_warehouse = fields.Char(string='Nombre de bodega Coppel')
+	x_street_warehouse = fields.Char(string='Calle de bodega Coppel')
 
 class AddendaPicking(models.Model):
 	_inherit = 'stock.picking'
 	
-	x_qty_lote = fields.Integer(string='Total de lotes')
+	x_qty_lote = fields.Integer(string='Total de lotes o cajas [Coppel]')
 
 class AddendaOrderLine(models.Model):
 	_inherit = 'sale.order.line'
 	
-	x_qty = fields.Float(string='Prepacant')
-	x_quantity = fields.Float(string='PalletQuantity')
+	x_qty = fields.Float(string='Piezas por caja [Coppel]')
+	x_quantity = fields.Float(string='Total de piezas por talla [Coppel]')
 
 	def _amount_with_discount(self):
 		with_discount = 0.0
