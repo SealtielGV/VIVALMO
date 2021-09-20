@@ -30,6 +30,7 @@ import requests
 from . import versions
 from .versions import *
 import hashlib
+from odoo.exceptions import UserError, ValidationError
 
 class ProductecaConnectionAccount(models.Model):
 
@@ -1006,8 +1007,8 @@ class ProductecaConnectionAccount(models.Model):
                     _logger.info("Line ok")
                     _logger.info(oli)
 
-                #product = self.env["product.product"].search( [('default_code','=',line["variation"]["sku"])] )
-                product = self.env["product.product"].search( [('barcode','=',line["variation"]["sku"])] )
+                product = self.env["product.product"].search( [('default_code','=',line["variation"]["sku"])] )
+                #product = self.env["product.product"].search( [('barcode','=',line["variation"]["sku"])] )
                 if not product:
                     product = self.env["product.product"].search( [('barcode','like',line["variation"]["sku"])] )
 
