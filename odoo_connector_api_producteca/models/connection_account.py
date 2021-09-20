@@ -1008,6 +1008,7 @@ class ProductecaConnectionAccount(models.Model):
                     _logger.info(oli)
 
                 product = self.env["product.product"].search( [('default_code','=',line["variation"]["sku"])] )
+                _logger.info("product searched by sku ["+str(line["variation"]["sku"])+"]: "+str(product))
                 #product = self.env["product.product"].search( [('barcode','=',line["variation"]["sku"])] )
                 if not product:
                     product = self.env["product.product"].search( [('barcode','like',line["variation"]["sku"])] )
