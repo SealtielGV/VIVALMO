@@ -211,7 +211,6 @@
   			<field name="name">Connection Accounts</field>
   			<field name="type">ir.actions.act_window</field>
   			<field name="res_model">producteca.account</field>
-  			<!--field name="view_type">form</field-->
   			<field name="view_mode">tree,form</field>
   			<field name="search_view_id" ref="producteca_account_search_view" />
   		</record>
@@ -220,7 +219,6 @@
   			<field name="name">Connection Account Configurations</field>
   			<field name="type">ir.actions.act_window</field>
   			<field name="res_model">producteca.configuration</field>
-  			<!--field name="view_type">form</field-->
   			<field name="view_mode">tree,form</field>
   			<!--field name="search_view_id" ref="producteca_configuration_search_view" /-->
   		</record>

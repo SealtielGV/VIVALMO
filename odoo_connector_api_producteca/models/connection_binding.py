@@ -27,6 +27,11 @@ import pdb
 from .warning import warning
 import requests
 import operator as py_operator
+from odoo.exceptions import UserError, ValidationError
+
+
+from . import versions
+from .versions import *
 
 OPERATORS = {
     '<': py_operator.lt,
@@ -130,7 +135,8 @@ class ProductecaConnectionBindingProductTemplate(models.Model):
 
     stock_resume_tmpl = fields.Char(string="Stock Resumen Tmpl", compute="_calculate_stock_resume_tmpl", store=False )
     price_resume_tmpl = fields.Char(string="Price Resumen Tmpl", compute="_calculate_price_resume_tmpl", store=False )
-    product_tmpl_company = fields.Many2one(related="product_tmpl_id.company_id",string="Company",store=True,index=True)
+    #product_tmpl_company = fields.Many2one(related="product_tmpl_id.company_id",string="Company",store=True,index=True)
+    product_tmpl_company = fields.Many2one(related="connection_account.company_id",string="Company",store=False,index=True)
 
 
 class ProductecaConnectionBindingProductVariant(models.Model):
@@ -182,7 +188,7 @@ class ProductecaConnectionBindingProductVariant(models.Model):
         variant = self.product_id
         account = self.connection_account
         if not variant or not account:
-            return stocks_str
+            return stocks_str, stocks_on_hand, stocks_available
 
         #_logger.info("account.configuration.publish_stock_locations")
         #_logger.info(account.configuration.publish_stock_locations.mapped("id"))
@@ -357,7 +363,9 @@ class ProductecaConnectionBindingProductVariant(models.Model):
 
     #product_gender = fields.Many2one("product.attribute.value",compute="_product_size_color",store=True)
 
-    product_company = fields.Many2one(related="product_id.company_id",string="Company",store=True,index=True)
+    #product_company = fields.Many2one(related="product_id.company_id",string="Company",store=True,index=True)
+    product_company = fields.Many2one(related="connection_account.company_id",string="Company",store=True,index=True)
+
     #product_shop = fields.Many2many(related="product_id.website_sale_shops",string="Shops",search='_search_shop')
 
 class ProductecaConnectionBindingIntegration(models.Model):
@@ -370,348 +378,6 @@ class ProductecaConnectionBindingIntegration(models.Model):
 
     integrationId = fields.Char(string="integrationId")
     app = fields.Char(string="app")
-
-
-class OcapiConnectionBindingSaleOrderPayment(models.Model):
-
-    _name = "producteca.payment"
-    _description = "Producteca Sale Order Payment Binding"
-    _inherit = "ocapi.binding.payment"
-
-    order_id = fields.Many2one("producteca.sale_order",string="Order")
-    connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
-    name = fields.Char(string="Payment Name")
-
-    date = fields.Datetime(string="date",index=True)
-    amount = fields.Float(string="amount")
-    couponAmount = fields.Float(string="couponAmount")
-    status = fields.Char(string="status")
-    method = fields.Char(string="method")
-    integration_integrationId = fields.Char(string="integrationId")
-    integration_app = fields.Char(string="app")
-    transactionFee = fields.Float(string="transactionFee")
-    installments = fields.Char(string="installments")
-    card_paymentNetwork = fields.Char(string="card paymentNetwork")
-    card_firstSixDigits = fields.Char(string="card firstSixDigits")
-    card_lastFourDigits = fields.Char(string="card lastFourDigits")
-    hasCancelableStatus = fields.Char(string="hasCancelableStatus")
-
-    account_payment_id = fields.Many2one('account.payment',string='Pago')
-    account_supplier_payment_id = fields.Many2one('account.payment',string='Pago a Proveedor')
-    account_supplier_payment_shipment_id = fields.Many2one('account.payment',string='Pago Envio a Proveedor')
-
-    def _get_ml_journal(self):
-        journal_id = None
-        #journal_id = self.env.user.company_id.mercadolibre_process_payments_journal
-        #if not journal_id:
-        #    journal_id = self.env['account.journal'].search([('code','=','ML')])
-        #if not journal_id:
-        #    journal_id = self.env['account.journal'].search([('code','=','MP')])
-        return journal_id
-
-    def _get_ml_partner(self):
-        partner_id = None
-        #partner_id = self.env.user.company_id.mercadolibre_process_payments_res_partner
-        #if not partner_id:
-        #    partner_id = self.env['res.partner'].search([('ref','=','MELI')])
-        #if not partner_id:
-        #    partner_id = self.env['res.partner'].search([('name','=','MercadoLibre')])
-        return partner_id
-
-    def _get_ml_customer_partner(self):
-        sale_order = self._get_ml_customer_order()
-        return (sale_order and sale_order.partner_id)
-
-    def _get_ml_customer_order(self):
-        mlorder = self.order_id
-        mlshipment = mlorder.shipment
-        return (mlorder and mlorder.sale_order) or (mlshipment and mlshipment.sale_order)
-
-    def create_payment(self):
-        self.ensure_one()
-        if self.account_payment_id:
-            raise ValidationError('Ya esta creado el pago')
-        if self.status != 'approved':
-            return None
-        journal_id = self._get_ml_journal()
-        payment_method_id = self.env['account.payment.method'].search([('code','=','electronic'),('payment_type','=','inbound')])
-        if not journal_id or not payment_method_id:
-            raise ValidationError('Debe configurar el diario/metodo de pago')
-        partner_id = self._get_ml_customer_partner()
-        currency_id = self.env['res.currency'].search([('name','=',self.currency_id)])
-        if not currency_id:
-            raise ValidationError('No se puede encontrar la moneda del pago')
-
-        communication = self.payment_id
-        if self._get_ml_customer_order():
-            communication = ""+str(self._get_ml_customer_order().name)+" OP "+str(self.payment_id)+str(" TOT")
-
-        vals_payment = {
-                'partner_id': partner_id.id,
-                'payment_type': 'inbound',
-                'payment_method_id': payment_method_id.id,
-                'journal_id': journal_id.id,
-                'meli_payment_id': self.id,
-                'communication': communication,
-                'currency_id': currency_id.id,
-                'partner_type': 'customer',
-                'amount': self.total_paid_amount,
-                }
-        acct_payment_id = self.env['account.payment'].create(vals_payment)
-        acct_payment_id.post()
-        self.account_payment_id = acct_payment_id.id
-
-    def create_supplier_payment(self):
-        self.ensure_one()
-        if self.status != 'approved':
-            return None
-        if self.account_supplier_payment_id:
-            raise ValidationError('Ya esta creado el pago')
-        journal_id = self._get_ml_journal()
-        payment_method_id = self.env['account.payment.method'].search([('code','=','outbound_online'),('payment_type','=','outbound')])
-        if not journal_id or not payment_method_id:
-            raise ValidationError('Debe configurar el diario/metodo de pago')
-        partner_id = self._get_ml_partner()
-        if not partner_id:
-            raise ValidationError('No esta dado de alta el proveedor MercadoLibre')
-        currency_id = self.env['res.currency'].search([('name','=',self.currency_id)])
-        if not currency_id:
-            raise ValidationError('No se puede encontrar la moneda del pago')
-
-        communication = self.payment_id
-        if self._get_ml_customer_order():
-            communication = ""+str(self._get_ml_customer_order().name)+" OP "+str(self.payment_id)+str(" FEE")
-
-        vals_payment = {
-                'partner_id': partner_id.id,
-                'payment_type': 'outbound',
-                'payment_method_id': payment_method_id.id,
-                'journal_id': journal_id.id,
-                'meli_payment_id': self.id,
-                'communication': communication,
-                'currency_id': currency_id.id,
-                'partner_type': 'supplier',
-                'amount': self.fee_amount,
-                }
-        acct_payment_id = self.env['account.payment'].create(vals_payment)
-        acct_payment_id.post()
-        self.account_supplier_payment_id = acct_payment_id.id
-
-    def create_supplier_payment_shipment(self):
-        self.ensure_one()
-        if self.status != 'approved':
-            return None
-        if self.account_supplier_payment_shipment_id:
-            raise ValidationError('Ya esta creado el pago')
-        journal_id = self._get_ml_journal()
-        payment_method_id = self.env['account.payment.method'].search([('code','=','outbound_online'),('payment_type','=','outbound')])
-        if not journal_id or not payment_method_id:
-            raise ValidationError('Debe configurar el diario/metodo de pago')
-        partner_id = self._get_ml_partner()
-        if not partner_id:
-            raise ValidationError('No esta dado de alta el proveedor MercadoLibre')
-        currency_id = self.env['res.currency'].search([('name','=',self.currency_id)])
-        if not currency_id:
-            raise ValidationError('No se puede encontrar la moneda del pago')
-        if (not self.order_id or not self.order_id.shipping_list_cost>0.0):
-            raise ValidationError('No hay datos de costo de envio')
-
-        communication = self.payment_id
-        if self._get_ml_customer_order():
-            communication = ""+str(self._get_ml_customer_order().name)+" OP "+str(self.payment_id)+str(" SHP")
-
-        vals_payment = {
-                'partner_id': partner_id.id,
-                'payment_type': 'outbound',
-                'payment_method_id': payment_method_id.id,
-                'journal_id': journal_id.id,
-                'meli_payment_id': self.id,
-                'communication': communication,
-                'currency_id': currency_id.id,
-                'partner_type': 'supplier',
-                'amount': self.order_id.shipping_list_cost,
-                }
-        acct_payment_id = self.env['account.payment'].create(vals_payment)
-        acct_payment_id.post()
-        self.account_supplier_payment_shipment_id = acct_payment_id.id
-
-
-class OcapiConnectionBindingSaleOrderShipmentItem(models.Model):
-
-    _name = "producteca.shipment.item"
-    _description = "Ocapi Sale Order Shipment Item"
-    _inherit = "ocapi.binding.shipment.item"
-
-    connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
-    shipping_id = fields.Many2one("producteca.shipment",string="Shipment")
-    product = fields.Char(string="Product Id")
-    variation = fields.Char(string="Variation Id")
-    quantity = fields.Float(string="Quantity")
-
-
-class OcapiConnectionBindingSaleOrderShipment(models.Model):
-
-    _name = "producteca.shipment"
-    _description = "Ocapi Sale Order Shipment Binding"
-    _inherit = "ocapi.binding.shipment"
-
-    connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
-
-    order_id = fields.Many2one("producteca.sale_order",string="Order")
-    products = fields.One2many("producteca.shipment.item", "shipping_id", string="Product Items")
-
-    date = fields.Datetime(string="date",index=True)
-    method_trackingNumber = fields.Char(string="trackingNumber")
-    method_trackingUrl = fields.Char(string="trackingUrl")
-    method_labelUrl = fields.Char(string="labelUrl")
-    method_courier = fields.Char(string="courier")
-    method_mode = fields.Char(string="mode")
-    method_cost = fields.Char(string="cost")
-    method_eta = fields.Char(string="eta")
-    method_status = fields.Char(string="status")
-    integration_app = fields.Char(string="app")
-    integration_integrationId = fields.Char(string="integrationId")
-    integration_status = fields.Char(string="status")
-    integration_id = fields.Char(string="id")
-    receiver_fullName = fields.Char(string="receiver_fullName")
-    receiver_phoneNumber = fields.Char(string="receiver_phoneNumber")
-
-
-class ProductecaConnectionBindingSaleOrderClient(models.Model):
-
-    _name = "producteca.client"
-    _description = "Producteca Client Binding"
-    _inherit = "ocapi.binding.client"
-
-    def get_display_name(self):
-        for client in self:
-            client.display_name = str(client.contactPerson)+" ["+str(client.name)+"]"
-
-    display_name = fields.Char(string="Display Name",store=False,compute=get_display_name)
-    type = fields.Char(string="Client Type") #Customer, ...
-    contactPerson = fields.Char(string="Contact Person")
-    mail = fields.Char(string="Mail")
-    phoneNumber = fields.Char(string="Phonenumber")
-    taxId = fields.Char(string="Tax ID")
-    location_streetName = fields.Char(string="Street Name")
-    location_streetNumber = fields.Char(string="Street Number")
-    location_addressNotes = fields.Char(string="Address Notes")
-    location_state = fields.Char(string="State")
-    location_stateId = fields.Char(string="State Id")
-    location_city = fields.Char(string="City")
-    location_neighborhood = fields.Char(string="NeighborHood")
-    location_zipCode = fields.Char(string="zipCode")
-
-    profile = fields.Text(string="Profile") # { "app": 2, "integrationId": 63807563 }
-    profile_app = fields.Integer(string="Profile App")
-    profile_integrationId = fields.Integer(string="Profile Integration Id")
-
-    billingInfo = fields.Text(string="billingInfo")
-    billingInfo_docType = fields.Char(string="Doc Type")
-    billingInfo_docNumber = fields.Char(string="Doc Number")
-    billingInfo_streetName = fields.Char(string="Street Name")
-    billingInfo_streetNumber = fields.Char(string="Street Number")
-    billingInfo_zipCode = fields.Char(string="zipCode")
-    billingInfo_city = fields.Char(string="city")
-    billingInfo_state = fields.Char(string="state")
-    billingInfo_stateId = fields.Char(string="state id")
-    billingInfo_neighborhood = fields.Char(string="neighborhood")
-    billingInfo_businessName = fields.Char(string="businessName")
-    billingInfo_stateRegistration = fields.Char(string="stateRegistration")
-    billingInfo_taxPayerType = fields.Char(string="taxPayerType")
-    billingInfo_firstName = fields.Char(string="firstName")
-    billingInfo_lastName = fields.Char(string="lastName")
-
-    connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
-
-
-class ProductecaConnectionBindingSaleOrderLine(models.Model):
-
-    _name = "producteca.sale_order_line"
-    _description = "Producteca Sale Order Line Binding"
-    _inherit = "ocapi.binding.sale_order_line"
-
-    connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
-    order_id = fields.Many2one("producteca.sale_order",string="Order")
-
-    price = fields.Float(string="Price")
-    originalPrice = fields.Float(string="originalPrice")
-    quantity = fields.Float(string="Quantity")
-    reserved = fields.Float(string="Reserved")
-    conversation = fields.Text(string="Conversation")
-
-    #product
-    product_name = fields.Char(string="Product Name")
-    product_code = fields.Char(string="Product Code")
-    product_brand = fields.Char(string="Product Brand")
-    product_id = fields.Char(string="Product Id")
-    #variation
-    variation_integrationId = fields.Char(string="integrationId")
-    variation_maxAvailableStock = fields.Integer(string="maxAvailableStock")
-    variation_minAvailableStock = fields.Integer(string="minAvailableStock")
-    variation_primaryColor = fields.Char(string="primaryColor")
-    variation_size = fields.Char(string="size")
-    variation_id = fields.Char(string="Variation Id")
-    variation_sku = fields.Char(string="Variation Sku")
-
-    variation_stocks = fields.Text(string="Stocks")
-    variation_pictures = fields.Text(string="Pictures")
-    variation_attributes = fields.Text(string="Attributes")
-    #variation_stocks_warehouse = fields.Char(string="Warehouse")
-    #variation_stocks_warehouse = fields.Char(string="Warehouse")
-
-class ProductecaConnectionBindingSaleOrder(models.Model):
-
-    _name = "producteca.sale_order"
-    _description = "Producteca Sale Order Binding Sale"
-    _inherit = "ocapi.binding.sale_order"
-
-    connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
-    client = fields.Many2one("producteca.client",string="Client",index=True)
-
-    lines = fields.One2many("producteca.sale_order_line","order_id", string="Order Items")
-    payments = fields.One2many("producteca.payment","order_id",string="Order Payments")
-    shipments = fields.One2many("producteca.shipment","order_id",string="Order Shipments")
-
-    #id connector_id
-
-    channel = fields.Char(string="Channel",index=True)
-    channel_id = fields.Many2one( "producteca.channel", string="Channel Object")
-    tags = fields.Char(string="Tags",index=True)
-    integrations = fields.Text(string="Integrations",index=True)
-    integrations_integrationId = fields.Char(string="integrationId",index=True)
-    integrations_app = fields.Char(string="app",index=True)
-    integrations_alternateId = fields.Char(string="alternateId")
-    cartId = fields.Char(string="cartId",help="Id de carrito (pack_id)")
-    warehouse = fields.Text(string="Warehouse",index=True)
-    warehouseIntegration = fields.Text(string="WarehouseIntegration",index=True)
-
-    amount = fields.Float(string="Amount",index=True)
-    shippingCost = fields.Float(string="Shipping Cost",index=True)
-    financialCost = fields.Float(string="Financial Cost",index=True)
-    paidApproved = fields.Float(string="Paid Approved",index=True)
-
-    paymentStatus = fields.Char(string="paymentStatus",index=True)
-    deliveryStatus = fields.Char(string="deliveryStatus",index=True)
-    paymentFulfillmentStatus = fields.Char(string="paymentFulfillmentStatus",index=True)
-
-    deliveryFulfillmentStatus = fields.Char(string="deliveryFulfillmentStatus",index=True)
-    deliveryMethod = fields.Char(string="deliveryMethod",index=True)
-    logisticType = fields.Char(string="logisticType",index=True)
-    paymentTerm = fields.Char(string="paymentTerm",index=True)
-    currency = fields.Char(string="currency",index=True)
-    customId = fields.Char(string="customId",index=True)
-
-    isOpen = fields.Boolean(string="isOpen",index=True)
-    isCanceled = fields.Boolean(string="isCanceled",index=True)
-    hasAnyShipments = fields.Boolean(string="hasAnyShipments",index=True)
-
-    date = fields.Datetime(string="date",index=True)
-    mail = fields.Char(string="Mail")
-
-    def update(self):
-        _logger.info("Update producteca order")
-        #check from last notification
 
 class ProductecaConnectionBindingProductCategory(models.Model):
 

@@ -50,7 +50,7 @@
                       <field name="date_created" invisible="1" readonly="1"/>
                       <field name="date_closed" invisible="1" readonly="1"/>
                       <field name="date"/>
-                      <field name="tags"/>                      
+                      <field name="tags"/>                                            
                       <!--field name="seller"/>
                       <field name="pack_order"/>
                       <field name="catalog_order"/-->
@@ -98,6 +98,16 @@
                           <field name="shipments"/>
                         </group>
                     </group>
+                  </page>
+                  <page string="Notifications">
+                    <field name="sale_notifications">
+                      <tree delete="0" edit="1" create="0">
+                        <field name="sent" />
+              					<field name="topic" />
+              					<field name="resource" />
+                        <field name="state" />
+                      </tree>
+                    </field>
                   </page>
                 </notebook>
               </sheet>
@@ -170,6 +180,11 @@
                 <data>
                     <notebook>
                         <page string="Producteca" attrs="{'invisible':[('producteca_bindings', '=', False)]}">
+                          <button name='producteca_update' type="object"
+                            string="Actualizar"
+                            attrs="{'invisible':[('producteca_bindings','=',False)]}"
+                            class="oe_stat_button"
+                            icon="fa-refresh"/>
                             <field name="producteca_bindings" invisible="0"/>
                             <!--group>
                               <field name="producteca_order_id" invisible="0"/>

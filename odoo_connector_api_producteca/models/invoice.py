@@ -28,6 +28,7 @@ from .warning import warning
 import requests
 import base64
 from .versions import *
+from odoo.exceptions import UserError, ValidationError
 
 class Invoice(models.Model):
 

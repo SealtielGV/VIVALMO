@@ -14,6 +14,8 @@
   					<field name="user_id" />
   					<field name="state" />
   					<field name="processing_errors" invisible="0" />
+            <field name="producteca_sale_order" invisible="0"/>
+            <field name="sale_order" invisible="0"/>
   				</tree>
   			</field>
   		</record>
@@ -32,6 +34,7 @@
   							<field name='user_id'/>
   							<field name='application_id'/>
                 <field name='connection_account'/>
+
   						</div>
   						<div class="oe_button_box" name="button_box_mel" style="width: auto;">
   							<button name='process_notification' type="object"
@@ -47,6 +50,8 @@
   								<field name="resource" />
   								<field name="sent" />
   								<field name="received" />
+                  <field name="producteca_sale_order" invisible="0"/>
+                  <field name="sale_order" invisible="0"/>
   							</group>
   							<group>
   								<field name='attempts'/>
@@ -91,7 +96,6 @@
   			<field name="name">Notifications</field>
   			<field name="type">ir.actions.act_window</field>
   			<field name="res_model">producteca.notification</field>
-  			<!--field name="view_type">form</field-->
   			<field name="view_mode">tree,form</field>
   			<field name="search_view_id" ref="producteca_notifications_search_view" />
   		</record>

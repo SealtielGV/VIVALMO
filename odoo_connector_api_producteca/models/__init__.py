@@ -15,6 +15,7 @@ from . import invoice
 from . import stock
 from . import connection_account
 from . import connection_binding
+from . import connection_binding_sale_order
 from . import connection_configuration
 from . import connection_notification
 from . import wizards

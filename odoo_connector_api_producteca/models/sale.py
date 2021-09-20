@@ -33,6 +33,18 @@ class SaleOrder(models.Model):
 
     #mercadolibre could have more than one associated order... packs are usually more than one order
     producteca_bindings = fields.Many2many( "producteca.sale_order", string="Producteca Connection Bindings" )
+    
+    def producteca_update( self, context=None ):
+        _logger.info("producteca_update:"+str(self))
+        context = context or self.env.context
+        for so in self:
+            if so.producteca_bindings:
+                pso = so.producteca_bindings[0]                
+                if pso:
+                    ret = pso.update()
+                    if ret and 'name' in ret:
+                        _logger.error(ret)
+                        return ret
 
 class SaleOrderLine(models.Model):
 

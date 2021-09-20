@@ -217,13 +217,17 @@ class product_product(models.Model):
                     _logger.info(prod_binding)
                     pv_bind.write(prod_binding)
                 else:
+                    _logger.info("Create variant binding:"+str(prod_binding))
                     pv_bind = self.env["producteca.binding.product"].create([prod_binding])
 
                 if pv_bind:
                     product.producteca_bindings = [(4, pv_bind.id)]
+                else:
+                    _logger.error("Error creating variant binding: "+str(prod_binding))
 
             except Exception as e:
                 _logger.info(e, exc_info=True)
+                raise e
 
         return pv_bind
 

@@ -15,12 +15,12 @@ class ProductTemplateBindToProducteca(models.TransientModel):
 
     connectors = fields.Many2many("producteca.account", string='Producteca Accounts')
 
-    def product_template_add_to_connector(self, context=False):
+    def product_template_add_to_connector(self, context=None):
 
         _logger.info("product_template_add_to_connector (Producteca)")
+        context = context or self.env.context
 
         company = self.env.user.company_id
-        context = context or self.env.context
         product_ids = context['active_ids']
         product_obj = self.env['product.template']
 
@@ -35,12 +35,13 @@ class ProductTemplateBindToProducteca(models.TransientModel):
                 product.producteca_bind_to( producteca )                                 
                         
                 
-    def product_template_remove_from_connector(self, context=False):
+    def product_template_remove_from_connector(self, context=None):
 
         _logger.info("product_template_remove_from_connector (Producteca)")
+        
+        context = context or self.env.context
 
         company = self.env.user.company_id
-        context = context or self.env.context
         product_ids = context['active_ids']
         product_obj = self.env['product.template']
 
@@ -64,12 +65,12 @@ class ProductProductBindToProducteca(models.TransientModel):
 
     connectors = fields.Many2many("producteca.account", string='Producteca Accounts')
 
-    def product_product_add_to_connector(self, context=False):
+    def product_product_add_to_connector(self, context=None):
 
         _logger.info("product_product_add_to_connector (Producteca)")
-
-        company = self.env.user.company_id
+        
         context = context or self.env.context
+        company = self.env.user.company_id
         product_ids = context['active_ids']
         product_obj = self.env['product.product']
 
@@ -84,12 +85,12 @@ class ProductProductBindToProducteca(models.TransientModel):
                 product.producteca_bind_to( producteca )                                 
                         
                 
-    def product_product_remove_from_connector(self, context=False):
+    def product_product_remove_from_connector(self, context=None):
 
         _logger.info("product_product_remove_from_connector (Producteca)")
 
-        company = self.env.user.company_id
         context = context or self.env.context
+        company = self.env.user.company_id
         product_ids = context['active_ids']
         product_obj = self.env['product.product']
 
@@ -102,3 +103,67 @@ class ProductProductBindToProducteca(models.TransientModel):
                 _logger.info(_("Check %s in %s") % (product.display_name, producteca.name))
                 #Binding to
                 product.producteca_unbind_from( producteca )       
+                
+                
+                
+class StockQuantBindToProducteca(models.TransientModel):
+
+    _name = "producteca.stock.quant.binder.wiz"
+    _description = "Wizard de Stock Quant Product Producteca Binder"
+    _inherit = "ocapi.binder.wiz"
+
+    connectors = fields.Many2many("producteca.account", string='Producteca Accounts')
+
+    def stock_quant_add_to_connector(self, context=None):
+
+        _logger.info("stock_quant_add_to_connector (Producteca)")
+        
+        context = context or self.env.context
+        company = self.env.user.company_id
+        stock_quant_ids = context['active_ids']
+        
+        stock_quant_obj = self.env['stock.quant']
+        product_obj = self.env['product.product']
+
+        res = {}
+        for stock_quant_id in stock_quant_ids:
+            
+            stock_quant = stock_quant_obj.browse(stock_quant_id)
+            product = stock_quant and stock_quant.product_id
+                
+            if not product:        
+                continue;
+                
+            for producteca in self.connectors:
+                _logger.info(_("Check %s in %s") % (product.display_name, producteca.name))
+                #Binding to
+                product.producteca_bind_to( producteca )                                 
+                        
+                
+    def stock_quant_remove_from_connector(self, context=None):
+
+        _logger.info("stock_quant_remove_from_connector (Producteca)")
+
+        context = context or self.env.context
+        company = self.env.user.company_id
+        stock_quant_ids = context['active_ids']
+        
+        stock_quant_obj = self.env['stock.quant']
+        product_obj = self.env['product.product']
+
+        res = {}
+        for stock_quant_id in stock_quant_ids:
+            
+            stock_quant = stock_quant_obj.browse(stock_quant_id)
+            product = stock_quant and stock_quant.product_id
+                        
+            if not product:        
+                continue;
+
+            for producteca in self.connectors:
+                _logger.info(_("Check %s in %s") % (product.display_name, producteca.name))
+                #Binding to
+                product.producteca_unbind_from( producteca )       
+                
+                
+                

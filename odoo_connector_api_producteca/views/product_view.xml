@@ -404,7 +404,6 @@
       	<field name="name">Product Variant Bindings</field>
       	<field name="type">ir.actions.act_window</field>
       	<field name="res_model">producteca.binding.product</field>
-      	<!--field name="view_type">form</field-->
       	<field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_producteca_binding_product_tree"/>
       	<field name="search_view_id" ref="producteca_bindings_product_search_view" />

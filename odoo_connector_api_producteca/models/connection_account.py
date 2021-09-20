@@ -121,7 +121,7 @@ class ProductecaConnectionAccount(models.Model):
                 "name": product.name or "",
                 "code": product.default_code or "",
                 "barcode": product.barcode or "",
-                #"brand": (product.product_brand_id and product.product_brand_id.name) or '',
+                "brand": ("product_brand_id" in product._fields and product.product_brand_id and product.product_brand_id.name) or '',
                 "variations": [],
                 "category": product.categ_id.name or "",
                 "notes": product.description_sale or "",
@@ -183,7 +183,7 @@ class ProductecaConnectionAccount(models.Model):
                 #_logger.info(account.configuration.publish_stock_locations.mapped("id"))
                 sq = self.env["stock.quant"].search([('product_id','=',variant.id)])
                 if (sq):
-                    _logger.info( sq )
+                    #_logger.info( sq )
                     #_logger.info( sq.name )
                     for s in sq:
                         #TODO: filtrar por configuration.locations
@@ -284,7 +284,7 @@ class ProductecaConnectionAccount(models.Model):
             #ss = variant._product_available()
             sq = self.env["stock.quant"].search([('product_id','=',variant.id)])
             if (sq):
-                _logger.info( sq )
+                #_logger.info( sq )
                 #_logger.info( sq.name )
                 for s in sq:
                     if ( s.location_id.usage == "internal" and s.location_id.id in account.configuration.publish_stock_locations.mapped("id")):
@@ -427,7 +427,7 @@ class ProductecaConnectionAccount(models.Model):
             #ss = variant._product_available()
             sq = self.env["stock.quant"].search([('product_id','=',variant.id)])
             if (sq):
-                _logger.info( sq )
+                #_logger.info( sq )
                 #_logger.info( sq.name )
                 for s in sq:
                     if ( s.location_id.usage == "internal" and s.location_id.id in account.configuration.publish_stock_locations.mapped("id")):
@@ -454,10 +454,21 @@ class ProductecaConnectionAccount(models.Model):
         return data
 
     def street(self, contact, billing=False ):
+        street_str = ""
         if not billing and "location_streetName" in contact:
-            return contact["location_streetName"]+" "+contact["location_streetNumber"]
+            sName = "location_streetName" in contact and contact["location_streetName"]
+            sNumber = "location_streetNumber" in contact and contact["location_streetNumber"]
+            street_str = sName
+            if sNumber:
+                street_str = sName+" "+str(sNumber)
         else:
-            return str("billingInfo_streetName" in contact and contact["billingInfo_streetName"])+" "+str("billingInfo_streetNumber" in contact and contact["billingInfo_streetNumber"])
+            #contact["billingInfo_streetName"]+" "+contact["billingInfo_streetNumber"]
+            sName = "billingInfo_streetName" in contact and contact["billingInfo_streetName"]
+            sNumber = "billingInfo_streetNumber" in contact and contact["billingInfo_streetNumber"]
+            street_str = sName
+            if sNumber:
+                street_str = sName+" "+str(sNumber)
+        return street_str
 
     def city(self, contact, billing=False ):
         if not billing and "location_city" in contact:
@@ -495,15 +506,15 @@ class ProductecaConnectionAccount(models.Model):
         _logger.info("ostate >> contact:"+str(contact))
         _logger.info("ostate >> Receiver:"+str(Receiver))
         if not billing:
-            Receiver["state"] = { "name": ("location_state" in contact and contact["location_state"]) or "", "id": ("location_stateId" in contact and contact["location_stateId"]) }
+            Receiver["state"] = { "name": ("location_state" in contact and contact["location_state"]) or "", "id": ("location_stateId" in contact and contact["location_stateId"]) or '' }
         else:
-            Receiver["state"] = { "name": ("billingInfo_state" in contact and contact["billingInfo_state"]) or "", "id": ("billingInfo_stateId" in contact and contact["billingInfo_stateId"]) }
+            Receiver["state"] = { "name": ("billingInfo_state" in contact and contact["billingInfo_state"]) or "", "id": ("billingInfo_stateId" in contact and contact["billingInfo_stateId"]) or '' }
 
         country_id = country
 
         state_id = False
         if (Receiver and 'state' in Receiver):
-            if ('id' in Receiver['state']):
+            if ('id' in Receiver['state'] and Receiver['state']['id']):
                 state = self.env['res.country.state'].search([('code','like',Receiver['state']['id']),('country_id','=',country_id)])
                 if (len(state)):
                     state_id = state[0].id
@@ -542,7 +553,7 @@ class ProductecaConnectionAccount(models.Model):
             doc_number = contactfields["billingInfo_docNumber"]
             doc_type = contactfields['billingInfo_docType']
 
-            if (doc_type and ('afip.responsability.type' in self.env)):
+            if (doc_type and ('afip.responsability.type' in self.env) and doc_number ):
                 doctypeid = self.env['res.partner.id_category'].search([('code','=',doc_type)]).id
                 if (doctypeid):
                     dinfo['main_id_category_id'] = doctypeid
@@ -561,10 +572,45 @@ class ProductecaConnectionAccount(models.Model):
             else:
                 #use doc_undefined
                 if doc_undefined:
+
+                    if ('afip.responsability.type' in self.env):
+                        afipid = self.env['afip.responsability.type'].search([('code','=',5)]).id
+                        dinfo["afip_responsability_type_id"] = afipid
+
                     doctypeid = self.env['res.partner.id_category'].search([('code','=','DNI')]).id
                     dinfo['main_id_category_id'] = doctypeid
                     dinfo['main_id_number'] = doc_undefined
         return dinfo
+
+    def ocapi_price_unit( self, product=False, price=0 ):
+
+        account = self
+        company = account.company_id or self.env.user.company_id
+        config = account.configuration
+
+        product_template = product.product_tmpl_id
+        ml_price_converted = float(price)
+        tax_excluded = True
+        if ( tax_excluded and product_template.taxes_id ):
+            txfixed = 0
+            txpercent = 0
+            _logger.info("Adjust taxes: "+str(product_template.taxes_id))
+            for txid in product_template.taxes_id:
+                if (txid.type_tax_use=="sale" and not txid.price_include):
+                    if (txid.amount_type=="percent"):
+                        _logger.info("Percent: "+str(txid)+" "+str(txid.amount))
+                        txpercent = txpercent + txid.amount
+                    if (txid.amount_type=="fixed"):
+                        _logger.info("Fixed: "+str(txid)+" "+str(txid.amount))
+                        txfixed = txfixed + txid.amount
+                    _logger.info(txid.amount)
+            if (txfixed>0 or txpercent>0):
+                ml_price_converted = txfixed + ml_price_converted / (1.0 + txpercent*0.01)
+                _logger.info("From: "+str(price)+" with Tx Total:"+str(txpercent)+" to Price:"+str(ml_price_converted))
+                #_logger.info("Price adjusted with taxes:"+str(ml_price_converted))
+
+        ml_price_converted = round(ml_price_converted,2)
+        return ml_price_converted
 
     def import_sales( self, **post ):
 
@@ -605,6 +651,7 @@ class ProductecaConnectionAccount(models.Model):
         logs = str(sales)
 
         _logger.info("Processing sales")
+
         for sale in sales:
             res = self.import_sale( sale, noti )
             for r in res:
@@ -623,6 +670,7 @@ class ProductecaConnectionAccount(models.Model):
 
         account = self
         company = account.company_id or self.env.user.company_id
+        config = account and account.configuration
         result = []
         pso = False
         psoid = False
@@ -670,32 +718,50 @@ class ProductecaConnectionAccount(models.Model):
 
         _logger.info(fields)
         _logger.info("Searching sale order: " + str(psoid))
+        noti.resource = 'import_sales/'+fields['name']
 
         pso = self.env["producteca.sale_order"].sudo().search( [( 'conn_id', '=', psoid ),
                                                                 ("connection_account","=",account.id)] )
 
         #use producteca channel and integrations data to set Order Name
         chan = None
+        chanbinded = None
         if "producteca.channel" in self.env:
             iapp = 0
             if "integrations_app" in fields and fields["integrations_app"] and len(fields["integrations_app"]):
                 appids = [int(s) for s in fields["integrations_app"].split() if s.isdigit()]
                 if len(appids):
                     iapp = appids[0]
+                if iapp==0:
+                    appids = [int(s) for s in fields["integrations_app"].split(",") if s.isdigit()]
+                    if len(appids):
+                        iapp = appids[0]
                 _logger.info("appids:"+str(appids))
                 _logger.info("iapp:"+str(iapp))
                 if iapp>0:
                     chan = self.env["producteca.channel"].search([ ("app_id", "=", str(iapp) ) ], limit=1)
+                else:
+                    _logger.error("integrations_app:"+str(fields["integrations_app"]))
 
             if not chan:
-                chan = self.env["producteca.channel"].search([], limit=1)
+                #chan = self.env["producteca.channel"].search([], limit=1)
+                return { "error": "channel not found" }
+
         if chan:
+
             cartId = ("cartId" in fields and fields["cartId"])
             integId = ("integrations_integrationId" in fields and fields["integrations_integrationId"])
             integId = cartId or integId
             _logger.info("integId:"+str(integId))
-            fields['name'] = "PR-"+str(psoid)+ "-" + str(chan.code)+"-"+str(integId)
-            fields['channel_id'] = chan.id
+
+            chanbinded = config.producteca_channels_bindings and config.producteca_channels_bindings.filtered(lambda b: (b.channel_id and b.channel_id.id == chan.id))
+            chanbinded and fields.update( { "channel_binding_id": chanbinded.id } )
+
+            fields.update( { 'name': "PR-"+str(psoid)+ "-" + str((chanbinded and chanbinded.code) or (chan and chan.code))+"-"+str(integId) } )
+            fields.update( { 'channel_id': chan.id } )
+            _logger.info(fields['name'])
+
+            noti.resource = 'import_sales/'+fields['name']
 
         #create/update sale order
         _logger.info(pso)
@@ -713,6 +779,8 @@ class ProductecaConnectionAccount(models.Model):
             if so:
                 so.message_post(body=str(error["error"]))
             return result
+        else:
+            noti.producteca_sale_order = pso.id
 
         #set producteca bindings
         sqls = 'select producteca_sale_order_id, sale_order_id from producteca_sale_order_sale_order_rel where producteca_sale_order_id = '+str(pso.id)
@@ -740,7 +808,7 @@ class ProductecaConnectionAccount(models.Model):
             contact = sale["contact"]
             id = contact["id"]
             contactfields = {
-                "conn_id": id,
+                "conn_id": str(id),
                 "connection_account": account.id
             }
             for k in contactkey_bind:
@@ -756,7 +824,7 @@ class ProductecaConnectionAccount(models.Model):
 
             _logger.info(contactfields)
             _logger.info("Searching Producteca Client: " + str(id))
-            client = self.env["producteca.client"].sudo().search([( 'conn_id', '=', id ),
+            client = self.env["producteca.client"].sudo().search([( 'conn_id', '=', str(id) ),
                                                                 ("connection_account","=",account.id)])
             if not client:
                 _logger.info("Creating producteca client")
@@ -776,7 +844,7 @@ class ProductecaConnectionAccount(models.Model):
             else:
                 if client.partner_id:
                     partner_id = client.partner_id
-                pso.write({"client": client.id, "mail": client.mail })
+                pso.write({ "client": client.id, "mail": client.mail })
 
             #partner_id = self.env["res.partner"].search([  ('producteca_bindings','in',[id] ) ] )
             sqls = 'select producteca_client_id, res_partner_id from producteca_client_res_partner_rel where producteca_client_id = '+str(client.id)
@@ -787,7 +855,7 @@ class ProductecaConnectionAccount(models.Model):
 
             country_id = self.country(contact=contactfields)
 
-            buyer_name = ( "contactPerson" in contactfields and contactfields["contactPerson"] ) or ( "name" in contactfields and contactfields["name"] )
+            buyer_name = ("name" in contactfields and contactfields["name"])
             firstName = ("billingInfo_firstName" in contactfields and contactfields["billingInfo_firstName"])
             lastName = ("billingInfo_lastName" in contactfields and contactfields["billingInfo_lastName"])
             if not buyer_name and firstName and lastName:
@@ -807,36 +875,61 @@ class ProductecaConnectionAccount(models.Model):
                 'state_id': self.ostate( country=country_id, contact=contactfields,billing=True ),
                 'zip': ("billingInfo_zipCode" in contactfields and contactfields["billingInfo_zipCode"]),
                 'phone': self.full_phone( contactfields ),
-                'producteca_bindings': [(6, 0, [client.id])]
-                #'email': Buyer['email'],
+                'producteca_bindings': [(6, 0, [client.id])],
+                'email': (client and client.mail) or '',
                 #'meli_buyer_id': Buyer['id']
             }
+            if "company_ids" in self.env["res.partner"]._fields and company:
+                ocapi_buyer_fields["company_ids"] = [(4,company.id)]
+                
+            if 'property_account_receivable_id' in self.env["res.partner"]._fields:
+                ocapi_buyer_fields['property_account_receivable_id'] = (chanbinded and chanbinded.partner_account_receive_id and chanbinded.partner_account_receive_id.id)
+
             ocapi_buyer_fields.update( self.doc_info( contactfields, doc_undefined=(account.configuration and account.configuration.doc_undefined) ) )
             _logger.info(ocapi_buyer_fields)
+
             if len(restot):
                 _logger.info("Upgrade partner")
                 _logger.info(restot)
                 for res in restot:
                     _logger.info("Search Partner "+str(res))
                     partner_id_id = res[1]
-                    partner_id = self.env["res.partner"].browse([partner_id_id])
-                    partner_id.write(ocapi_buyer_fields)
+                    partner_id = self.env["res.partner"].sudo().browse([partner_id_id])
+                    try:
+
+                        if partner_id.main_id_number and "main_id_number" in ocapi_buyer_fields:
+                            del ocapi_buyer_fields["main_id_number"]
+
+                        if partner_id.afip_responsability_type_id and "afip_responsability_type_id" in ocapi_buyer_fields:
+                            del ocapi_buyer_fields["afip_responsability_type_id"]
+
+                        if partner_id.main_id_category_id and "main_id_category_id" in ocapi_buyer_fields:
+                            del ocapi_buyer_fields["main_id_category_id"]
+
+                        _logger.info("Upgrade partner: "+str(ocapi_buyer_fields))
+                        partner_id.sudo().write(ocapi_buyer_fields)
+                    except Exception as E:
+                        _logger.error("Updated res.partner: "+str(E))
                     break;
             else:
                 _logger.info("Create partner")
                 respartner_obj = self.env['res.partner']
                 try:
-                    partner_id = respartner_obj.create(ocapi_buyer_fields)
+                    partner_id = respartner_obj.sudo().create(ocapi_buyer_fields)
                     if partner_id:
                         _logger.info("Created Res Partner "+str(partner_id))
-                except:
-                    _logger.error("Created res.partner issue.")
+                except Exception as E:
+                    _logger.error("Created res.partner issue: "+str(E))
+
                     pass;
 
         if partner_id:
 
             if client:
                 client.write( { "partner_id": partner_id.id } )
+
+            if (chanbinded and "partner_account_receive_id" in chanbinded._fields and chanbinded.partner_account_receive_id):
+                partner_id.sudo().write({"partner_account_receive_id": chanbinded.partner_account_receive_id.id })
 
             #"docType": "RFC",
             #"docNumber": "24827151",
@@ -852,14 +945,18 @@ class ProductecaConnectionAccount(models.Model):
                 'country_id': country_id,
                 'state_id': self.ostate( country=country_id, contact=contactfields ),
                 'zip': ("location_zipCode"in contactfields and contactfields["location_zipCode"]),
-                "comment": ("location_addressNotes" in contactfields and contactfields["location_addressNotes"]) or ""
+                "comment": ("location_addressNotes" in contactfields and contactfields["location_addressNotes"]) or "",
+                "email": (client and client.mail),
+                "phone": (client and client.phoneNumber)
                 #'producteca_bindings': [(6, 0, [client.id])]
                 #'phone': self.full_phone( contactfields,billing=True ),
                 #'email':contactfields['billingInfo_email'],
                 #'producteca_bindings': [(6, 0, [client.id])]
             }
+            if "company_ids" in self.env["res.partner"]._fields and company:
+                pdelivery_fields["company_ids"] = [(4,company.id)]
             #TODO: agregar un campo para diferencia cada delivery res partner al shipment y orden asociado, crear un binding usando values diferentes... y listo
-            deliv_id = self.env["res.partner"].search([("parent_id","=",pdelivery_fields['parent_id']),
+            deliv_id = self.env["res.partner"].sudo().search([("parent_id","=",pdelivery_fields['parent_id']),
                                                         ("type","=","delivery"),
                                                         ('street','=',pdelivery_fields['street'])],
                                                         limit=1)
@@ -871,15 +968,21 @@ class ProductecaConnectionAccount(models.Model):
                     if deliv_id:
                         _logger.info("Created Res Partner Delivery "+str(deliv_id))
                         partner_shipping_id = deliv_id
-                except:
-                    _logger.error("Created res.partner delivery issue.")
+                except Exception as E:
+                    error = {"error": "Creating partner error. Check account configuration and this message: "+str(E)}
+                    result.append(error)
+                    _logger.error(str(error["error"]))
+                    _logger.error(E, exc_info=True)
                     pass;
             else:
                 try:
                     deliv_id.write(pdelivery_fields)
                     partner_shipping_id = deliv_id
-                except:
-                    _logger.error("Updating res.partner delivery issue.")
+                except Exception as E:
+                    error = {"error": "Updating partner error. Check account configuration and this message: "+str(E)}
+                    result.append(error)
+                    _logger.error(str(error["error"]))
+                    _logger.error(E, exc_info=True)
                     pass;
 
             #USING SEQUENCE
@@ -926,10 +1029,12 @@ class ProductecaConnectionAccount(models.Model):
                 'partner_shipping_id': partner_shipping_id.id,
                 'pricelist_id': (plist and plist.id),
                 'warehouse_id': (whouse and whouse.id),
-                'company_id': company.id,
+                'company_id': (company and company.id)
             }
             if (account and account.configuration and account.configuration.seller_user):
                 sale_order_fields["user_id"] = account.configuration.seller_user.id
+            if (account and account.configuration and "seller_team" in account.configuration._fields and account.configuration.seller_team):
+                sale_order_fields["team_id"] = account.configuration.seller_team.id
 
             if chan:
                 sale_order_fields['name'] = fields['name']
@@ -1008,8 +1113,12 @@ class ProductecaConnectionAccount(models.Model):
                     _logger.info(oli)
 
                 product = self.env["product.product"].search( [('default_code','=',line["variation"]["sku"])] )
-                _logger.info("product searched by sku ["+str(line["variation"]["sku"])+"]: "+str(product))
+                _logger.info("product searched = sku ["+str(line["variation"]["sku"])+"]: "+str(product))
                 #product = self.env["product.product"].search( [('barcode','=',line["variation"]["sku"])] )
+                if not product:
+                    product = self.env["product.product"].search( [('default_code','like',line["variation"]["sku"])] )
+                    _logger.info("product searched like sku ["+str(line["variation"]["sku"])+"]: "+str(product))
+
                 if not product:
                     product = self.env["product.product"].search( [('barcode','like',line["variation"]["sku"])] )
 
@@ -1035,13 +1144,13 @@ class ProductecaConnectionAccount(models.Model):
                             'order_id': so.id,
                             #'meli_order_item_id': Item['item']['id'],
                             #'meli_order_item_variation_id': Item['item']['variation_id'],
-                            'price_unit': float(linefields['price']),
+                            'price_unit': self.ocapi_price_unit( product, float(linefields['price']) ),
                             'product_id': product.id,
                             'product_uom_qty': float(linefields['quantity']),
                             'product_uom': product.uom_id.id,
                             'name': product.display_name or linefields['name'],
                         }
-                        _logger.info("Creating Odoo Sale Order Line Item")
+                        _logger.info("Creating Odoo Sale Order Line Item: "+str(so_line_fields))
                         so_line = soline_mod.search( [  #('meli_order_item_id','=',saleorderline_item_fields['meli_order_item_id']),
                                                         #('meli_order_item_variation_id','=',saleorderline_item_fields['meli_order_item_variation_id']),
                                                         ('product_id','=',product.id),
@@ -1182,7 +1291,7 @@ class ProductecaConnectionAccount(models.Model):
                     #vals = sorder.carrier_id.rate_shipment(sorder)
                     #if vals.get('success'):
                     #delivery_message = vals.get('warning_message', False)
-                    delivery_message = "Defined by MELI"
+                    delivery_message = "Defined by Producteca"
                     #delivery_price = vals['price']
                     delivery_price = pso.shippingCost
                     #display_price = vals['carrier_price']
@@ -1251,82 +1360,184 @@ class ProductecaConnectionAccount(models.Model):
                         so.message_post(body=str(error["error"]))
                     return result
                 else:
-                    _logger.info("Payment ok")
+                    opay.order_id = pso
+                    _logger.info("Producteca Payment ok, creating Odoo Payment.")
                     _logger.info(opay)
-                    if (account and account.configuration and account.configuration.import_payments==True):
-                        try:
-                            opay.create_payment()
-                        except:
-                            error = {"error": "Creating payment error. Check account configuration."}
-                            result.append(error)
-                            if so:
-                                so.message_post(body=str(error["error"]))
-                            pass;
+                    if opay.status and opay.status=='Approved' and account and account.configuration:
+                        if (account.configuration.import_payments==True and not opay.account_payment_id):
+                            _logger.info("Importing payment...")
+                            try:
+                                opay.create_payment()
+                            except Exception as E:
+                                error = {"error": "Creating payment error. Check account configuration and this message: "+str(E)}
+                                result.append(error)
+                                _logger.error(str(error["error"]))
+                                _logger.error(E, exc_info=True)
+                                if so:
+                                    so.message_post(body=str(error["error"]))
+                                pass;
+                        elif opay.account_payment_id:
+                            if not opay.account_payment_group_id:
+                                opay.account_payment_group_id = opay.account_payment_id.payment_group_id
+                            if opay.account_payment_group_id and not opay.account_payment_group_id.receiptbook_id:
+                                opay.account_payment_group_id.receiptbook_id = opay.get_ml_receiptbook()
+                            if opay.account_payment_group_id and not opay.account_payment_group_id.partner_type:
+                                opay.account_payment_group_id.partner_type = "customer"
+
+
+                        if (account.configuration.import_payments_fee==True and not opay.account_supplier_payment_id):
+                            try:
+                                opay.create_supplier_payment()
+                            except Exception as E:
+                                error = {"error": "Creating payment fee error. Check account configuration and this message: "+str(E)}
+                                result.append(error)
+                                _logger.error(str(error["error"]))
+                                _logger.error(E, exc_info=True)
+                                if so:
+                                    so.message_post(body=str(error["error"]))
+                                pass;
+                        if (account.configuration.import_payments_shipment==True and not opay.account_supplier_payment_shipment_id):
+                            try:
+                                opay.create_supplier_payment_shipment()
+                            except Exception as E:
+                                error = {"error": "Creating payment shipment error. Check account configuration and this message: "+str(E)}
+                                result.append(error)
+                                _logger.error(str(error["error"]))
+                                _logger.error(E, exc_info=True)
+                                if so:
+                                    so.message_post(body=str(error["error"]))
+                                pass;
 
                 #Register Payments...
 
-            _logger.info("Order ok")
-            _logger.info(so)
-            pso.write({ "sale_order": so.id })
-            if so_bind_now:
-                so.producteca_bindings = so_bind_now
-        try:
-
             if so:
-                if account.configuration.import_sales_action and so.producteca_bindings:
-                    #check action:
-                    cond = (str(so.amount_total) == str(so.producteca_bindings[0].paidApproved))
-                    cond = cond and so.producteca_bindings[0].paymentStatus in ['Approved']
-                    _logger.info("import_sales_action:"+str(account.configuration.import_sales_action)+" cond:"+str(cond))
-                    if "payed_confirm_order" in account.configuration.import_sales_action:
-                        if so.state in ['draft','sent'] and cond:
-                            so.action_confirm()
-                    if "payed_confirm_order_invoice" in account.configuration.import_sales_action:
-                        if so.state in ['sale','done']:
-                            dones = False
-                            cancels = False
-                            drafts = False
-                            if cond:
-                                if so.picking_ids:
-                                    for spick in so.picking_ids:
-                                        _logger.info(str(spick)+" state:"+str(spick.state))
-                                        if spick.state in ['done']:
-                                            dones = True
-                                        elif spick.state in ['cancel']:
-                                            cancels = True
-                                        else:
-                                            drafts = True
-                                else:
-                                    dones = False
+                _logger.info("Order ok")
+                _logger.info(so)
+                pso.write({ "sale_order": so.id })
+                if so_bind_now:
+                    so.producteca_bindings = so_bind_now
 
-                                if drafts:
-                                    #drafts then nothing is full done
-                                    dones = False
 
-                                if dones:
+        #try:
+        if so:
+            if account.configuration.import_sales_action and so.producteca_bindings:
+
+                #check action:
+                cond_total = abs(so.amount_total - so.producteca_bindings[0].paidApproved ) <= 1.0
+                cond = cond_total and so.producteca_bindings[0].paymentStatus in ['Approved']
+                _logger.info("import_sales_action: "+str(account.configuration.import_sales_action)+" cond:"+str(cond))
+                if "payed_confirm_order" in account.configuration.import_sales_action:
+                    if so.state in ['draft','sent'] and cond:
+                        so.action_confirm()
+
+                if "_shipment" in account.configuration.import_sales_action:
+                    if so.state in ['sale','done']:
+                        dones = False
+                        cancels = False
+                        drafts = False
+                        if cond:
+                            if so.picking_ids:
+                                for spick in so.picking_ids:
+                                    _logger.info(str(spick)+" state:"+str(spick.state))
+                                    if spick.state in ['done']:
+                                        dones = True
+                                    elif spick.state in ['cancel']:
+                                        cancels = True
+                                    else:
+                                        drafts = True
+                            else:
+                                dones = False
+
+                            if drafts:
+                                #drafts then nothing is full done
+                                dones = False
+
+                            if dones:
+                                _logger.info("Shipment complete")
+                            else:
+                                _logger.info("Shipment not complete: TODO: make an action, dones:"+str(False)+" drafts: "+str(drafts)+" cancels:"+str(cancels))
+
+                if "_invoice" in account.configuration.import_sales_action:
+                    if so.state in ['sale','done']:
+                        dones = False
+                        cancels = False
+                        drafts = False
+                        if cond:
+                            if so.picking_ids:
+                                for spick in so.picking_ids:
+                                    _logger.info(str(spick)+" state:"+str(spick.state))
+                                    if spick.state in ['done']:
+                                        dones = True
+                                    elif spick.state in ['cancel']:
+                                        cancels = True
+                                    else:
+                                        drafts = True
+                            else:
+                                dones = False
+
+                            if drafts:
+                                #drafts then nothing is full done
+                                dones = False
+
+                            if dones:
+                                _logger.info("Creating invoice...")
+                                invoices = self.env[acc_inv_model].search([('origin','=',so.name)])
+
+                                if not invoices:
+                                    _logger.info("Creating new invoices")
+                                    res = so.action_invoice_create()
+                                    _logger.info("invoice create res:"+str(res))
                                     invoices = self.env[acc_inv_model].search([('origin','=',so.name)])
 
-                                    if not invoices:
-                                        _logger.info("Creating invoices")
-                                        so.action_invoice_create()
-                                        invoices = self.env[acc_inv_model].search([('origin','=',so.name)])
+                                if invoices:
+                                    for inv in invoices:
+                                        #try:
+                                        _logger.info("Invoice to process:"+str( inv.name ) )
+                                        if inv.state in ['draft']:
+                                            if (chanbinded and chanbinded.journal_id):
+                                                #chanbinded and chanbinded.journal_id and inv.write({"journal_id": chanbinded.journal_id.id })
+                                                if ('account.journal.document.type' in  self.env and
+                                                    'journal_document_type_id' in inv._fields
+                                                    and inv.journal_document_type_id
+                                                    and inv.journal_document_type_id.document_type_id
+                                                    and not (inv.journal_document_type_id.journal_id.id==chanbinded.journal_id.id)):
 
-                                    if invoices:
-                                        for inv in invoices:
-                                            try:
-                                                if inv.state in ['draft']:
-                                                    _logger.info("Validate invoice: "+str(inv.name))
-                                                    inv.action_invoice_open()
-                                                if inv.state in ['open'] and not inv.producteca_inv_attachment_id:
-                                                    _logger.info("Send to Producteca: "+str(inv.name))
-                                                    inv.enviar_factura_producteca()
-                                            except:
-                                                pass;
-                                else:
-                                    _logger.info("Creating invoices not processed, shipment not complete: dones:"+str(False)+" drafts: "+str(drafts)+" cancels:"+str(cancels))
-        except:
-            _logger.error("Error sale order post processing error")
-            pass;
+                                                    doctype = self.env['account.journal.document.type'].search([('document_type_id','=',inv.journal_document_type_id.document_type_id.id),('journal_id','=',chanbinded.journal_id.id)],limit=1)
+                                                    if doctype:
+                                                        #inv.journal_document_type_id = doctype.id
+                                                        inv.write({"journal_id": chanbinded.journal_id.id, "journal_document_type_id": doctype.id  })
+
+                                                inv.write({"journal_id": chanbinded.journal_id.id, "account_id": (chanbinded and chanbinded.partner_account_receive_id and chanbinded.partner_account_receive_id.id) })
+
+                                            _logger.info("Validate invoice: "+str(inv.name)+" journal:"+str(inv.journal_id and inv.journal_id.name))
+                                            _logger.info("main_id_number: "+str(inv.partner_id.main_id_number))
+                                            if inv.partner_id and inv.partner_id.main_id_number and inv.partner_id.afip_responsability_type_id and inv.partner_id.main_id_category_id:
+                                                inv.action_invoice_open()
+                                            else:
+                                                error = { 'error': 'Datos de facturación incompletos, revisar Responsabilidad, Tipo de documento y número.' }
+                                                _logger.error(str(error["error"]))
+                                                #_logger.error(E, exc_info=True)
+                                                if so:
+                                                    so.message_post(body=str(error["error"]))
+                                        if inv.state in ['open'] and not inv.producteca_inv_attachment_id:
+                                            _logger.info("Send to Producteca: "+str(inv.name))
+                                            inv.enviar_factura_producteca()
+                                        elif inv.state in ['open']:
+                                            _logger.info("Invoice already sent: result:"+str(result))
+                                        #except:
+                                            #inv.message_post()
+                                        #    error = {"error": "Invoice Error"}
+                                        #    result.append(error)
+                                        #    raise;
+                            else:
+                                _logger.info("Creating invoices not processed, shipment not complete: dones:"+str(False)+" drafts: "+str(drafts)+" cancels:"+str(cancels))
+                        else:
+                            _logger.error("Conditions not met for invoicing > cond_total: " + str(cond_total) +" cond: "+str(cond) )
+        #except Exception as E:
+        #    error = {"error": "Error sale order post processing error: " +str(E)}
+        #    _logger.error(error)
+        #    result.append(error)
+        #    pass;
 
         return result
 

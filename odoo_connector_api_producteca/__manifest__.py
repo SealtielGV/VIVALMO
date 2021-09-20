@@ -8,11 +8,11 @@
 
 {
     'name': 'Producteca Odoo Connector',
-    'version': '14.0.21.16',
+    'version': '14.0.21.25',
     'author': 'Moldeo Interactive, Producteca',
     'website': 'https://www.moldeointeractive.com',
     "category": "Sales",
-    "depends": ['base', 'product','sale_management','website_sale','stock','odoo_connector_api'],
+    "depends": ['base', 'product','sale_management','website_sale','stock','odoo_connector_api','delivery'],
     'data': [
         'security/odoo_connector_api_security.xml',
         'security/ir.model.access.csv',

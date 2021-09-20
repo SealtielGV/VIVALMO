@@ -10,7 +10,7 @@
 						<data>
 								<notebook>
 										<page string="Producteca">
-											<field name="producteca_connections" invisible="0" group="odoo_connector_api_producteca.group_producteca_connectors_manager"
+											<field name="producteca_connections" invisible="0" groups="odoo_connector_api_producteca.group_producteca_connectors_manager"
                               domain="['|',('company_id','=',False),('company_id','=',id)]">
                           <tree>
                             <field name="company_id"/>

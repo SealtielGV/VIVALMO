@@ -53,6 +53,10 @@ class ProductectaChannelBinding(models.Model):
     journal_id = fields.Many2one( "account.journal", string="Journal")
     payment_journal_id = fields.Many2one( "account.journal", string="Payment Journal")
     partner_id = fields.Many2one( "res.partner", string="Partner")
+    partner_account_receive_id = fields.Many2one( "account.account", string="Cuenta a cobrar (partner)")
+    account_payment_receiptbook_id = fields.Many2one( "account.payment.receiptbook", string="Recibos")
+    account_payment_receipt_validation = fields.Selection([('draft','Borrador'),('validate','Autovalidación')], string="Payment validation",default='draft')
+    #partner_account_send_id = fields.Many2one( "account.account", string="Cuenta a pagar (partner)")
     #sequence_id = fields.Many2one('ir.sequence', string='Order Sequence',
     #    help="Order labelling for this channel", copy=False)
 
@@ -70,10 +74,14 @@ class ProductecaConnectionConfiguration(models.Model):
 
 
     #Import
+
+    #import_payments_customer = fields.Boolean(string="Import Payments Customer")
     import_payments_fee = fields.Boolean(string="Import Payments Fee")
     import_payments_shipment = fields.Boolean(string="Import Payments Shipment")
 
     doc_undefined = fields.Char(string="DNI Consumidor final indefinido")
+
+
     #doc_type_undefined = fields.Char(string="Doc Tipo indefinido")
     import_price_lists = fields.Many2many("product.pricelist",relation='producteca_conf_import_pricelist_rel',column1='configuration_id',column2='pricelist_id',string="Import Price Lists")
 

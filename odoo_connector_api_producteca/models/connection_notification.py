@@ -28,6 +28,7 @@ from .warning import warning
 import requests
 import json
 from ast import literal_eval
+from odoo.addons.odoo_connector_api.models.connection_notification import OcapiConnectionNotification
 
 class ProductecaConnectionNotification(models.Model):
 
@@ -37,6 +38,17 @@ class ProductecaConnectionNotification(models.Model):
 
     #Connection reference defining mkt place credentials
     connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
+
+    sale_order = fields.Many2one( "sale.order", related="producteca_sale_order.sale_order", string="Sale Order" )
+    producteca_sale_order = fields.Many2one( "producteca.sale_order", string="Producteca Sale Order" )
+
+    #def start_internal_notification(self, internals):
+    #    noti = super( OcapiConnectionNotification, self).start_internal_notification( internals)
+        #if noti:
+        #    if not noti.producteca_sale_order:
+        #       #search based on resource ids
+    #    return noti
+
 
     def process_notification(self):
         result = []
