@@ -881,7 +881,7 @@ class ProductecaConnectionAccount(models.Model):
             }
             if "company_ids" in self.env["res.partner"]._fields and company:
                 ocapi_buyer_fields["company_ids"] = [(4,company.id)]
-                
+
             if 'property_account_receivable_id' in self.env["res.partner"]._fields:
                 ocapi_buyer_fields['property_account_receivable_id'] = (chanbinded and chanbinded.partner_account_receive_id and chanbinded.partner_account_receive_id.id)
 
@@ -1538,6 +1538,11 @@ class ProductecaConnectionAccount(models.Model):
         #    _logger.error(error)
         #    result.append(error)
         #    pass;
+
+        if noti:
+            errors = str(result)
+            logs = str(sale)
+            noti.stop_internal_notification(errors=errors,logs=logs)
 
         return result
 
