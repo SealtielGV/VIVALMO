@@ -596,7 +596,7 @@ class ProductecaConnectionAccount(models.Model):
             txpercent = 0
             _logger.info("Adjust taxes: "+str(product_template.taxes_id))
             for txid in product_template.taxes_id:
-                if not txid.company_id or (company and txid.company_id==company.id):
+                if not txid.company_id or (company and txid.company_id.id==company.id):
                     if (txid.type_tax_use=="sale" and not txid.price_include):
                         if (txid.amount_type=="percent"):
                             _logger.info("Percent: "+str(txid)+" "+str(txid.amount))
