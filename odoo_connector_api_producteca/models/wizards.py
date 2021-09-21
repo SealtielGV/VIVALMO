@@ -167,3 +167,52 @@ class StockQuantBindToProducteca(models.TransientModel):
                 
                 
                 
+class ProductecaNotificationsProcessWiz(models.TransientModel):
+    _name = "producteca.notification.wiz"
+    _description = "Producteca Notifications Wiz"
+
+    connection_account = fields.Many2one( "producteca.account", string='Producteca Account',help="Cuenta de producteca origen de la publicación")
+    
+    def process_notifications( self, context=None ):
+
+        context = context or self.env.context
+
+        _logger.info("process_notifications (Producteca)")
+        noti_ids = ('active_ids' in context and context['active_ids']) or []
+        noti_obj = self.env['producteca.notification']
+        
+        try:
+            #meli = None
+            #if self.connection_account:
+                #meli = self.env['meli.util'].get_new_instance( self.connection_account.company_id, self.connection_account )
+                #if meli.need_login():
+                #    return meli.redirect_login()
+            
+            ##if not self.connection_account:
+            #    raise UserError('Connection Account not defined!')
+            for noti_id in noti_ids:
+
+                _logger.info("Processing notification: %s " % (noti_id) )
+
+                noti = noti_obj.browse(noti_id)
+                ret = []
+                if noti:
+                    reti = None
+                    
+                    if self.connection_account and noti.connection_account and noti.connection_account.id==self.connection_account.id:
+                        reti = noti.process_notification()
+                        
+                    if not self.connection_account:
+                        reti = noti.process_notification()
+                        
+                    if reti:
+                        ret.append(str(reti))
+                    
+        except Exception as e:
+            _logger.info("process_notifications > Error procesando notificacion")
+            _logger.error(e, exc_info=True)
+            _logger.error(str(ret))
+            #self._cr.rollback()
+            raise e
+            
+        _logger.info("Processing notification result: %s " % (str(ret)) )
