@@ -67,5 +67,6 @@ class ProductecaConnectionNotification(models.Model):
                         for r in res:
                             result.append(r)
 
+
                     _logger.info("process_notification " + str(result))
         return result

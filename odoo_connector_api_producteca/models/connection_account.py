@@ -1541,8 +1541,8 @@ class ProductecaConnectionAccount(models.Model):
 
         if noti:
             errors = str(result)
-            logs = str(sale)
-            noti.stop_internal_notification(errors=errors,logs=logs)
+            #logs = str(sale)
+            noti.stop_internal_notification(errors=errors,logs=noti.processing_logs)
 
         return result
 
