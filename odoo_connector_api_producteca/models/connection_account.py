@@ -596,14 +596,15 @@ class ProductecaConnectionAccount(models.Model):
             txpercent = 0
             _logger.info("Adjust taxes: "+str(product_template.taxes_id))
             for txid in product_template.taxes_id:
-                if (txid.type_tax_use=="sale" and not txid.price_include):
-                    if (txid.amount_type=="percent"):
-                        _logger.info("Percent: "+str(txid)+" "+str(txid.amount))
-                        txpercent = txpercent + txid.amount
-                    if (txid.amount_type=="fixed"):
-                        _logger.info("Fixed: "+str(txid)+" "+str(txid.amount))
-                        txfixed = txfixed + txid.amount
-                    _logger.info(txid.amount)
+                if not txid.company_id or (company and txid.company_id==company.id):
+                    if (txid.type_tax_use=="sale" and not txid.price_include):
+                        if (txid.amount_type=="percent"):
+                            _logger.info("Percent: "+str(txid)+" "+str(txid.amount))
+                            txpercent = txpercent + txid.amount
+                        if (txid.amount_type=="fixed"):
+                            _logger.info("Fixed: "+str(txid)+" "+str(txid.amount))
+                            txfixed = txfixed + txid.amount
+                        _logger.info(txid.amount)
             if (txfixed>0 or txpercent>0):
                 ml_price_converted = txfixed + ml_price_converted / (1.0 + txpercent*0.01)
                 _logger.info("From: "+str(price)+" with Tx Total:"+str(txpercent)+" to Price:"+str(ml_price_converted))
@@ -1286,7 +1287,7 @@ class ProductecaConnectionAccount(models.Model):
                     _logger.info('MEL Distribution, not adding to order')
                     #continue
 
-                if (ship_carrier_id and not so.carrier_id):
+                if ( ship_carrier_id and not so.carrier_id and pso.shippingCost and pso.shippingCost>0.0 ):
                     so.carrier_id = ship_carrier_id
                     #vals = sorder.carrier_id.rate_shipment(sorder)
                     #if vals.get('success'):
@@ -1297,6 +1298,9 @@ class ProductecaConnectionAccount(models.Model):
                     #display_price = vals['carrier_price']
                     #_logger.info(vals)
                     set_delivery_line( so, delivery_price, delivery_message )
+
+                if (so.carrier_id and pso.shippingCost==0.0 ):
+                    so._remove_delivery_line()
 
 
         #process payments
