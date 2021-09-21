@@ -180,6 +180,7 @@ class ProductecaNotificationsProcessWiz(models.TransientModel):
         _logger.info("process_notifications (Producteca)")
         noti_ids = ('active_ids' in context and context['active_ids']) or []
         noti_obj = self.env['producteca.notification']
+        ret = []
         
         try:
             #meli = None
@@ -195,7 +196,7 @@ class ProductecaNotificationsProcessWiz(models.TransientModel):
                 _logger.info("Processing notification: %s " % (noti_id) )
 
                 noti = noti_obj.browse(noti_id)
-                ret = []
+                
                 if noti:
                     reti = None
                     
