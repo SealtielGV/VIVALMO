@@ -85,14 +85,12 @@ class AddendaOrderLine(models.Model):
 
 	def _amount_with_discount(self):
 		with_discount = 0.0
-		if not line.display_type == 'line_section':
 		for line in self:
 			with_discount += line.price_unit * (1 - (line.discount or 0.0) / 100.0)
 		return with_discount
 
 	def _compute_amount_discounted(self):		
 		total = 0.0
-		if not line.display_type == 'line_section':
 		for line in self:
 			total += total + line.price_unit * (1 - (line.discount or 0.0) / 100.0)
 		return total
