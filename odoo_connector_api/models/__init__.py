@@ -13,6 +13,7 @@ from . import product
 from . import sale
 from . import connection_account
 from . import connection_binding
+from . import connection_binding_sale_order
 from . import product_image
 from . import connection_configuration
 from . import connection_notification

@@ -472,9 +472,9 @@ class ProductecaConnectionAccount(models.Model):
 
     def city(self, contact, billing=False ):
         if not billing and "location_city" in contact:
-            return str("location_city" in contact and contact["location_city"])
+            return ("location_city" in contact and contact["location_city"])
         else:
-            return str("billingInfo_city" in contact and contact["billingInfo_city"])
+            return ("billingInfo_city" in contact and contact["billingInfo_city"])
 
 
     #return odoo country id
@@ -862,6 +862,8 @@ class ProductecaConnectionAccount(models.Model):
             if not buyer_name and firstName and lastName:
                 _logger.info("buyer_name using first and last: firstName:['"+str(firstName)+"'] lastName['"+str(lastName)+"']")
                 buyer_name = firstName + str(" ") + lastName
+            if not firstName and not lastName and 'contactPerson' in contactfields:
+                buyer_name = contactfields['contactPerson']
 
             billingInfo_businessName = ("billingInfo_businessName" in contactfields and contactfields["billingInfo_businessName"])
             if billingInfo_businessName and len(billingInfo_businessName)>1:
@@ -869,11 +871,11 @@ class ProductecaConnectionAccount(models.Model):
 
             ocapi_buyer_fields = {
                 "name": buyer_name,
-                'street': self.street(contact=contactfields,billing=True),
-                'street2': str("billingInfo_neighborhood" in contactfields and contactfields["billingInfo_neighborhood"]),
-                'city': self.city(contact=contactfields,billing=True),
+                'street': self.street(contact=contactfields,billing=True) or self.street(contact=contactfields),
+                'street2': ("billingInfo_neighborhood" in contactfields and contactfields["billingInfo_neighborhood"]) or str("location_neighborhood" in contactfields and contactfields["location_neighborhood"]),
+                'city': self.city(contact=contactfields,billing=True) or self.city(contact=contactfields),
                 'country_id': country_id,
-                'state_id': self.ostate( country=country_id, contact=contactfields,billing=True ),
+                'state_id': self.ostate( country=country_id, contact=contactfields,billing=True ) or self.ostate( country=country_id, contact=contactfields ),
                 'zip': ("billingInfo_zipCode" in contactfields and contactfields["billingInfo_zipCode"]),
                 'phone': self.full_phone( contactfields ),
                 'producteca_bindings': [(6, 0, [client.id])],
@@ -898,13 +900,13 @@ class ProductecaConnectionAccount(models.Model):
                     partner_id = self.env["res.partner"].sudo().browse([partner_id_id])
                     try:
 
-                        if partner_id.main_id_number and "main_id_number" in ocapi_buyer_fields:
+                        if "main_id_number" in partner_id._fields and partner_id.main_id_number and "main_id_number" in ocapi_buyer_fields:
                             del ocapi_buyer_fields["main_id_number"]
 
-                        if partner_id.afip_responsability_type_id and "afip_responsability_type_id" in ocapi_buyer_fields:
+                        if "afip_responsability_type_id" in partner_id._fields and partner_id.afip_responsability_type_id and "afip_responsability_type_id" in ocapi_buyer_fields:
                             del ocapi_buyer_fields["afip_responsability_type_id"]
 
-                        if partner_id.main_id_category_id and "main_id_category_id" in ocapi_buyer_fields:
+                        if "main_id_category_id" in partner_id._fields and partner_id.main_id_category_id and "main_id_category_id" in ocapi_buyer_fields:
                             del ocapi_buyer_fields["main_id_category_id"]
 
                         _logger.info("Upgrade partner: "+str(ocapi_buyer_fields))
