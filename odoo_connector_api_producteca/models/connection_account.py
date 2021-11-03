@@ -884,6 +884,7 @@ class ProductecaConnectionAccount(models.Model):
             }
             if "company_ids" in self.env["res.partner"]._fields and company:
                 ocapi_buyer_fields["company_ids"] = [(4,company.id)]
+                ocapi_buyer_fields["lang"] =  company.partner_id.lang
 
             if 'property_account_receivable_id' in self.env["res.partner"]._fields:
                 ocapi_buyer_fields['property_account_receivable_id'] = (chanbinded and chanbinded.partner_account_receive_id and chanbinded.partner_account_receive_id.id)
@@ -912,7 +913,9 @@ class ProductecaConnectionAccount(models.Model):
                         _logger.info("Upgrade partner: "+str(ocapi_buyer_fields))
                         partner_id.sudo().write(ocapi_buyer_fields)
                     except Exception as E:
-                        _logger.error("Updated res.partner: "+str(E))
+                        error = {"error": "Updated res.partner error. Check account configuration and this message: "+str(E)}
+                        result.append(error)
+                        _logger.error(E, exc_info=True)
                     break;
             else:
                 _logger.info("Create partner")
@@ -922,8 +925,10 @@ class ProductecaConnectionAccount(models.Model):
                     if partner_id:
                         _logger.info("Created Res Partner "+str(partner_id))
                 except Exception as E:
-                    _logger.error("Created res.partner issue: "+str(E))
-
+                    error = {"error": "Created res.partner issue: "+str(E)}
+                    result.append(error)
+                    _logger.error(str(error["error"]))
+                    _logger.error(E, exc_info=True)
                     pass;
 
         if partner_id:
