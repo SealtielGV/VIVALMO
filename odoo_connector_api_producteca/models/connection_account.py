@@ -884,6 +884,8 @@ class ProductecaConnectionAccount(models.Model):
             }
             if "company_ids" in self.env["res.partner"]._fields and company:
                 ocapi_buyer_fields["company_ids"] = [(4,company.id)]
+
+            if company:
                 ocapi_buyer_fields["lang"] =  company.partner_id.lang
 
             if 'property_account_receivable_id' in self.env["res.partner"]._fields:
