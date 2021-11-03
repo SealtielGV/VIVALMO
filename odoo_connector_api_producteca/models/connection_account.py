@@ -965,6 +965,8 @@ class ProductecaConnectionAccount(models.Model):
             }
             if "company_ids" in self.env["res.partner"]._fields and company:
                 pdelivery_fields["company_ids"] = [(4,company.id)]
+            if company:
+                pdelivery_fields["lang"] =  company.partner_id.lang
             #TODO: agregar un campo para diferencia cada delivery res partner al shipment y orden asociado, crear un binding usando values diferentes... y listo
             deliv_id = self.env["res.partner"].sudo().search([("parent_id","=",pdelivery_fields['parent_id']),
                                                         ("type","=","delivery"),
