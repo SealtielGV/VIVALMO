@@ -1,0 +1,202 @@
+{
+            "tags": [],
+            "integrations": [{
+                "alternateId": null,
+                "integrationId": "4616445971",
+                "app": 2
+            }],
+            "invoiceIntegration": null,
+            "channel": "2",
+            "contact": {
+                "name": "JUANAPAVNCUELLAR",
+                "contactPerson": "Juana PavÃ³n Cuellar",
+                "mail": "interceptor+SyTV77HPsoDDOW4Og1@producteca.com",
+                "phoneNumber": "XXXXXXX",
+                "taxId": null,
+                "location": {
+                    "streetName": "No tiene nombre",
+                    "streetNumber": "SN",
+                    "addressNotes": "Referencia: Por abarrotes challito hacia arriba en el segundo andador",
+                    "state": "Oaxaca",
+                    "city": "Santa Maria Huatulco",
+                    "neighborhood": "AmpliaciÃ³n J manzana 14 lote 11",
+                    "zipCode": "70989",
+                    "stateId": "",
+                    "country": "Mexico"
+                },
+                "notes": null,
+                "type": "Customer",
+                "priceList": null,
+                "priceListId": null,
+                "profile": {
+                    "app": 2,
+                    "integrationId": "489293104",
+                    "nickname": null
+                },
+                "billingInfo": null,
+                "id": 125073755
+            },
+            "lines": [{
+                "price": 359,
+                "originalPrice": 399,
+                "product": {
+                    "name": "Seven Jeans Eleven Pantalon Dama Colombiano Levanta Pompa117",
+                    "code": "",
+                    "brand": null,
+                    "id": 95407280
+                },
+                "variation": {
+                    "supplierCode": null,
+                    "pictures": [{
+                        "url": "http://http2.mlstatic.com/D_911863-MLM45728820598_042021-O.jpg",
+                        "id": 1061384463
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_676500-MLM45728788755_042021-O.jpg",
+                        "id": 1061384464
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_938021-MLM45728845349_042021-O.jpg",
+                        "id": 1061384466
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_670272-MLM45728879169_042021-O.jpg",
+                        "id": 1061384469
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_644611-MLM45728745952_042021-O.jpg",
+                        "id": 1061384473
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_800996-MLM45728763852_042021-O.jpg",
+                        "id": 1061384475
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_971286-MLM45728879170_042021-O.jpg",
+                        "id": 1061384529
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_893683-MLM45728886069_042021-O.jpg",
+                        "id": 1061384530
+                    }],
+                    "stocks": [{
+                        "warehouseId": null,
+                        "warehouse": "Default",
+                        "quantity": 147,
+                        "reserved": 0,
+                        "available": 147
+                    }, {
+                        "warehouseId": null,
+                        "warehouse": "MercadoEnvios Full",
+                        "quantity": 102,
+                        "reserved": 1,
+                        "available": 101
+                    }],
+                    "integrationId": 0,
+                    "attributesHash": null,
+                    "primaryColor": "Negro",
+                    "secondaryColor": null,
+                    "size": "11",
+                    "thumbnail": "http://http2.mlstatic.com/D_911863-MLM45728820598_042021-T.jpg",
+                    "attributes": [{
+                        "key": "DiseÃ±o de la tela",
+                        "value": "0117NGRO"
+                    }, {
+                        "key": "Talla",
+                        "value": "11"
+                    }, {
+                        "key": "Color",
+                        "value": "Negro"
+                    }],
+                    "integrations": [{
+                        "variationId": null,
+                        "app": 2,
+                        "parentIntegrationId": "MLM814616527",
+                        "integrationId": "63561101183"
+                    }],
+                    "id": 241678038,
+                    "sku": "0117-NGRO-11-SSK",
+                    "barcode": null
+                },
+                "quantity": 1,
+                "conversation": {
+                    "questions": []
+                },
+                "reserved": 1
+            }],
+            "warehouse": "MercadoEnvios Full",
+            "warehouseId": 460201,
+            "warehouseIntegration": {
+                "app": 2,
+                "status": "Locked",
+                "integrationId": null
+            },
+            "payments": [{
+                "date": "2021-06-03T20:48:40",
+                "amount": 359,
+                "couponAmount": 0,
+                "status": "Approved",
+                "method": "Ticket",
+                "integration": {
+                    "integrationId": "15181563952",
+                    "app": 2
+                },
+                "transactionFee": 53.85,
+                "installments": 1,
+                "card": {
+                    "paymentNetwork": "oxxo",
+                    "firstSixDigits": 0,
+                    "lastFourDigits": 0,
+                    "cardholderIdentificationNumber": null,
+                    "cardholderIdentificationType": null,
+                    "cardholderName": null
+                },
+                "notes": null,
+                "hasCancelableStatus": false,
+                "id": 42881218
+            }],
+            "shipments": [{
+                "date": "2021-06-03T20:48:41",
+                "products": [{
+                    "product": 95407280,
+                    "variation": 241678038,
+                    "quantity": 1
+                }],
+                "method": {
+                    "trackingNumber": "MEL00000716860509",
+                    "trackingUrl": "https://myaccount.mercadolibre.com.mx/purchases/4616445971/shipments/40621010423/detail",
+                    "courier": "MercadoEnvios",
+                    "mode": "Express a domicilio",
+                    "cost": 57,
+                    "type": "Ship",
+                    "eta": 0,
+                    "status": "PickingPending"
+                },
+                "integration": {
+                    "app": 2,
+                    "integrationId": "40621010423",
+                    "status": "NotAvailable",
+                    "id": 28574895
+                },
+                "receiver": {
+                    "fullName": "Juana PavÃ³n Cuellar",
+                    "identificationNumber": null,
+                    "phoneNumber": "XXXXXXX"
+                },
+                "id": 33497538
+            }],
+            "amount": 359,
+            "shippingCost": 0,
+            "financialCost": 0,
+            "paidApproved": 359,
+            "paymentStatus": "Approved",
+            "deliveryStatus": "PickingPending",
+            "paymentFulfillmentStatus": "Done",
+            "deliveryFulfillmentStatus": "Pending",
+            "deliveryMethod": "Ship",
+            "paymentTerm": "Advance",
+            "currency": "Local",
+            "customId": "40621010423",
+            "isOpen": true,
+            "isCanceled": false,
+            "cartId": null,
+            "hasAnyShipments": true,
+            "hasAnyPayments": true,
+            "date": "2021-06-03T21:27:23",
+            "notes": null,
+            "id": 60906799,
+            "logisticType": "MercadoEnvios Full"
+}

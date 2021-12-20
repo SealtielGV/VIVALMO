@@ -1,0 +1,199 @@
+{
+            "tags": [],
+            "integrations": [{
+                "alternateId": null,
+                "integrationId": "4616486191",
+                "app": 2
+            }],
+            "invoiceIntegration": null,
+            "channel": "2",
+            "contact": {
+                "name": "ELIDELPEZ",
+                "contactPerson": "Elide LÃ³pez",
+                "mail": "interceptor+nsCEPnxWGCuF5DGFCU@producteca.com",
+                "phoneNumber": "XXXXXXX",
+                "taxId": null,
+                "location": {
+                    "streetName": "C24 Santa Gertrudis Copo Lote 65",
+                    "streetNumber": "65",
+                    "addressNotes": "Referencia: Casa Blanca Con Garage Cafe De Madera",
+                    "state": "YucatÃ¡n",
+                    "city": "MÃ©rida",
+                    "neighborhood": "Privada manantiales de cocoyoles",
+                    "zipCode": "97305",
+                    "stateId": "",
+                    "country": "Mexico"
+                },
+                "notes": null,
+                "type": "Customer",
+                "priceList": null,
+                "priceListId": null,
+                "profile": {
+                    "app": 2,
+                    "integrationId": "398310426",
+                    "nickname": null
+                },
+                "billingInfo": null,
+                "id": 125073055
+            },
+            "lines": [{
+                "price": 449,
+                "originalPrice": 499,
+                "product": {
+                    "name": "Jeans Dama Seven Colombiano Pantalon Levanta Pompa 4111hiel",
+                    "code": "",
+                    "brand": null,
+                    "id": 95407352
+                },
+                "variation": {
+                    "supplierCode": null,
+                    "pictures": [{
+                        "url": "http://http2.mlstatic.com/D_750459-MLM45728994371_042021-O.jpg",
+                        "id": 1061388454
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_969760-MLM45729024154_042021-O.jpg",
+                        "id": 1061388455
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_662149-MLM45728982477_042021-O.jpg",
+                        "id": 1061388456
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_958127-MLM45729001308_042021-O.jpg",
+                        "id": 1061388457
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_954044-MLM45729024152_042021-O.jpg",
+                        "id": 1061388458
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_845885-MLM45728990435_042021-O.jpg",
+                        "id": 1061388527
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_830170-MLM45728969635_042021-O.jpg",
+                        "id": 1061388528
+                    }],
+                    "stocks": [{
+                        "warehouseId": null,
+                        "warehouse": "Default",
+                        "quantity": 22,
+                        "reserved": 0,
+                        "available": 22
+                    }, {
+                        "warehouseId": null,
+                        "warehouse": "MercadoEnvios Full",
+                        "quantity": 12,
+                        "reserved": 2,
+                        "available": 10
+                    }],
+                    "integrationId": 0,
+                    "attributesHash": null,
+                    "primaryColor": "Azul claro",
+                    "secondaryColor": null,
+                    "size": "9",
+                    "thumbnail": "http://http2.mlstatic.com/D_750459-MLM45728994371_042021-T.jpg",
+                    "attributes": [{
+                        "key": "DiseÃ±o de la tela",
+                        "value": "Tela stretch gruesa"
+                    }, {
+                        "key": "Talla",
+                        "value": "9"
+                    }, {
+                        "key": "Color",
+                        "value": "Azul claro"
+                    }],
+                    "integrations": [{
+                        "variationId": null,
+                        "app": 2,
+                        "parentIntegrationId": "MLM851020575",
+                        "integrationId": "70747732933"
+                    }],
+                    "id": 241678583,
+                    "sku": "4111-HIEL-9-SKC",
+                    "barcode": null
+                },
+                "quantity": 1,
+                "conversation": {
+                    "questions": []
+                },
+                "reserved": 1
+            }],
+            "warehouse": "MercadoEnvios Full",
+            "warehouseId": 460201,
+            "warehouseIntegration": {
+                "app": 2,
+                "status": "Locked",
+                "integrationId": null
+            },
+            "payments": [{
+                "date": "2021-06-03T21:05:53",
+                "amount": 449,
+                "couponAmount": 0,
+                "status": "Approved",
+                "method": "MercadoPago",
+                "integration": {
+                    "integrationId": "15181864119",
+                    "app": 2
+                },
+                "transactionFee": 67.35,
+                "installments": 1,
+                "card": {
+                    "paymentNetwork": "account_money",
+                    "firstSixDigits": 0,
+                    "lastFourDigits": 0,
+                    "cardholderIdentificationNumber": null,
+                    "cardholderIdentificationType": null,
+                    "cardholderName": null
+                },
+                "notes": null,
+                "hasCancelableStatus": false,
+                "id": 42880390
+            }],
+            "shipments": [{
+                "date": "2021-06-03T21:05:44",
+                "products": [{
+                    "product": 95407352,
+                    "variation": 241678583,
+                    "quantity": 1
+                }],
+                "method": {
+                    "trackingNumber": "MEL00000716832139",
+                    "trackingUrl": "https://myaccount.mercadolibre.com.mx/purchases/4616486191/shipments/40621044778/detail",
+                    "courier": "MercadoEnvios",
+                    "mode": "Prioritario a domicilio",
+                    "cost": 57,
+                    "type": "Ship",
+                    "eta": 0,
+                    "status": "PickingPending"
+                },
+                "integration": {
+                    "app": 2,
+                    "integrationId": "40621044778",
+                    "status": "NotAvailable",
+                    "id": 28574305
+                },
+                "receiver": {
+                    "fullName": "Fernando Lopez Lopez",
+                    "identificationNumber": null,
+                    "phoneNumber": "XXXXXXX"
+                },
+                "id": 33496599
+            }],
+            "amount": 449,
+            "shippingCost": 0,
+            "financialCost": 0,
+            "paidApproved": 449,
+            "paymentStatus": "Approved",
+            "deliveryStatus": "PickingPending",
+            "paymentFulfillmentStatus": "Done",
+            "deliveryFulfillmentStatus": "Pending",
+            "deliveryMethod": "Ship",
+            "paymentTerm": "Advance",
+            "currency": "Local",
+            "customId": "40621044778",
+            "isOpen": true,
+            "isCanceled": false,
+            "cartId": "2000002654396374",
+            "hasAnyShipments": true,
+            "hasAnyPayments": true,
+            "date": "2021-06-03T21:05:54",
+            "notes": null,
+            "id": 60905934,
+            "logisticType": "MercadoEnvios Full"
+}

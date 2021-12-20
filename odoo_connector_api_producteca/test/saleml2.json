@@ -1,0 +1,199 @@
+{
+            "tags": [],
+            "integrations": [{
+                "alternateId": null,
+                "integrationId": "4616443031",
+                "app": 2
+            }],
+            "invoiceIntegration": null,
+            "channel": "2",
+            "contact": {
+                "name": "GASA8350369",
+                "contactPerson": "Sandra Garcia",
+                "mail": "interceptor+jDuxEdFbDmOBWdkJd8@producteca.com",
+                "phoneNumber": "XXXXXXX",
+                "taxId": null,
+                "location": {
+                    "streetName": "Domicilio Conocido SN",
+                    "streetNumber": "SN",
+                    "addressNotes": "SN Referencia: Por El Pozo De Agua Nuevo Entre: Calle Agua Fria",
+                    "state": "Estado De MÃ©xico",
+                    "city": "Chapa De Mota",
+                    "neighborhood": "Santa Elena",
+                    "zipCode": "54380",
+                    "stateId": "",
+                    "country": "Mexico"
+                },
+                "notes": null,
+                "type": "Customer",
+                "priceList": null,
+                "priceListId": null,
+                "profile": {
+                    "app": 2,
+                    "integrationId": "648545052",
+                    "nickname": null
+                },
+                "billingInfo": null,
+                "id": 125072248
+            },
+            "lines": [{
+                "price": 298,
+                "originalPrice": null,
+                "product": {
+                    "name": "Jeans Dama Seven Eleven Corte Colombiano ",
+                    "code": "",
+                    "brand": null,
+                    "id": 95407271
+                },
+                "variation": {
+                    "supplierCode": null,
+                    "pictures": [{
+                        "url": "http://http2.mlstatic.com/D_722921-MLM45729245652_042021-O.jpg",
+                        "id": 1061384071
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_877628-MLM45729257526_042021-O.jpg",
+                        "id": 1061384072
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_846072-MLM45729298338_042021-O.jpg",
+                        "id": 1061384073
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_675974-MLM45729280392_042021-O.jpg",
+                        "id": 1061384074
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_811170-MLM45729220744_042021-O.jpg",
+                        "id": 1061384075
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_715406-MLM45729245651_042021-O.jpg",
+                        "id": 1061384076
+                    }, {
+                        "url": "http://http2.mlstatic.com/D_803186-MLM45729274420_042021-O.jpg",
+                        "id": 1061384077
+                    }],
+                    "stocks": [{
+                        "warehouseId": null,
+                        "warehouse": "Default",
+                        "quantity": 15,
+                        "reserved": 0,
+                        "available": 15
+                    }, {
+                        "warehouseId": null,
+                        "warehouse": "MercadoEnvios Full",
+                        "quantity": 0,
+                        "reserved": 1,
+                        "available": -1
+                    }],
+                    "integrationId": 0,
+                    "attributesHash": null,
+                    "primaryColor": "MarrÃ³n claro",
+                    "secondaryColor": null,
+                    "size": "11",
+                    "thumbnail": "http://http2.mlstatic.com/D_722921-MLM45729245652_042021-T.jpg",
+                    "attributes": [{
+                        "key": "DiseÃ±o de la tela",
+                        "value": "- Tela strecht gruesa"
+                    }, {
+                        "key": "Talla",
+                        "value": "11"
+                    }, {
+                        "key": "Color",
+                        "value": "MarrÃ³n claro"
+                    }],
+                    "integrations": [{
+                        "variationId": null,
+                        "app": 2,
+                        "parentIntegrationId": "MLM811897089",
+                        "integrationId": "63114033159"
+                    }],
+                    "id": 241677976,
+                    "sku": "8927-TABA-11-SKC",
+                    "barcode": null
+                },
+                "quantity": 1,
+                "conversation": {
+                    "questions": []
+                },
+                "reserved": 1
+            }],
+            "warehouse": "MercadoEnvios Full",
+            "warehouseId": 460201,
+            "warehouseIntegration": {
+                "app": 2,
+                "status": "Locked",
+                "integrationId": null
+            },
+            "payments": [{
+                "date": "2021-06-03T20:46:03",
+                "amount": 298,
+                "couponAmount": 0,
+                "status": "Approved",
+                "method": "DebitCard",
+                "integration": {
+                    "integrationId": "15181519832",
+                    "app": 2
+                },
+                "transactionFee": 59.7,
+                "installments": 1,
+                "card": {
+                    "paymentNetwork": "debvisa",
+                    "firstSixDigits": 491566,
+                    "lastFourDigits": 4520,
+                    "cardholderIdentificationNumber": null,
+                    "cardholderIdentificationType": null,
+                    "cardholderName": "sandra garcia vilchis"
+                },
+                "notes": null,
+                "hasCancelableStatus": false,
+                "id": 42879596
+            }],
+            "shipments": [{
+                "date": "2021-06-03T20:46:07",
+                "products": [{
+                    "product": 95407271,
+                    "variation": 241677976,
+                    "quantity": 1
+                }],
+                "method": {
+                    "trackingNumber": "9050996301",
+                    "trackingUrl": "https://myaccount.mercadolibre.com.mx/purchases/4616443031/shipments/40621004854/detail",
+                    "courier": "MercadoEnvios",
+                    "mode": "EstÃ¡ndar a domicilio",
+                    "cost": 79.8,
+                    "type": "Ship",
+                    "eta": 0,
+                    "status": "PickingPending"
+                },
+                "integration": {
+                    "app": 2,
+                    "integrationId": "40621004854",
+                    "status": "NotAvailable",
+                    "id": 28573706
+                },
+                "receiver": {
+                    "fullName": "Sandra Garcia Vilchis",
+                    "identificationNumber": null,
+                    "phoneNumber": "XXXXXXX"
+                },
+                "id": 33495548
+            }],
+            "amount": 298,
+            "shippingCost": 0,
+            "financialCost": 0,
+            "paidApproved": 298,
+            "paymentStatus": "Approved",
+            "deliveryStatus": "PickingPending",
+            "paymentFulfillmentStatus": "Done",
+            "deliveryFulfillmentStatus": "Pending",
+            "deliveryMethod": "Ship",
+            "paymentTerm": "Advance",
+            "currency": "Local",
+            "customId": "40621004854",
+            "isOpen": true,
+            "isCanceled": false,
+            "cartId": null,
+            "hasAnyShipments": true,
+            "hasAnyPayments": true,
+            "date": "2021-06-03T20:46:05",
+            "notes": null,
+            "id": 60905221,
+            "logisticType": "MercadoEnvios Full"
+}
