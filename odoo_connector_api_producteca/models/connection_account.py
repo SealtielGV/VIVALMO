@@ -1499,14 +1499,14 @@ class ProductecaConnectionAccount(models.Model):
 
                             if dones:
                                 _logger.info("Creating invoice...")
-                                #invoices = self.env[acc_inv_model].search([('origin','=',so.name)])
+                                #invoices = self.env[acc_inv_model].search([('invoice_origin','=',so.name)])
                                 invoices = so.invoice_ids
 
                                 if not invoices:
                                     _logger.info("Creating new invoices")
                                     res = so.action_invoice_create(grouped=True) #agrupar por SO id
                                     _logger.info("invoice create res:"+str(res))
-                                    #invoices = self.env[acc_inv_model].search([('origin','=',so.name)])
+                                    #invoices = self.env[acc_inv_model].search([('invoice_origin','=',so.name)])
 
                                 if invoices:
                                     for inv in invoices:
