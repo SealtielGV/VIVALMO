@@ -85,6 +85,7 @@ class SaleOrder(models.Model):
         order = self
 
         #simulate invoice creation
+        invoice_vals_list = []
         invoice_vals = order._prepare_invoice()
         invoiceable_lines = order._get_invoiceable_lines(final=False)
         _logger.info("_prepare_invoice:"+str(invoice_vals))
@@ -100,9 +101,14 @@ class SaleOrder(models.Model):
             invoice_item_sequence += 1
         invoice_vals['invoice_line_ids'] += invoice_line_vals
         #invoice_vals_list.append(invoice_vals)        
-        _logger.info("invoice_line_vals:"+str(invoice_line_vals))        
+        _logger.info("invoice_line_vals:"+str(invoice_line_vals))   
+        
+        invoice_vals_list.append(invoice_vals)        
+        invoice_vals_list = order._move_autocomplete_invoice_lines_create(invoice_vals_list)
+        _logger.info("invoice_vals_list:"+str(invoice_vals_list))
+             
         #real creation
-        _invoices = order_create_invoices( super(SaleOrder,self), grouped=grouped, final=final )
+        _invoices = order_create_invoices( super(SaleOrder,self).with_context({'default_journal_id': invoice_vals['journal_id'] ), grouped=grouped, final=final )
         
         return _invoices
 
