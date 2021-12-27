@@ -108,7 +108,7 @@ class SaleOrder(models.Model):
         _logger.info("invoice_vals_list:"+str(invoice_vals_list))
              
         #real creation
-        _invoices = order_create_invoices( super(SaleOrder,self).with_context({'default_journal_id': invoice_vals['journal_id'] ), grouped=grouped, final=final )
+        _invoices = order_create_invoices( super(SaleOrder,self).with_context({'default_journal_id': invoice_vals['journal_id'] }), grouped=grouped, final=final )
         
         return _invoices
 
