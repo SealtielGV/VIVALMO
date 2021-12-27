@@ -45,6 +45,40 @@ class SaleOrder(models.Model):
                     if ret and 'name' in ret:
                         _logger.error(ret)
                         return ret
+                        
+    def producteca_deliver( self ):
+        _logger.info("producteca_deliver")
+        res= {}
+        if self.picking_ids:
+            for spick in self.picking_ids:
+                _logger.info(spick)
+                if (spick.move_line_ids):
+                    _logger.info(spick.move_line_ids)
+                    if (len(spick.move_line_ids)>=1):
+                        for pop in spick.move_line_ids:
+                            _logger.info(pop)
+                            if (pop.qty_done==0.0 and pop.product_qty>=0.0):
+                                pop.qty_done = pop.product_qty
+                        _logger.info("producteca_deliver > validating")
+                        try:
+                            spick.button_validate()
+                            spick.action_done()
+                            continue;
+                        except Exception as e:
+                            _logger.error("producteca_deliver > stock pick button_validate/action_done error"+str(e))
+                            res = { 'error': str(e) }
+                            pass;
+
+                        try:
+                            spick.action_assign()
+                            spick.button_validate()
+                            spick.action_done()
+                            continue;
+                        except Exception as e:
+                            _logger.error("stock pick action_assign/button_validate/action_done error"+str(e))
+                            res = { 'error': str(e) }
+                            pass;
+        return res
 
 class SaleOrderLine(models.Model):
 

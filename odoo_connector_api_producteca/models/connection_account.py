@@ -1447,6 +1447,7 @@ class ProductecaConnectionAccount(models.Model):
 
                 if "_shipment" in account.configuration.import_sales_action:
                     if so.state in ['sale','done']:
+                        _logger.info("Shipment confirm")
                         dones = False
                         cancels = False
                         drafts = False
@@ -1470,10 +1471,12 @@ class ProductecaConnectionAccount(models.Model):
                             if dones:
                                 _logger.info("Shipment complete")
                             else:
-                                _logger.info("Shipment not complete: TODO: make an action, dones:"+str(False)+" drafts: "+str(drafts)+" cancels:"+str(cancels))
+                                _logger.info("Shipment not complete: TODO: make an action, dones:"+str(dones)+" drafts: "+str(drafts)+" cancels:"+str(cancels))
+                                so.producteca_deliver()
 
                 if "_invoice" in account.configuration.import_sales_action:
                     if so.state in ['sale','done']:
+                        _logger.info("Invoice confirm")
                         dones = False
                         cancels = False
                         drafts = False
