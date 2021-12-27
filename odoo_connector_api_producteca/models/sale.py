@@ -80,6 +80,12 @@ class SaleOrder(models.Model):
                             pass;
         return res
 
+    def action_invoice_create(self, grouped=False, final=False):
+
+        _invoices = order_create_invoices( super(SaleOrder,self), grouped=grouped, final=final )
+        
+        return _invoices
+
 class SaleOrderLine(models.Model):
 
     _inherit = "sale.order.line"
