@@ -26,6 +26,7 @@ _logger = logging.getLogger(__name__)
 import pdb
 from .warning import warning
 import requests
+from .versions import *
 
 class SaleOrder(models.Model):
 
