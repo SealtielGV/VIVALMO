@@ -63,7 +63,7 @@ class SaleOrder(models.Model):
                         _logger.info("producteca_deliver > validating")
                         try:
                             spick.button_validate()
-                            spick.action_done()
+                            #spick.action_done()
                             continue;
                         except Exception as e:
                             _logger.error("producteca_deliver > stock pick button_validate/action_done error"+str(e))
@@ -73,7 +73,7 @@ class SaleOrder(models.Model):
                         try:
                             spick.action_assign()
                             spick.button_validate()
-                            spick.action_done()
+                            #spick.action_done()
                             continue;
                         except Exception as e:
                             _logger.error("stock pick action_assign/button_validate/action_done error"+str(e))

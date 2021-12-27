@@ -1504,7 +1504,7 @@ class ProductecaConnectionAccount(models.Model):
 
                                 if not invoices:
                                     _logger.info("Creating new invoices")
-                                    res = so.action_invoice_create()
+                                    res = so.action_invoice_create(grouped=True) #agrupar por SO id
                                     _logger.info("invoice create res:"+str(res))
                                     #invoices = self.env[acc_inv_model].search([('origin','=',so.name)])
 
