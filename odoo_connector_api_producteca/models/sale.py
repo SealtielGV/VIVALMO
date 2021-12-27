@@ -90,16 +90,17 @@ class SaleOrder(models.Model):
         _logger.info("_prepare_invoice:"+str(invoice_vals))
         _logger.info("_get_invoiceable_lines:"+str(invoiceable_lines))        
         invoice_line_vals = []
+        invoice_item_sequence = 0
         for line in invoiceable_lines:
             invoice_line_vals.append(
                 (0, 0, line._prepare_invoice_line(
                     sequence=invoice_item_sequence,
                 )),
             )
+            invoice_item_sequence += 1
         invoice_vals['invoice_line_ids'] += invoice_line_vals
         #invoice_vals_list.append(invoice_vals)        
-        _logger.info("invoice_line_vals:"+str(invoice_line_vals))
-        
+        _logger.info("invoice_line_vals:"+str(invoice_line_vals))        
         #real creation
         _invoices = order_create_invoices( super(SaleOrder,self), grouped=grouped, final=final )
         
