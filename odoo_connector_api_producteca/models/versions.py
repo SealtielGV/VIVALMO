@@ -149,3 +149,6 @@ def set_delivery_line( sorder, delivery_price, delivery_message ):
     	'delivery_message': delivery_message,
     })
     return oline
+    
+def order_create_invoices( sale_order, grouped=False, final=False ):
+	return sale_order._create_invoices(grouped=grouped, final=final)

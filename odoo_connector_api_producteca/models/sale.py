@@ -26,6 +26,7 @@ _logger = logging.getLogger(__name__)
 import pdb
 from .warning import warning
 import requests
+from .versions import *
 
 class SaleOrder(models.Model):
 
@@ -45,6 +46,72 @@ class SaleOrder(models.Model):
                     if ret and 'name' in ret:
                         _logger.error(ret)
                         return ret
+                        
+    def producteca_deliver( self ):
+        _logger.info("producteca_deliver")
+        res= {}
+        if self.picking_ids:
+            for spick in self.picking_ids:
+                _logger.info(spick)
+                if (spick.move_line_ids):
+                    _logger.info(spick.move_line_ids)
+                    if (len(spick.move_line_ids)>=1):
+                        for pop in spick.move_line_ids:
+                            _logger.info(pop)
+                            if (pop.qty_done==0.0 and pop.product_qty>=0.0):
+                                pop.qty_done = pop.product_qty
+                        _logger.info("producteca_deliver > validating")
+                        try:
+                            spick.button_validate()
+                            #spick.action_done()
+                            continue;
+                        except Exception as e:
+                            _logger.error("producteca_deliver > stock pick button_validate/action_done error"+str(e))
+                            res = { 'error': str(e) }
+                            pass;
+
+                        try:
+                            spick.action_assign()
+                            spick.button_validate()
+                            #spick.action_done()
+                            continue;
+                        except Exception as e:
+                            _logger.error("stock pick action_assign/button_validate/action_done error"+str(e))
+                            res = { 'error': str(e) }
+                            pass;
+        return res
+
+    def action_invoice_create(self, grouped=False, final=False):
+        order = self
+
+        #simulate invoice creation
+        invoice_vals_list = []
+        invoice_vals = order._prepare_invoice()
+        invoiceable_lines = order._get_invoiceable_lines(final=False)
+        _logger.info("_prepare_invoice:"+str(invoice_vals))
+        _logger.info("_get_invoiceable_lines:"+str(invoiceable_lines))        
+        invoice_line_vals = []
+        invoice_item_sequence = 0
+        for line in invoiceable_lines:
+            invoice_line_vals.append(
+                (0, 0, line._prepare_invoice_line(
+                    sequence=invoice_item_sequence,
+                )),
+            )
+            invoice_item_sequence += 1
+        invoice_vals['invoice_line_ids'] += invoice_line_vals
+        #invoice_vals_list.append(invoice_vals)        
+        _logger.info("invoice_line_vals:"+str(invoice_line_vals))   
+        
+        invoice_vals_list.append(invoice_vals)        
+        _logger.info("invoice_vals_list:"+str(invoice_vals_list))
+        invoice_vals_list = self.env["account.move"]._move_autocomplete_invoice_lines_create(invoice_vals_list)
+        _logger.info("invoice_vals_list:"+str(invoice_vals_list))
+             
+        #real creation
+        _invoices = order_create_invoices( super(SaleOrder,self).with_context({'default_journal_id': invoice_vals['journal_id'] }), grouped=grouped, final=final )
+        
+        return _invoices
 
 class SaleOrderLine(models.Model):
 
