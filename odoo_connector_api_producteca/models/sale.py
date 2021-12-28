@@ -104,6 +104,7 @@ class SaleOrder(models.Model):
         _logger.info("invoice_line_vals:"+str(invoice_line_vals))   
         
         invoice_vals_list.append(invoice_vals)        
+        _logger.info("invoice_vals_list:"+str(invoice_vals_list))
         invoice_vals_list = self.env["account.move"]._move_autocomplete_invoice_lines_create(invoice_vals_list)
         _logger.info("invoice_vals_list:"+str(invoice_vals_list))
              
