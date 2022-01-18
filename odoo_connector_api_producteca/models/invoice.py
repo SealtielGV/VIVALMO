@@ -96,7 +96,7 @@ class Invoice(models.Model):
     def create(self, vals_list):
         _logger.info("vals_list: "+str(vals_list))
         if ('ref' in vals_list and vals_list['ref'] and "PR-" in vals_list['ref'] and not 'producteca_order_binding_id' in vals_list):
-            vals_list['producteca_order_binding_id'] = self.env["producteca.sale_order"].search([('name','like',vals_list['ref'])], limit=1)
+            vals_list['producteca_order_binding_id'] =  self.env["producteca.sale_order"].search([('name','like',vals_list['ref'])], limit=1).id
         rslt = super(Invoice, self).create(vals_list)
         _logger.info("rslt: "+str(rslt))
         return rslt
