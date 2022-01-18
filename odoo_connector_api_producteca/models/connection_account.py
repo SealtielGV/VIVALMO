@@ -1048,6 +1048,10 @@ class ProductecaConnectionAccount(models.Model):
             if (account and account.configuration and "seller_team" in account.configuration._fields and account.configuration.seller_team):
                 sale_order_fields["team_id"] = account.configuration.seller_team.id
 
+            if (1==1): #VIVALMO
+                sale_order_fields["x_studio_referencia"] = fields['name']
+                sale_order_fields["analytic_account_id"] = channel_binding_id.analytic_account_id and channel_binding_id.analytic_account_id.id
+
             if chan:
                 sale_order_fields['name'] = fields['name']
 
@@ -1062,6 +1066,9 @@ class ProductecaConnectionAccount(models.Model):
                 _logger.info("Creating order")
                 _logger.info(sale_order_fields)
                 so = self.env["sale.order"].create(sale_order_fields)
+
+            if so and 1==1:
+                so.commitment_date = so.date_order
 
         #process "lines"
         if "lines" in sale and pso:

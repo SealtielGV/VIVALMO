@@ -60,6 +60,8 @@ class ProductectaChannelBinding(models.Model):
     #sequence_id = fields.Many2one('ir.sequence', string='Order Sequence',
     #    help="Order labelling for this channel", copy=False)
 
+    analytic_account_id = fields.Many2one("account.analytic.account",string="Cuenta Analitica")
+
 
 class ProductecaConnectionConfiguration(models.Model):
 

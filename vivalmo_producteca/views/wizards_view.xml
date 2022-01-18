@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+          
+          <!-- INVOICE SIGN -->
+          <!-- View wizard FORM  - Invoice Process-->
+          <record id="view_vivalmo_producteca_invoice_wiz" model="ir.ui.view">
+                <field name="name">Process Invoice Wiz Form</field>
+                <field name="model">vivalmo.producteca.invoice.wiz</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                  <form string="Invoice Process">
+                      <h2>Procesar Facturas</h2>
+                      <group>
+                        <group>
+                          <field name="open_invoice"/>
+                          <field name="sign_invoice"/>
+                        </group>
+                      </group>
+                      <footer>
+                          <button name="invoice_process" string="Procesar"  type="object" class="oe_highlight"  />
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                      </footer>
+                  </form>
+                </field>
+          </record>
+          <!-- Action wizard - Add to Connector: MercadoLibre-->
+          <record id="action_vivalmo_producteca_invoice_wiz" model="ir.actions.act_window">
+              <field name="name">Procesar Facturas</field>
+              <field name="type">ir.actions.act_window</field>
+              <!--field name="src_model">product.product</field-->
+              <field name="res_model">vivalmo.producteca.invoice.wiz</field>
+              <!--field name="view_type">form</field-->
+              <field name="view_mode">form</field>
+              <field name="target">new</field>
+          </record>
+          <act_window id="action_vivalmo_producteca_invoice_wiz"
+              name="Producteca Invoice Process"
+              binding_model="account.invoice"
+              res_model="vivalmo.producteca.invoice.wiz"
+              view_id="view_vivalmo_producteca_invoice_wiz"
+              view_mode="form"
+              binding_views="list,form"
+              target="new"/>
+  
+    </data>
+</odoo>

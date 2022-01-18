@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vivalmo_producteca_invoice_wiz,vivalmo.producteca.invoice.wiz.vivalmo.producteca.invoice.wiz manager,model_vivalmo_producteca_invoice_wiz,odoo_connector_api_producteca.group_producteca_connectors_manager,1,1,1,1
