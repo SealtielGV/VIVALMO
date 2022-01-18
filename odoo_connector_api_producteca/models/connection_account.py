@@ -939,7 +939,7 @@ class ProductecaConnectionAccount(models.Model):
                 client.write( { "partner_id": partner_id.id } )
 
             if (chanbinded and "partner_account_receive_id" in chanbinded._fields and chanbinded.partner_account_receive_id):
-                partner_id.sudo().write({"partner_account_receive_id": chanbinded.partner_account_receive_id.id })
+                partner_id.sudo().write({"property_account_receivable_id": chanbinded.partner_account_receive_id.id })
 
             #"docType": "RFC",
             #"docNumber": "24827151",
