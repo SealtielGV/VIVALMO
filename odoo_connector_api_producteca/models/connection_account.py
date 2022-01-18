@@ -1050,6 +1050,7 @@ class ProductecaConnectionAccount(models.Model):
 
             if (1==1): #VIVALMO
                 sale_order_fields["x_studio_referencia"] = fields['name']
+                sale_order_fields["client_order_ref"] = fields['name']
                 sale_order_fields["analytic_account_id"] = channel_binding_id.analytic_account_id and channel_binding_id.analytic_account_id.id
 
             if chan:
