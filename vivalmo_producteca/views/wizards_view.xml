@@ -36,7 +36,7 @@
           </record>
           <act_window id="action_vivalmo_producteca_invoice_wiz"
               name="Producteca Invoice Process"
-              binding_model="account.invoice"
+              binding_model="account.move"
               res_model="vivalmo.producteca.invoice.wiz"
               view_id="view_vivalmo_producteca_invoice_wiz"
               view_mode="form"
