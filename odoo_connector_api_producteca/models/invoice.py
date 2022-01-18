@@ -95,8 +95,8 @@ class Invoice(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         _logger.info("vals_list: "+str(vals_list))
-        if ('ref' in vals_list and vals_list['ref'] and "PR-" in vals_list['ref'] and not 'producteca_order_binding_id' in vals_list):
-            vals_list['producteca_order_binding_id'] =  self.env["producteca.sale_order"].search([('name','like',vals_list['ref'])], limit=1).id
+        if ('ref' in vals_list[0] and vals_list[0]['ref'] and "PR-" in vals_list[0]['ref'] and not 'producteca_order_binding_id' in vals_list[0]):
+            vals_list[0]['producteca_order_binding_id'] =  self.env["producteca.sale_order"].search([('name','like',vals_list[0]['ref'])], limit=1).id
             _logger.info("vals_list: "+str(vals_list) )
         rslt = super(Invoice, self).create(vals_list)
         _logger.info("rslt: "+str(rslt))
