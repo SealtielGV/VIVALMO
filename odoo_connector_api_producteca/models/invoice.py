@@ -91,3 +91,12 @@ class Invoice(models.Model):
                 template.attachment_ids = [(6, 0, archivos_ids)]
             template.send_mail(self.id, force_send=True)
             template.attachment_ids = [(5, 0, [])]
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        rslt = super(AccountMove, self).create(vals_list)
+        if ("PR-" in self.ref and not self.producteca_order_binding_id):
+            self.producteca_order_binding_id = self.env["producteca.sale_order"].search([('name','like',self.ref)], limit=1)
+        return rslt
+    #def action_post( self ):
+    #    super( Invoice, self ).action_post()

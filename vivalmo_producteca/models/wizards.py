@@ -14,8 +14,8 @@ class InvoiceOpenSign(models.TransientModel):
     _description = "Wizard de validacion masiva de facturas"
 
     #connectors = fields.Many2many("ocapi.connection.account", string='Connectors')
-    open_invoice = fields.Boolean(string="Open Invoice",default=True)
-    sign_invoice = fields.Boolean(string="Sign Invoice",default=True)
+    open_invoice = fields.Boolean(string="Publicar / Open",default=True)
+    sign_invoice = fields.Boolean(string="Timbrar / Sign",default=True)
     
     def invoice_process(self, context=None):
 
@@ -31,6 +31,10 @@ class InvoiceOpenSign(models.TransientModel):
             invoice = invoice_obj.browse(invoice_id)
             if invoice:
                 _logger.info("Processing invoice: "+str(invoice_id.name))
+                if self.open_invoice:
+                    invoice.action_post()
+                if self.sign_invoice:
+                    invoice.action_process_edi_web_services()
 
             
             
