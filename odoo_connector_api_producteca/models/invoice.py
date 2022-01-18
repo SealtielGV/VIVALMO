@@ -94,9 +94,9 @@ class Invoice(models.Model):
 
     def producteca_fix_invoice( self, vals_list, pso ):
         if (pso and pso.channel_binding_id):
-            if ("l10n_mx_edi_usage" in vals_list[0] and "l10n_mx_edi_usage" in pso.channel_binding_id._fields):
+            if (not "l10n_mx_edi_usage" in vals_list[0] and "l10n_mx_edi_usage" in pso.channel_binding_id._fields):
                 vals_list[0]["l10n_mx_edi_usage"] = pso.channel_binding_id.l10n_mx_edi_usage
-            if ("l10n_mx_edi_payment_method_id" in vals_list[0] and "l10n_mx_edi_payment_method_id" in pso.channel_binding_id._fields):
+            if (not "l10n_mx_edi_payment_method_id" in vals_list[0] and "l10n_mx_edi_payment_method_id" in pso.channel_binding_id._fields):
                 vals_list[0]["l10n_mx_edi_payment_method_id"] = pso.channel_binding_id.l10n_mx_edi_payment_method_id and pso.channel_binding_id.l10n_mx_edi_payment_method_id.id
 
         return vals_list
