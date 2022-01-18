@@ -95,7 +95,9 @@ class Invoice(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         rslt = super(Invoice, self).create(vals_list)
-        if ("PR-" in self.ref and not self.producteca_order_binding_id):
+        _logger.info("vals_list: "+str(vals_list))
+        _logger.info("rslt: "+str(rslt))
+        if (self.ref and "PR-" in self.ref and not self.producteca_order_binding_id):
             self.producteca_order_binding_id = self.env["producteca.sale_order"].search([('name','like',self.ref)], limit=1)
         return rslt
     #def action_post( self ):
