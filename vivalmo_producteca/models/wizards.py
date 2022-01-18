@@ -6,7 +6,7 @@ from odoo import api, models, fields
 import logging
 
 _logger = logging.getLogger(__name__)
-from odoo.addons.odoo_connector_api_producteca.versions import *
+from odoo.addons.odoo_connector_api_producteca.models.versions import *
 
 class InvoiceOpenSign(models.TransientModel):
 
