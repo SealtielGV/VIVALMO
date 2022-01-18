@@ -30,7 +30,7 @@ class InvoiceOpenSign(models.TransientModel):
         for invoice_id in invoice_ids:
             invoice = invoice_obj.browse(invoice_id)
             if invoice:
-                _logger.info("Processing invoice: "+str(invoice_id.name))
+                _logger.info("Processing invoice: "+str(invoice.name))
                 if self.open_invoice:
                     invoice.action_post()
                 if self.sign_invoice:
