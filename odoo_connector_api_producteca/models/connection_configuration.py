@@ -61,6 +61,8 @@ class ProductectaChannelBinding(models.Model):
     #    help="Order labelling for this channel", copy=False)
 
     analytic_account_id = fields.Many2one("account.analytic.account",string="Cuenta Analitica")
+    l10n_mx_edi_usage = fields.Char(string="Uso",default="G03")
+    l10n_mx_edi_payment_method_id = fields.Many2one("l10n_mx_edi.payment.method",string="Forma de pago")
 
 
 class ProductecaConnectionConfiguration(models.Model):

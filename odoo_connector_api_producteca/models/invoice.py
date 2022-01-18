@@ -92,11 +92,26 @@ class Invoice(models.Model):
             template.send_mail(self.id, force_send=True)
             template.attachment_ids = [(5, 0, [])]
 
+    def producteca_fix_invoice( self, vals_list, pso ):
+        if (pso and pso.channel_binding_id):
+            if ("l10n_mx_edi_usage" in vals_list[0] and "l10n_mx_edi_usage" in pso.channel_binding_id._fields):
+                vals_list[0]["l10n_mx_edi_usage"] = pso.channel_binding_id.l10n_mx_edi_usage
+            if ("l10n_mx_edi_payment_method_id" in vals_list[0] and "l10n_mx_edi_payment_method_id" in pso.channel_binding_id._fields):
+                vals_list[0]["l10n_mx_edi_payment_method_id"] = pso.channel_binding_id.l10n_mx_edi_payment_method_id and pso.channel_binding_id.l10n_mx_edi_payment_method_id.id
+
+        return vals_list
+
     @api.model_create_multi
     def create(self, vals_list):
         _logger.info("vals_list: "+str(vals_list))
-        if ('ref' in vals_list[0] and vals_list[0]['ref'] and "PR-" in vals_list[0]['ref'] and not 'producteca_order_binding_id' in vals_list[0]):
-            vals_list[0]['producteca_order_binding_id'] =  self.env["producteca.sale_order"].search([('name','like',vals_list[0]['ref'])], limit=1).id
+        if ( 'ref' in vals_list[0] and vals_list[0]['ref'] and "PR-" in vals_list[0]['ref'] ):
+            pso = self.env["producteca.sale_order"].search([('name','like',vals_list[0]['ref'])], limit=1)
+            if (pso and not 'producteca_order_binding_id' in vals_list[0]):
+                vals_list[0]['producteca_order_binding_id'] =  pso.id
+
+            if (pso):
+                vals_list = self.producteca_fix_invoice( vals_list, pso )
+
             _logger.info("vals_list: "+str(vals_list) )
         rslt = super(Invoice, self).create(vals_list)
         _logger.info("rslt: "+str(rslt))
