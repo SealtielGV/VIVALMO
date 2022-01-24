@@ -1043,10 +1043,12 @@ class ProductecaConnectionAccount(models.Model):
                 'warehouse_id': (whouse and whouse.id),
                 'company_id': (company and company.id)
             }
-            if (account and account.configuration and account.configuration.seller_user):
-                sale_order_fields["user_id"] = account.configuration.seller_user.id
-            if (account and account.configuration and "seller_team" in account.configuration._fields and account.configuration.seller_team):
-                sale_order_fields["team_id"] = account.configuration.seller_team.id
+            seller_user = (chanbinded and "seller_user" in chanbinded._fields and chanbinded.seller_user) or (account and account.configuration and account.configuration.seller_user)
+            seller_team = (chanbinded and "seller_team" in chanbinded._fields and chanbinded.seller_team) or (account and account.configuration and account.configuration.seller_team)
+            if (seller_user):
+                sale_order_fields["user_id"] = seller_user.id
+            if (seller_team):
+                sale_order_fields["team_id"] = seller_team.id
 
             if (1==1): #VIVALMO
                 sale_order_fields["x_studio_referencia"] = fields['name']
