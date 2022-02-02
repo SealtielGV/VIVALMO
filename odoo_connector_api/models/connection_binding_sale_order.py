@@ -84,7 +84,7 @@ class OcapiConnectionBindingSaleOrder(models.Model):
     _inherit = "ocapi.connection.binding"
 
     name = fields.Char(string="Connector Order Name",index=True)
-    status = fields.Selection( [
+    state = fields.Selection( selection=[
         #Initial state of an order, and it has no payment yet.
                                         ("confirmed","Confirmado"),
         #The order needs a payment to become confirmed and show users information.
@@ -94,7 +94,7 @@ class OcapiConnectionBindingSaleOrder(models.Model):
         #The order has a related payment and it has been accredited.
                                     ("paid","Pagado"),
         #The order has not completed by some reason.
-                                    ("cancelled","Cancelado")], string='Order Status');
+                                    ("cancelled","Cancelado")], string='Order State')
     sale_order = fields.Many2one("sale.order",string="Sale Order")
 
     date_created = fields.Datetime(string="Date Created",index=True)

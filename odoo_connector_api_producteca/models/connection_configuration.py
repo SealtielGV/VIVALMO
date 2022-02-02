@@ -60,6 +60,13 @@ class ProductectaChannelBinding(models.Model):
     #sequence_id = fields.Many2one('ir.sequence', string='Order Sequence',
     #    help="Order labelling for this channel", copy=False)
 
+    analytic_account_id = fields.Many2one("account.analytic.account",string="Cuenta Analitica")
+    l10n_mx_edi_usage = fields.Char(string="Uso",default="G03")
+    l10n_mx_edi_payment_method_id = fields.Many2one("l10n_mx_edi.payment.method",string="Forma de pago")
+
+    seller_user = fields.Many2one("res.users", string="Vendedor", help="Usuario con el que se registrarán las órdenes automáticamente")
+    seller_team = fields.Many2one("crm.team", string="Equipo de venta", help="Equipo de ventas para ordenes de venta")
+
 
 class ProductecaConnectionConfiguration(models.Model):
 

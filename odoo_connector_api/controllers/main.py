@@ -19,7 +19,7 @@ from odoo.addons.web.controllers.main import Binary
 
 class OcapiAuthorize(http.Controller):
 
-    @http.route('/ocapi/<string:connector>/auth', auth='public', type='json', method='POST', csrf=False, cors='*')
+    @http.route('/ocapi/<string:connector>/auth', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def authorize(self, connector, **post):
         #POST api user id and token, create id based on URL if need to create one
         #check all connectors
@@ -45,7 +45,7 @@ class OcapiCatalog(http.Controller):
     '/ocapi/<string:connector>/img/<string:productid>/<string:sku>',
     '/ocapi/<string:connector>/img/<string:productid>/<string:sku>/<string:imgid>',
     '/ocapi/<string:connector>/img/<string:productid>/<string:sku>/<string:imgid>/<string:quality>'],
-                auth='public', type='http', method='GET', csrf=False, cors='*')
+                auth='public', type='http', methods=['GET'], csrf=False, cors='*')
     def get_ocapi_image( self, connector, productid, sku=None, imgid=None, quality=None ):
         _logger.info("get_ocapi_image")
         _logger.info(str(connector))
@@ -140,7 +140,7 @@ class OcapiCatalog(http.Controller):
         return response
 
 
-    @http.route('/ocapi/<string:connector>/connection', auth='public', type='json', method='POST', csrf=False, cors='*')
+    @http.route('/ocapi/<string:connector>/connection', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def get_connection_account( self, connector, **post ):
 
         access_token = post.get("access_token")
@@ -160,7 +160,7 @@ class OcapiCatalog(http.Controller):
 
         return connection_account
 
-    @http.route('/ocapi/<string:connector>/catalog', auth='public', type='json', method='POST', csrf=False, cors='*')
+    @http.route('/ocapi/<string:connector>/catalog', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def catalog(self, connector, **post):
         _logger.info("catalog: "+str(connector))
         _logger.info(post)
@@ -171,7 +171,7 @@ class OcapiCatalog(http.Controller):
         #filter products using connection account and configuration bindings
         return connection.list_catalog(**post)
 
-    @http.route('/ocapi/<string:connector>/pricestock', auth='public', type='json', method='POST', csrf=False, cors='*')
+    @http.route('/ocapi/<string:connector>/pricestock', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def pricestock(self, connector, **post):
         _logger.info("pricestock: "+str(connector))
         _logger.info(post)
@@ -182,7 +182,7 @@ class OcapiCatalog(http.Controller):
             return {}
         return connection.list_pricestock(**post)
 
-    @http.route('/ocapi/<string:connector>/pricelist', auth='public', type='json', method='POST', csrf=False, cors='*')
+    @http.route('/ocapi/<string:connector>/pricelist', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def pricelist(self, connector, **post):
         _logger.info("pricelist: "+str(connector))
         _logger.info(post)
@@ -191,7 +191,7 @@ class OcapiCatalog(http.Controller):
             return {}
         return connection.list_pricelist(**post)
 
-    @http.route('/ocapi/<string:connector>/stock', auth='public', type='json', method='POST', csrf=False, cors='*')
+    @http.route('/ocapi/<string:connector>/stock', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def stock(self, connector, **post):
         _logger.info("stock: "+str(connector))
         _logger.info(post)
@@ -200,7 +200,7 @@ class OcapiCatalog(http.Controller):
             return {}
         return connection.list_stock(**post)
 
-    @http.route('/ocapi/<string:connector>/sales', auth='public', type='json', method='POST', csrf=False, cors='*')
+    @http.route('/ocapi/<string:connector>/sales', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def sales(self, connector, **post):
         _logger.info("sales: "+str(connector))
         _logger.info(post)

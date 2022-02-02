@@ -939,7 +939,7 @@ class ProductecaConnectionAccount(models.Model):
                 client.write( { "partner_id": partner_id.id } )
 
             if (chanbinded and "partner_account_receive_id" in chanbinded._fields and chanbinded.partner_account_receive_id):
-                partner_id.sudo().write({"partner_account_receive_id": chanbinded.partner_account_receive_id.id })
+                partner_id.sudo().write({"property_account_receivable_id": chanbinded.partner_account_receive_id.id })
 
             #"docType": "RFC",
             #"docNumber": "24827151",
@@ -1043,10 +1043,17 @@ class ProductecaConnectionAccount(models.Model):
                 'warehouse_id': (whouse and whouse.id),
                 'company_id': (company and company.id)
             }
-            if (account and account.configuration and account.configuration.seller_user):
-                sale_order_fields["user_id"] = account.configuration.seller_user.id
-            if (account and account.configuration and "seller_team" in account.configuration._fields and account.configuration.seller_team):
-                sale_order_fields["team_id"] = account.configuration.seller_team.id
+            seller_user = (chanbinded and "seller_user" in chanbinded._fields and chanbinded.seller_user) or (account and account.configuration and account.configuration.seller_user)
+            seller_team = (chanbinded and "seller_team" in chanbinded._fields and chanbinded.seller_team) or (account and account.configuration and account.configuration.seller_team)
+            if (seller_user):
+                sale_order_fields["user_id"] = seller_user.id
+            if (seller_team):
+                sale_order_fields["team_id"] = seller_team.id
+
+            if (1==1 and "x_studio_referencia" in self.env["sale.order"]._fields): #VIVALMO
+                sale_order_fields["x_studio_referencia"] = fields['name']
+                sale_order_fields["client_order_ref"] = fields['name']
+                sale_order_fields["analytic_account_id"] = chanbinded.analytic_account_id and chanbinded.analytic_account_id.id
 
             if chan:
                 sale_order_fields['name'] = fields['name']
@@ -1062,6 +1069,9 @@ class ProductecaConnectionAccount(models.Model):
                 _logger.info("Creating order")
                 _logger.info(sale_order_fields)
                 so = self.env["sale.order"].create(sale_order_fields)
+
+            if so and 1==1 and "x_studio_referencia" in self.env["sale.order"]._fields:
+                so.commitment_date = so.date_order
 
         #process "lines"
         if "lines" in sale and pso:
