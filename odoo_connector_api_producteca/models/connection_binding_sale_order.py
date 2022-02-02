@@ -399,6 +399,7 @@ class ProductecaConnectionBindingSaleOrder(models.Model):
     sale_notifications = fields.One2many("producteca.notification","producteca_sale_order",string="Notifications")
 
     #id connector_id
+    status = fields.Selection(string="Status",related="state")
 
     channel = fields.Char(string="Channel",index=True)
     channel_id = fields.Many2one( "producteca.channel", string="Channel Object")
