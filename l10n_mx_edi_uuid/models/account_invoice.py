@@ -23,7 +23,7 @@ class AccountMove(models.Model):
         uuid_domain = self._search_l10n_mx_edi_cfdi_uuid(
             operator='=', value=name)
         invoices = self.search(uuid_domain + args, limit=limit)
-        res = invoices.name_get()
+        res = invoices.ids
         if not invoices:
             res = super(AccountMove, self)._name_search(
                 name, args, operator, limit, name_get_uid)
@@ -64,9 +64,10 @@ class AccountMove(models.Model):
                           else '|')
         return domain
 
-    @api.depends('l10n_mx_edi_cfdi_name')
+    @api.depends('edi_document_ids')
     def _compute_l10n_mx_edi_cfdi_uuid(self, return_dict=None):
         if not self.ids:
+            self.l10n_mx_edi_cfdi_uuid = False
             return {}
         self.env.cr.execute("""
             SELECT res_id, l10n_mx_edi_cfdi_uuid
@@ -81,7 +82,7 @@ class AccountMove(models.Model):
         for inv in self:
             inv.l10n_mx_edi_cfdi_uuid = res.get(inv.id)
 
-    @api.constrains('state', 'l10n_mx_edi_cfdi_name')
+    @api.constrains('state', 'edi_document_ids')
     def _check_uuid_duplicated(self):
         invoices = self.exists()
         mx_invoices = invoices.filtered(
@@ -95,7 +96,7 @@ class AccountMove(models.Model):
             return
         query = """
             SELECT
-                MIN(l10n_mx_edi_cfdi_uuid), array_agg(DISTINCT inv.id)
+                MIN(l10n_mx_edi_cfdi_uuid || inv.move_type) as uuid, array_agg(DISTINCT inv.id)
             FROM
                 ir_attachment att
             INNER JOIN
@@ -106,7 +107,7 @@ class AccountMove(models.Model):
                 AND l10n_mx_edi_cfdi_uuid IS NOT NULL
                 AND inv.company_id = %%s
             %s
-            GROUP BY trim(upper(l10n_mx_edi_cfdi_uuid))
+            GROUP BY trim(upper(l10n_mx_edi_cfdi_uuid || inv.move_type))
             HAVING count(DISTINCT inv.id) >= 2
         """
         params = (self._name, tuple(to_omit), self.env.user.company_id.id)
@@ -135,7 +136,7 @@ class AccountMove(models.Model):
         if msg:
             raise ValidationError(msg)
 
-    @api.depends('l10n_mx_edi_cfdi_name', 'l10n_mx_edi_pac_status')
+    @api.depends('edi_document_ids')
     def _compute_cfdi_values(self):
         """Inherit method to re-compute the field `l10n_mx_edi_cfdi_uuid` that is also set in this method.
         """

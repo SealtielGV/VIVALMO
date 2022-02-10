@@ -3,7 +3,6 @@
 import base64
 
 from lxml import etree
-from lxml.objectify import fromstring
 
 from odoo import api, fields, models
 
@@ -25,47 +24,31 @@ class IrAttachment(models.Model):
             ('res_model', 'in', ['account.move', 'account.payment']),
             '|', ('name', '=ilike', '%.xml'), ('name', 'not like', '.')
         ])
-        attachments = uuid_attachments.filtered('datas')
-        attachments_skipped = uuid_attachments - attachments
-        account_move = self.env['account.move']
-        moves = account_move.search([
-            ('l10n_mx_edi_cfdi_name', '=', False),
-            ('id', 'in', attachments.filtered(lambda a: a.res_model == 'account.move').mapped('res_id'))
-        ])
-        payments = self.env['account.payment'].search([
-            ('l10n_mx_edi_cfdi_name', '=', False),
-            ('id', 'in', attachments.filtered(lambda a: a.res_model == 'account.payment').mapped('res_id'))
-        ])
-
-        for attach in attachments:
-            cfdi = base64.decodestring(attach.datas).replace(
+        attachments_skipped = self.browse()
+        for attach in uuid_attachments:
+            if not attach.datas:
+                attachments_skipped |= attach
+                continue
+            cfdi = base64.decodebytes(attach.datas).replace(
                 b'xmlns:schemaLocation', b'xsi:schemaLocation')
+            model = self.env[attach.res_model].browse(attach.res_id)
             try:
-                tree = fromstring(cfdi)
-            except etree.XMLSyntaxError:
+                tree = (model if model._name == 'account.move' else model.move_id)._l10n_mx_edi_decode_cfdi(cfdi)
+            except (etree.XMLSyntaxError, AttributeError):
                 # it is a invalid xml
                 attachments_skipped |= attach
                 continue
 
-            tfd_node = account_move.l10n_mx_edi_get_tfd_etree(tree)
-            if tfd_node is None:
+            if not tree.get('uuid'):
                 # It is not a signed xml
                 attachments_skipped |= attach
                 continue
             attach.with_context(force_l10n_mx_edi_cfdi_uuid=True).write({
-                'l10n_mx_edi_cfdi_uuid': tfd_node.get('UUID', '').upper().strip()})
-
-            record = self.env[attach.res_model].browse(attach.res_id) if (
-                attach.res_id in moves.ids and attach.res_model == 'account.move') or (
-                attach.res_id in payments.ids and attach.res_model == 'account.payment') else False
-
-            if record:
-                record.l10n_mx_edi_cfdi_name = attach.name
-
-        (self - attachments + attachments_skipped).with_context(
+                'l10n_mx_edi_cfdi_uuid': tree.get('uuid', '').upper().strip()})
+        (self - uuid_attachments + attachments_skipped).with_context(
             force_l10n_mx_edi_cfdi_uuid=True).write({
                 'l10n_mx_edi_cfdi_uuid': False})
-        invoice_ids = (attachments - attachments_skipped).filtered(
+        invoice_ids = (uuid_attachments - attachments_skipped).filtered(
             lambda r: r.res_model == 'account.move').mapped('res_id')
         invoices = self.env['account.move'].browse(invoice_ids).exists()
         if invoices:
