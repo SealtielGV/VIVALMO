@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="vivalmo_mrp_bom_report" name="bill_of_materials">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="bom">
+                <t t-call="web.external_layout">  
+                    <div class="page">
+                        <h2><span t-field="bom.cde" /></h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <div t-if="bom.x_studio_temporada" class="row">
+                                    <strong>Temporada:</strong> <span t-field="bom.x_studio_temporada" />
+                                </div>
+                                <div t-if="bom.x_studio_canal_de_venta" class="row">
+                                    <strong>Canal de venta:</strong> <span t-field="bom.x_studio_canal_de_venta" />
+                                </div>
+                                <div t-if="bom.product_tmpl_id.name" class="row">
+                                    <strong>Nodelo:</strong> <span t-field="bom.product_tmpl_id.name" />
+                                </div>
+                                <div t-if="bom.x_studio_segmento.name" class="row">
+                                    <strong>Segmento:</strong> <span t-field="bom.x_studio_segmento" />
+                                </div>
+                                <div t-if="bom.x_studio_tallas_a_fabricar.name" class="row">
+                                    <strong>Tallas a fabricar:</strong> <span t-field="bom.x_studio_tallas_a_fabricar.name" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div t-if="bom.x_studio_color.name" class="row">
+                                    <strong>Color:</strong> <span t-esc="','.join(bom.x_studio_color.name)" />
+                                </div>
+                                <div t-if="bom.x_studio_fit_bom.name" class="row">
+                                    <strong>Fit:</strong> <span t-esc="','.join(bom.x_studio_fit_bom.x_studio_color_lavado)" />
+                                </div>
+                                <div t-if="bom.x_studio_estilos_bom.name" class="row">
+                                    <strong>Estilos:</strong> <span t-esc="','.join(bom.x_studio_estilos_bom.name)" />
+                                </div>
+                                <div t-if="bom.x_studio_instrucciones_de_lavado.name" class="row">
+                                    <strong>Instrucciones de lavado húmedos:</strong> <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado.name)" />
+                                </div>
+                                <div t-if="bom.x_studio_instrucciones_de_lavado_secos.name" class="row">
+                                    <strong>Instrucciones de lavado secos:</strong> <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado_secos.name)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div t-if="bom.x_studio_company_id.name" class="row">
+                                    <strong>Fabricante:</strong> <span t-field="bom.company_id.name" />
+                                </div>
+                                <div t-if="bom.x_studio_disenador_bom" class="row">
+                                    <strong>Diseñador:</strong> <span t-field="bom.x_studio_disenador_bom.name" />
+                                </div>
+                                <div t-if="bom.x_studio_type" class="row">
+                                    <strong>Tipo de LdM:</strong> <span t-field="bom.type" />
+                                </div>
+                                <div t-if="bom.x_studio_total_de_maeriales" class="row">
+                                    <strong>Total de materiales:</strong> <span t-field="bom.x_studio_total_de_materiales" />
+                                </div>
+                                <div t-if="bom.x_studio_total_de servicios" class="row">
+                                    <strong>Total de servicios:</strong> <span t-field="bom.x_studio_total_de servicios" />
+                                </div>
+                                <div t-if="bom.x_studio_costos_indifrectos" class="row">
+                                    <strong>Costos indirectos:</strong> <span t-field="bom.x_studio_costos_indirectos" />
+                                </div>
+                                <div t-if="bom.x_studio_costo_total" class="row">
+                                    <strong>Costo total:</strong> <span t-field="bom.x_studio_costo_total" />
+                                </div>
+                                <div t-if="bom.x_studio_precio_de_venta_bom" class="row">
+                                    <strong>Precio de venta:</strong> <span t-field="bom.x_studio_precio_de_venta_bom" />
+                                </div>
+                                <div t-if="bom.x_studio_descuento" class="row">
+                                    <strong>Descuento:</strong> <span t-field="bom.x_studio_descuento" />
+                                </div>
+                                <div t-if="bom.x_studio_utilidad_en_mxn_bom" class="row">
+                                    <strong>Utilidad en MXN:</strong> <span t-field="bom.x_studio_utilidad_en_mxn_bom" />
+                                </div>
+                                <div t-if="bom.x_studio_utilidad_porcetual_bom" class="row">
+                                    <strong>Utilidad en %:</strong> <span t-field="bom.x_studio_utilidad_porcetual_bom" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div t-if="bom.picking_type_id.name" class="row">
+                                    <strong>Operación:</strong> <span t-field="bom.picking_type_id.name" />
+                                </div>
+                                <div t-if="bom.consumption"  class="row">
+                                    <strong>Consumo:</strong> <span t-field="bom.consumption" /> 
+                                </div>
+                                <div t-if="bom.x_studio_se00001_servicio_de_corte"  class="row">
+                                    <strong>SE00001 Servicio de corte:</strong> <span t-field="bom.x_studio_se00001_servicio_de_corte" /> 
+                                </div>
+                                <div t-if="bom.x_studio_se00002_servicio_de_bordado"  class="row">
+                                    <strong>SE00002 Servicio de bordado:</strong> <span t-field="bom.x_studio_se00002_servicio_de_bordado" /> 
+                                </div>
+                                <div t-if="bom.x_studio_se00003_servicio_de_costura"  class="row">
+                                    <strong>SE00003 Servicio de costura:</strong> <span t-field="bom.x_studio_se00003_servicio_de_costura" /> 
+                                </div>
+                                <div t-if="bom.x_studio_se00004_servicio_de_lavado" class="row">
+                                    <strong>SE00004 Servicio de lavado:</strong> <span t-field="bom.x_studio_se00004_servicio_de_lavado" />
+                                </div>
+                                <div t-if="bom.x_studio_se00005_servicio_de_terminado"  class="row">
+                                    <strong>SE00005 Servicio de terminado:</strong> <span t-field="bom.x_studio_se00005_servicio_de_terminado" /> 
+                                </div>
+                                <div t-if="bom.x_studio_total_de servicios" class="row">
+                                    <strong>Total de servicios:</strong> span t-field="bom.x_studio_total_de servicios" />
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-sm o_main_table  table-striped ">
+                            <thead>
+                                <tr>
+                                    <th name="th_component">Componente</th>
+                                    <th name="th_description">Descripción</th>
+                                    <th name="th_quantity">Cantidad</th>
+                                    <th name="th_cost">Costo</th>
+                                    <th name="th_total">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="bom.bom_line_ids" t-as="line">
+                                    <tr>
+                                        <td name="td_component">
+                                            <span t-field="line.product_id.name" />
+                                        </td>
+                                        <td name="td_description">
+                                            <span t-field="line.x_studio_description" />
+                                        </td>
+                                        <td name="td_quantity">
+                                            <span t-field="line.product_qty" />
+                                            <span t-field="line.product_uom_id.name" />
+                                        </td>
+                                        <td name="td_cost">
+                                            <span t-field="line.x_studio_costo" />
+                                        </td>
+                                        <td name="td_total">
+                                            <span t-field="line.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                
+                            </tbody>
+                        </table>                      
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id = "vivalmo_bill_of_material_report"
+        string = "Lista de Materiales Reporte"
+        model = "mrp.bom"
+        report_type = "qweb-pdf"
+        name = "material_cost.vivalmo_mrp_bom_report"
+        file = "material_cost.vivalmo_mrp_bom_report"
+        print_report_name="'Lista de Material #%i' % (object.display_name)"/>
+
+</odoo>

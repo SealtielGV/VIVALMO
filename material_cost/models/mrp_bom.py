@@ -5,10 +5,10 @@ class MrpBomCostTotal(models.Model):
     _inherit = 'mrp.bom'
     
     
-    x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales')
+    x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo')
     x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios')
     x_studio_costos_indirectos = fields.Float(digits=(32, 2),string='Costos indirectos')
-    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo total')
+    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo total',)
     x_studio_precio_de_venta_bom = fields.Float(digits=(32, 2),string='Precio de venta')
     x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento')
     x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN')

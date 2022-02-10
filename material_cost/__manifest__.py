@@ -11,7 +11,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
     'depends': ['base','mrp'],
-    'data' : [],
+    'data' : ['report/bom_report.xml'],
     'installable':True,
     'auto_install':False,    
 }
