@@ -71,7 +71,7 @@
                                             <field name="partner_id" />
                                             <field name="date" />
                                             <field name="name" />
-                                            
+                                            <field name="communication" />
                                             <field name="currency_id" />
                                             <field name="amount" />
                                             <field name="state" />

@@ -4,9 +4,7 @@
 {
     "name"      : "Auditoría de Facturas vs. SAT",
     "version"   : "1.0",
-    "depends"   : ["account",
-                 
-                  ],
+    "depends"   : ["account","l10n_mx_edi_uuid"],
     "author"    : "",
     "website"   : "",
     #"license"   : "LGPL",
