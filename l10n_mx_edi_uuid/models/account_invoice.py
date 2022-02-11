@@ -134,7 +134,8 @@ class AccountMove(models.Model):
                 uuid, '\n'.join(['\t* %d: %s' % (rid, rname)
                                  for rid, rname in records.name_get()]))
         if msg:
-            raise ValidationError(msg)
+            pass
+            #raise ValidationError(msg)
 
     @api.depends('edi_document_ids')
     def _compute_cfdi_values(self):
