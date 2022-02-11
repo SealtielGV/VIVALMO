@@ -69,7 +69,7 @@
                                     <field name="payment_ids" nolabel="1" colspan="4">
                                         <tree string="Pagos relacionados">
                                             <field name="partner_id" />
-                                            <field name="payment_date" />
+                                            <field name="date" />
                                             <field name="name" />
                                             <field name="communication" />
                                             <field name="currency_id" />
