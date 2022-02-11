@@ -1,0 +1,14 @@
+xmltodict
+suds-py3
+crypto == 1.4.1
+pycrypto == 2.6.1
+pyopenssl==19.1.0
+M2Crypto==0.35.2
+jinja2==2.10.1
+frozendict==1.2
+qrcode==6.1
+qrtools==0.0.2
+python-dateutil==2.7.3
+xmltodict==0.11.0
+M2Crypto==0.35.2
+cfdiclient==1.2.0
