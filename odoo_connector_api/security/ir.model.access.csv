@@ -14,3 +14,4 @@ access_ocapi_binding_category,ocapi.binding.category manager,model_ocapi_binding
 access_ocapi_binding_shipment_item,ocapi.binding.shipment.item manager,model_ocapi_binding_shipment_item,odoo_connector_api.group_ocapi_connectors_manager,1,1,1,1
 access_ocapi_product_image,ocapi.product.image manager,model_ocapi_product_image,odoo_connector_api.group_ocapi_connectors_manager,1,1,1,1
 access_ocapi_binder_wiz,ocapi.binder.wiz manager,model_ocapi_binder_wiz,odoo_connector_api.group_ocapi_connectors_manager,1,1,1,1
+access_ocapi_warning,ocapi.warning manager,model_ocapi_warning,odoo_connector_api.group_ocapi_connectors_manager,1,1,1,1
