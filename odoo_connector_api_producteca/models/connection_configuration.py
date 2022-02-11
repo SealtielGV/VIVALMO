@@ -54,7 +54,7 @@ class ProductectaChannelBinding(models.Model):
     payment_journal_id = fields.Many2one( "account.journal", string="Payment Journal")
     partner_id = fields.Many2one( "res.partner", string="Partner")
     partner_account_receive_id = fields.Many2one( "account.account", string="Cuenta a cobrar (partner)")
-    account_payment_receiptbook_id = fields.Many2one( "account.payment.receiptbook", string="Recibos")
+    #account_payment_receiptbook_id = fields.Many2one( "account.payment.receiptbook", string="Recibos")
     account_payment_receipt_validation = fields.Selection([('draft','Borrador'),('validate','Autovalidación')], string="Payment validation",default='draft')
     #partner_account_send_id = fields.Many2one( "account.account", string="Cuenta a pagar (partner)")
     #sequence_id = fields.Many2one('ir.sequence', string='Order Sequence',

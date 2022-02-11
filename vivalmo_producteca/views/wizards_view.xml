@@ -28,7 +28,7 @@
           <record id="action_vivalmo_producteca_invoice_wiz" model="ir.actions.act_window">
               <field name="name">Procesar Facturas</field>
               <field name="type">ir.actions.act_window</field>
-              <field name="binding_model_id" ref="model_account_move" />
+              <field name="binding_model_id" ref="account.model_account_move" />
               <field name="view_id" ref="view_vivalmo_producteca_invoice_wiz"/>
               <field name="binding_type">action</field>
               <field name="binding_view_types">list,form</field>
