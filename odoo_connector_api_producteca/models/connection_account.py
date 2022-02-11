@@ -40,7 +40,7 @@ class ProductecaConnectionAccount(models.Model):
 
     configuration = fields.Many2one( "producteca.configuration", string="Configuration", help="Connection Parameters Configuration"  )
     #type = fields.Selection([("custom","Custom"),("producteca","Producteca")],string='Connector',index=True)
-    type = fields.Selection([("producteca","Producteca")],string='Connector Type',default="producteca", index=True)
+    type = fields.Selection(selection_add=[("producteca","Producteca")],string='Connector Type',default="producteca", index=True)
     country_id = fields.Many2one("res.country",string="Country",index=True)
 
     producteca_product_template_bindings = fields.One2many( "producteca.binding.product_template", "connection_account", string="Product Bindings" )
