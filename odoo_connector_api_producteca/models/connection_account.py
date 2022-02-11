@@ -35,6 +35,7 @@ from odoo.exceptions import UserError, ValidationError
 class ProductecaConnectionAccount(models.Model):
 
     _name = "producteca.account"
+    _description = "Producteca Account"
     _inherit = "ocapi.connection.account"
 
     configuration = fields.Many2one( "producteca.configuration", string="Configuration", help="Connection Parameters Configuration"  )
@@ -582,7 +583,7 @@ class ProductecaConnectionAccount(models.Model):
                     dinfo['main_id_number'] = doc_undefined
         return dinfo
 
-    def ocapi_price_unit( self, product=False, price=0 ):
+    def ocapi_price_unit( self, product=False, price=0, tax_id=False ):
 
         account = self
         company = account.company_id or self.env.user.company_id
@@ -594,8 +595,9 @@ class ProductecaConnectionAccount(models.Model):
         if ( tax_excluded and product_template.taxes_id ):
             txfixed = 0
             txpercent = 0
-            _logger.info("Adjust taxes: "+str(product_template.taxes_id))
-            for txid in product_template.taxes_id:
+            tax_ids = tax_id or product_template.taxes_id
+            _logger.info("Adjust taxes: "+str(tax_ids))
+            for txid in tax_ids:
                 if not txid.company_id or (company and txid.company_id.id==company.id):
                     if (txid.type_tax_use=="sale" and not txid.price_include):
                         if (txid.amount_type=="percent"):
