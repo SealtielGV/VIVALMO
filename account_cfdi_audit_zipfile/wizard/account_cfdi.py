@@ -31,7 +31,7 @@ class AccountCFDItWizardLinkCfdi(models.TransientModel):
     subtotal   = fields.Float(string="SubTotal", digits=(18,2))
     invoice_id_search = fields.Many2one('account.move', 
         string="Factura", copy=False,
-        domain="[('l10n_mx_edi_cfdi_uuid','=',False),('partner_id.vat','=',rfc),('state','!=','cancel'),('type','=','in_invoice')]")   
+        domain="[('partner_id.vat','=',rfc),('state','!=','cancel'),('type','=','in_invoice')]")   
     invoice_ids = fields.Many2many('account.move', 'account_cfdi_link_rel', 'link_id', 'invoice_id', string="Invoices", copy=False,
                                    help="""Technical field containing the invoice for which the payment has been generated.
                                    This does not especially correspond to the invoices reconciled with the payment,
