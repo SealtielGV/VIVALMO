@@ -35,11 +35,12 @@ from odoo.exceptions import UserError, ValidationError
 class ProductecaConnectionAccount(models.Model):
 
     _name = "producteca.account"
+    _description = "Producteca Account"
     _inherit = "ocapi.connection.account"
 
     configuration = fields.Many2one( "producteca.configuration", string="Configuration", help="Connection Parameters Configuration"  )
     #type = fields.Selection([("custom","Custom"),("producteca","Producteca")],string='Connector',index=True)
-    type = fields.Selection([("producteca","Producteca")],string='Connector Type',default="producteca", index=True)
+    type = fields.Selection(selection_add=[("producteca","Producteca")],string='Connector Type',default="producteca", index=True)
     country_id = fields.Many2one("res.country",string="Country",index=True)
 
     producteca_product_template_bindings = fields.One2many( "producteca.binding.product_template", "connection_account", string="Product Bindings" )
@@ -582,7 +583,7 @@ class ProductecaConnectionAccount(models.Model):
                     dinfo['main_id_number'] = doc_undefined
         return dinfo
 
-    def ocapi_price_unit( self, product=False, price=0 ):
+    def ocapi_price_unit( self, product=False, price=0, tax_id=False ):
 
         account = self
         company = account.company_id or self.env.user.company_id
@@ -594,8 +595,9 @@ class ProductecaConnectionAccount(models.Model):
         if ( tax_excluded and product_template.taxes_id ):
             txfixed = 0
             txpercent = 0
-            _logger.info("Adjust taxes: "+str(product_template.taxes_id))
-            for txid in product_template.taxes_id:
+            tax_ids = tax_id or product_template.taxes_id
+            _logger.info("Adjust taxes: "+str(tax_ids))
+            for txid in tax_ids:
                 if not txid.company_id or (company and txid.company_id.id==company.id):
                     if (txid.type_tax_use=="sale" and not txid.price_include):
                         if (txid.amount_type=="percent"):
@@ -1050,7 +1052,7 @@ class ProductecaConnectionAccount(models.Model):
             if (seller_team):
                 sale_order_fields["team_id"] = seller_team.id
 
-            if (1==1): #VIVALMO
+            if (1==1 and "x_studio_referencia" in self.env["sale.order"]._fields): #VIVALMO
                 sale_order_fields["x_studio_referencia"] = fields['name']
                 sale_order_fields["client_order_ref"] = fields['name']
                 sale_order_fields["analytic_account_id"] = chanbinded.analytic_account_id and chanbinded.analytic_account_id.id
@@ -1070,7 +1072,7 @@ class ProductecaConnectionAccount(models.Model):
                 _logger.info(sale_order_fields)
                 so = self.env["sale.order"].create(sale_order_fields)
 
-            if so and 1==1:
+            if so and 1==1 and "x_studio_referencia" in self.env["sale.order"]._fields:
                 so.commitment_date = so.date_order
 
         #process "lines"

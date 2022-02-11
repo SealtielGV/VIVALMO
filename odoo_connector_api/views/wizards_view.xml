@@ -21,9 +21,11 @@
       <record id="action_product_template_remove_from_connector" model="ir.actions.act_window">
           <field name="name">Remove Product From Connector / Unbind</field>
           <field name="type">ir.actions.act_window</field>
-          <!--field name="src_model">product.template</field-->
+          <field name="binding_model_id" ref="model_product_template" />
+          <field name="view_id" ref="view_product_template_remove_from_connector"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">ocapi.binder.wiz</field>
-          <!--field name="view_type">form</field-->
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
@@ -48,30 +50,32 @@
       
       <record id="action_product_template_add_to_connector" model="ir.actions.act_window">
           <field name="name">Add Product To Connector / Bind</field>
-          <field name="type">ir.actions.act_window</field>
-          <!--field name="src_model">product.template</field-->
+          <field name="type">ir.actions.act_window</field>          
+          <field name="binding_model_id" ref="model_product_template" />
+          <field name="view_id" ref="view_product_template_add_to_connector"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">ocapi.binder.wiz</field>
-          <!--field name="view_type">form</field-->
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
     
           
-      <act_window id="action_product_template_remove_from_connector"
+      <!--act_window id="action_product_template_remove_from_connector"
           name="Remove Product From Connector / Unbind"
           binding_model="product.template"
           res_model="ocapi.binder.wiz"
           view_id="view_product_template_remove_from_connector"
           binding_views="list,form"
-          target="new"/>
+          target="new"/-->
           
-      <act_window id="action_product_template_add_to_connector"
+      <!--act_window id="action_product_template_add_to_connector"
     			name="Add Product To Connector / Bind"
     			binding_model="product.template"
     			res_model="ocapi.binder.wiz"
           view_id="view_product_template_add_to_connector"
           binding_views="list,form"          
-          target="new"/>
+          target="new"/-->
       
             
     </data>

@@ -32,12 +32,12 @@ class stock_location(models.Model):
     
     _inherit = "stock.location"
     
-    producteca_logistic_type = fields.Char(string="Logistic Type Asociado",index=True)
+    producteca_logistic_type = fields.Char(string="Logistic Type Asociado (Producteca)",index=True)
     
 class stock_warehouse(models.Model):
     
     _inherit = "stock.warehouse"
     
-    producteca_logistic_type = fields.Char(string="Logistic Type Asociado",index=True)
+    producteca_logistic_type = fields.Char(string="Logistic Type Asociado (Producteca)",index=True)
     
     

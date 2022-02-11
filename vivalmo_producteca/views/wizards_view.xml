@@ -28,20 +28,22 @@
           <record id="action_vivalmo_producteca_invoice_wiz" model="ir.actions.act_window">
               <field name="name">Procesar Facturas</field>
               <field name="type">ir.actions.act_window</field>
-              <!--field name="src_model">product.product</field-->
+              <field name="binding_model_id" ref="account.model_account_move" />
+              <field name="view_id" ref="view_vivalmo_producteca_invoice_wiz"/>
+              <field name="binding_type">action</field>
+              <field name="binding_view_types">list,form</field>
               <field name="res_model">vivalmo.producteca.invoice.wiz</field>
-              <!--field name="view_type">form</field-->
               <field name="view_mode">form</field>
               <field name="target">new</field>
           </record>
-          <act_window id="action_vivalmo_producteca_invoice_wiz"
+          <!--act_window id="action_vivalmo_producteca_invoice_wiz"
               name="Producteca Invoice Process"
               binding_model="account.move"
               res_model="vivalmo.producteca.invoice.wiz"
               view_id="view_vivalmo_producteca_invoice_wiz"
               view_mode="form"
               binding_views="list,form"
-              target="new"/>
+              target="new"/-->
   
     </data>
 </odoo>

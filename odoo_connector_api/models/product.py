@@ -51,10 +51,3 @@ class ProductProduct(models.Model):
 
     def ocapi_stock(self, account):
         return self.virtual_available
-
-class ProductImage(models.Model):
-
-    _name = "ocapi.image"
-    #_inherit = "product.image"
-
-    #ocapi_connection_bindings = fields.Many2many( "ocapi.connection.binding", string="Ocapi Connection Bindings" )

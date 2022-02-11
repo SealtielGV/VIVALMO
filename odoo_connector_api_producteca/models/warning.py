@@ -2,12 +2,17 @@ from odoo import fields, osv, models
 from odoo.tools.translate import _
 import pdb
 #CHANGE WARNING_MODULE with your module name
-WARNING_MODULE = 'odoo_connector_api'
+WARNING_MODULE = 'odoo_connector_api_producteca'
 WARNING_TYPES = [('warning','Warning'),('info','Information'),('error','Error')]
 
+#class oldwarning(models.TransientModel):
+#    _name = 'warning'
+#    _description = 'old warning'
+
 class warning(models.TransientModel):
-    _name = 'warning'
+    _name = 'producteca.warning'
     _description = 'warning'
+    _inherit = 'ocapi.warning'
     type = fields.Selection(WARNING_TYPES, string='Type', readonly=True);
     title = fields.Char(string="Title", size=100, readonly=True);
     message = fields.Text(string="Message", readonly=True);
@@ -32,7 +37,7 @@ class warning(models.TransientModel):
             'view_type': 'form',
             'view_mode': 'form',
             'view_id': self._get_view_id(),
-            'res_model': 'warning',
+            'res_model': 'producteca.warning',
             'domain': [],
             #'context': context,
             'type': 'ir.actions.act_window',

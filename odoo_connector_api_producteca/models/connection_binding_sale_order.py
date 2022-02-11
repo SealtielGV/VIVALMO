@@ -42,9 +42,9 @@ class OcapiConnectionBindingSaleOrderPayment(models.Model):
     account_supplier_payment_id = fields.Many2one('account.payment',string='Pago a Proveedor')
     account_supplier_payment_shipment_id = fields.Many2one('account.payment',string='Pago Envio a Proveedor')
 
-    account_payment_group_id = fields.Many2one('account.payment.group',string='Pago agrupado')
-    account_supplier_group_payment_id = fields.Many2one('account.payment.group',string='Pago agrupado a Proveedor')
-    account_supplier_group_payment_shipment_id = fields.Many2one('account.payment.group',string='Pago agrupado Envio a Proveedor')
+    #account_payment_group_id = fields.Many2one('account.payment.group',string='Pago agrupado')
+    #account_supplier_group_payment_id = fields.Many2one('account.payment.group',string='Pago agrupado a Proveedor')
+    #account_supplier_group_payment_shipment_id = fields.Many2one('account.payment.group',string='Pago agrupado Envio a Proveedor')
 
     def get_ml_receiptbook( self ):
         receiptbook_id = self.channel_binding_id and self.channel_binding_id.account_payment_receiptbook_id
@@ -292,10 +292,10 @@ class OcapiConnectionBindingSaleOrderShipment(models.Model):
     method_mode = fields.Char(string="mode")
     method_cost = fields.Char(string="cost")
     method_eta = fields.Char(string="eta")
-    method_status = fields.Char(string="status")
+    method_status = fields.Char(string="method status")
     integration_app = fields.Char(string="app")
     integration_integrationId = fields.Char(string="integrationId")
-    integration_status = fields.Char(string="status")
+    integration_status = fields.Char(string="integration status")
     integration_id = fields.Char(string="id")
     receiver_fullName = fields.Char(string="receiver_fullName")
     receiver_phoneNumber = fields.Char(string="receiver_phoneNumber")
@@ -331,20 +331,20 @@ class ProductecaConnectionBindingSaleOrderClient(models.Model):
     profile_integrationId = fields.Integer(string="Profile Integration Id")
 
     billingInfo = fields.Text(string="billingInfo")
-    billingInfo_docType = fields.Char(string="Doc Type")
-    billingInfo_docNumber = fields.Char(string="Doc Number")
-    billingInfo_streetName = fields.Char(string="Street Name")
-    billingInfo_streetNumber = fields.Char(string="Street Number")
-    billingInfo_zipCode = fields.Char(string="zipCode")
-    billingInfo_city = fields.Char(string="city")
-    billingInfo_state = fields.Char(string="state")
-    billingInfo_stateId = fields.Char(string="state id")
-    billingInfo_neighborhood = fields.Char(string="neighborhood")
-    billingInfo_businessName = fields.Char(string="businessName")
-    billingInfo_stateRegistration = fields.Char(string="stateRegistration")
-    billingInfo_taxPayerType = fields.Char(string="taxPayerType")
-    billingInfo_firstName = fields.Char(string="firstName")
-    billingInfo_lastName = fields.Char(string="lastName")
+    billingInfo_docType = fields.Char(string="Doc Type (BI)")
+    billingInfo_docNumber = fields.Char(string="Doc Number (BI)")
+    billingInfo_streetName = fields.Char(string="Street Name (BI)")
+    billingInfo_streetNumber = fields.Char(string="Street Number (BI)")
+    billingInfo_zipCode = fields.Char(string="zipCode (BI)")
+    billingInfo_city = fields.Char(string="city (BI)")
+    billingInfo_state = fields.Char(string="state (BI)")
+    billingInfo_stateId = fields.Char(string="state id (BI)")
+    billingInfo_neighborhood = fields.Char(string="neighborhood (BI)")
+    billingInfo_businessName = fields.Char(string="businessName (BI)")
+    billingInfo_stateRegistration = fields.Char(string="stateRegistration (BI)")
+    billingInfo_taxPayerType = fields.Char(string="taxPayerType (BI)")
+    billingInfo_firstName = fields.Char(string="firstName (BI)")
+    billingInfo_lastName = fields.Char(string="lastName (BI)")
 
     connection_account = fields.Many2one( "producteca.account", string="Producteca Account" )
 
@@ -399,6 +399,7 @@ class ProductecaConnectionBindingSaleOrder(models.Model):
     sale_notifications = fields.One2many("producteca.notification","producteca_sale_order",string="Notifications")
 
     #id connector_id
+    status = fields.Selection(related="state",string="Status")
 
     channel = fields.Char(string="Channel",index=True)
     channel_id = fields.Many2one( "producteca.channel", string="Channel Object")
@@ -434,6 +435,19 @@ class ProductecaConnectionBindingSaleOrder(models.Model):
 
     date = fields.Datetime(string="date",index=True)
     mail = fields.Char(string="Mail")
+
+    #account_payment_group_id = fields.Many2one('account.payment.group',string='Pago agrupado total')
+
+    def get_invoice(self):
+        invoice = False
+        sale_order = self.sale_order
+        invoices = sale_order and sale_order.partner_id and self.env[acc_inv_model].search([('origin','=',sale_order.name)])
+        if invoices:
+            for inv in invoices:
+                if inv.state in ['open']:
+                    invoice = inv
+
+        return invoice
 
     def update(self):
         _logger.info("Update producteca.sale_order")

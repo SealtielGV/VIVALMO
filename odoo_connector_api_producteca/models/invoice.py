@@ -41,6 +41,16 @@ class Invoice(models.Model):
         copy=False
     )
     producteca_order_binding_id = fields.Many2one( "producteca.sale_order", string="Producteca Sale Order" )
+    #account_payment_group_id = fields.Many2one( "account.payment.group", related="producteca_order_binding_id.account_payment_group_id", string="Pago agrupado" )
+
+    def update_order_producteca(self):
+        pso = self.producteca_order_binding_id
+        if pso:
+            ret = pso.update()
+            if ret and 'name' in ret:
+                _logger.error(ret)
+                return ret
+
 
     def enviar_factura_producteca(self):
 
@@ -92,29 +102,35 @@ class Invoice(models.Model):
             template.send_mail(self.id, force_send=True)
             template.attachment_ids = [(5, 0, [])]
 
-    def producteca_fix_invoice( self, vals_list, pso ):
-        if (pso and pso.channel_binding_id):
-            if (not "l10n_mx_edi_usage" in vals_list[0] and "l10n_mx_edi_usage" in pso.channel_binding_id._fields):
-                vals_list[0]["l10n_mx_edi_usage"] = pso.channel_binding_id.l10n_mx_edi_usage
-            if (not "l10n_mx_edi_payment_method_id" in vals_list[0] and "l10n_mx_edi_payment_method_id" in pso.channel_binding_id._fields):
-                vals_list[0]["l10n_mx_edi_payment_method_id"] = pso.channel_binding_id.l10n_mx_edi_payment_method_id and pso.channel_binding_id.l10n_mx_edi_payment_method_id.id
+    def producteca_fix_invoice( self, val, pso ):
+        if (pso and pso.channel_binding_id and type(val)==dict):
+            if (not "l10n_mx_edi_usage" in val and "l10n_mx_edi_usage" in pso.channel_binding_id._fields):
+                val["l10n_mx_edi_usage"] = pso.channel_binding_id.l10n_mx_edi_usage
+            if (not "l10n_mx_edi_payment_method_id" in val and "l10n_mx_edi_payment_method_id" in pso.channel_binding_id._fields):
+                val["l10n_mx_edi_payment_method_id"] = pso.channel_binding_id.l10n_mx_edi_payment_method_id and pso.channel_binding_id.l10n_mx_edi_payment_method_id.id
 
-        return vals_list
+        return val
 
     @api.model_create_multi
     def create(self, vals_list):
-        _logger.info("vals_list: "+str(vals_list))
-        if ( 'ref' in vals_list[0] and vals_list[0]['ref'] and "PR-" in vals_list[0]['ref'] ):
-            pso = self.env["producteca.sale_order"].search([('name','like',vals_list[0]['ref'])], limit=1)
-            if (pso and not 'producteca_order_binding_id' in vals_list[0]):
-                vals_list[0]['producteca_order_binding_id'] =  pso.id
+        #_logger.info("vals_list: "+str(vals_list))
+        if (vals_list and type(vals_list)==list):
+            for vi in range( 0, len(vals_list) ):
+                val = vals_list[vi]
+                if val:
+                    ref = 'ref' in val and val['ref']
 
-            if (pso):
-                vals_list = self.producteca_fix_invoice( vals_list, pso )
+                    if ( ref and "PR-" in ref ):
+                        pso = self.env["producteca.sale_order"].search([('name','like',ref)], limit=1)
+                        if (pso and not 'producteca_order_binding_id' in val):
+                            vals_list[vi]['producteca_order_binding_id'] =  pso.id
 
-            _logger.info("vals_list: "+str(vals_list) )
+                        if (pso):
+                            vals_list[vi] = self.producteca_fix_invoice( val, pso )
+
+        #_logger.info("vals_list: "+str(vals_list) )
         rslt = super(Invoice, self).create(vals_list)
-        _logger.info("rslt: "+str(rslt))
+        #_logger.info("rslt: "+str(rslt))
         return rslt
     #def action_post( self ):
     #    super( Invoice, self ).action_post()
