@@ -125,8 +125,8 @@ class Invoice(models.Model):
                         if (pso and not 'producteca_order_binding_id' in val):
                             vals_list[vi]['producteca_order_binding_id'] =  pso.id
 
-                    if (pso):
-                        vals_list[vi] = self.producteca_fix_invoice( val, pso )
+                        if (pso):
+                            vals_list[vi] = self.producteca_fix_invoice( val, pso )
 
         #_logger.info("vals_list: "+str(vals_list) )
         rslt = super(Invoice, self).create(vals_list)
