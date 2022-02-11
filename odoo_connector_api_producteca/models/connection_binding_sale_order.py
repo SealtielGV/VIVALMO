@@ -42,9 +42,9 @@ class OcapiConnectionBindingSaleOrderPayment(models.Model):
     account_supplier_payment_id = fields.Many2one('account.payment',string='Pago a Proveedor')
     account_supplier_payment_shipment_id = fields.Many2one('account.payment',string='Pago Envio a Proveedor')
 
-    account_payment_group_id = fields.Many2one('account.payment.group',string='Pago agrupado')
-    account_supplier_group_payment_id = fields.Many2one('account.payment.group',string='Pago agrupado a Proveedor')
-    account_supplier_group_payment_shipment_id = fields.Many2one('account.payment.group',string='Pago agrupado Envio a Proveedor')
+    #account_payment_group_id = fields.Many2one('account.payment.group',string='Pago agrupado')
+    #account_supplier_group_payment_id = fields.Many2one('account.payment.group',string='Pago agrupado a Proveedor')
+    #account_supplier_group_payment_shipment_id = fields.Many2one('account.payment.group',string='Pago agrupado Envio a Proveedor')
 
     def get_ml_receiptbook( self ):
         receiptbook_id = self.channel_binding_id and self.channel_binding_id.account_payment_receiptbook_id
