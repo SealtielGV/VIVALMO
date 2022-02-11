@@ -48,7 +48,7 @@ class OcapiConnectionAccount(models.Model):
 
     client_id = fields.Char(string='Client Id/App Id', help='Client ID/App Id',size=128,index=True)
     secret_key = fields.Char(string='Secret Key/App Key', help='Secret Key/App Key',size=128,index=True)
-    access_token = fields.Text( string='Access Token/Api Token', help='Access Token/Api Token', size=256,index=True)
+    access_token = fields.Text( string='Access Token/Api Token', help='Access Token/Api Token',index=True)
     state = fields.Boolean( compute=get_connector_state, string='State', help="Estado de la conexión", store=False )
     seller_id = fields.Char(string='App Seller Id', help='App Seller Id',size=128,index=True)
 

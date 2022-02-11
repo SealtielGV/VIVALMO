@@ -256,9 +256,9 @@ class product_product(models.Model):
 
         return pv_bind
 
-class product_image(models.Model):
+#class product_image(models.Model):
 
-    _inherit = "ocapi.image"
+#    _inherit = "ocapi.image"
 
 #    producteca_connection_bindings = fields.Many2many( "producteca.connection.bindings", string="Producteca Connection Bindings" )
 

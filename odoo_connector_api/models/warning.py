@@ -6,7 +6,7 @@ WARNING_MODULE = 'odoo_connector_api'
 WARNING_TYPES = [('warning','Warning'),('info','Information'),('error','Error')]
 
 class warning(models.TransientModel):
-    _name = 'warning'
+    _name = 'ocapi.warning'
     _description = 'warning'
     type = fields.Selection(WARNING_TYPES, string='Type', readonly=True);
     title = fields.Char(string="Title", size=100, readonly=True);
@@ -32,7 +32,7 @@ class warning(models.TransientModel):
             'view_type': 'form',
             'view_mode': 'form',
             'view_id': self._get_view_id(),
-            'res_model': 'warning',
+            'res_model': 'ocapi.warning',
             'domain': [],
             #'context': context,
             'type': 'ir.actions.act_window',

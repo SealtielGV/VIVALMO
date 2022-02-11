@@ -136,7 +136,7 @@ class ProductecaConnectionBindingProductTemplate(models.Model):
     stock_resume_tmpl = fields.Char(string="Stock Resumen Tmpl", compute="_calculate_stock_resume_tmpl", store=False )
     price_resume_tmpl = fields.Char(string="Price Resumen Tmpl", compute="_calculate_price_resume_tmpl", store=False )
     #product_tmpl_company = fields.Many2one(related="product_tmpl_id.company_id",string="Company",store=True,index=True)
-    product_tmpl_company = fields.Many2one(related="connection_account.company_id",string="Company",store=False,index=True)
+    product_tmpl_company = fields.Many2one(related="connection_account.company_id",string="Company (Account)",store=False,index=True)
 
 
 class ProductecaConnectionBindingProductVariant(models.Model):

@@ -24,17 +24,21 @@
       <record id="action_product_template_remove_from_producteca" model="ir.actions.act_window">
           <field name="name">Remove Product From Producteca / Unbind</field>
           <field name="type">ir.actions.act_window</field>
+          <field name="binding_model_id" ref="model_product_template" />
+          <field name="view_id" ref="view_product_template_remove_from_producteca"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">producteca.binder.wiz</field>
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
-      <act_window id="action_product_template_remove_from_producteca"
+      <!--act_window id="action_product_template_remove_from_producteca"
     			name="Remove Product From Producteca / Unbind"
     			binding_model="product.template"
     			res_model="producteca.binder.wiz"
           view_id="view_product_template_remove_from_producteca"
     			binding_views="list,form"
-          target="new"/>
+          target="new"/-->
           
           
       <!-- View wizard  - Add to Connector: Producteca-->      
@@ -57,18 +61,22 @@
       <record id="action_product_template_add_to_producteca" model="ir.actions.act_window">
           <field name="name">Add Product To Producteca / Bind</field>
           <field name="type">ir.actions.act_window</field>
+          <field name="binding_model_id" ref="model_product_template" />
+          <field name="view_id" ref="view_product_template_add_to_producteca"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">producteca.binder.wiz</field>
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
-      <act_window id="action_product_template_add_to_producteca"
+      <!--act_window id="action_product_template_add_to_producteca"
     			name="Add Product To Producteca / Bind"
     			binding_model="product.template"
     			res_model="producteca.binder.wiz"
           view_id="view_product_template_add_to_producteca"
     			binding_views="list,form"
           target="new"
-          />
+          /-->
 
       
 <!-- PRODUCT PRODUCT -->
@@ -93,18 +101,22 @@
       <record id="action_product_product_remove_from_producteca" model="ir.actions.act_window">
           <field name="name">Remove Product Variant From Producteca / Unbind</field>
           <field name="type">ir.actions.act_window</field>
+          <field name="binding_model_id" ref="model_product_product" />
+          <field name="view_id" ref="view_product_product_remove_from_producteca"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">producteca.variant.binder.wiz</field>
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
-      <act_window id="action_product_product_remove_from_producteca"
+      <!--act_window id="action_product_product_remove_from_producteca"
     			name="Remove Product Variant From Producteca / Unbind"
     			binding_model="product.product"
     			res_model="producteca.variant.binder.wiz"
           view_id="view_product_product_remove_from_producteca"
     			binding_views="list,form"
           target="new"
-          />
+          /-->
 
           
       <!-- View wizard  - Add to Connector: Producteca-->      
@@ -127,18 +139,22 @@
       <record id="action_product_product_add_to_producteca" model="ir.actions.act_window">
           <field name="name">Add Product Variant To Producteca / Bind</field>
           <field name="type">ir.actions.act_window</field>
+          <field name="binding_model_id" ref="model_product_product" />
+          <field name="view_id" ref="view_product_product_add_to_producteca"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">producteca.variant.binder.wiz</field>
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
-      <act_window id="action_product_product_add_to_producteca"
+      <!--act_window id="action_product_product_add_to_producteca"
     			name="Add Product Variant To Producteca / Bind"
     			binding_model="product.product"
     			res_model="producteca.variant.binder.wiz"
           view_id="view_product_product_add_to_producteca"
     			binding_views="list,form"
           target="new"
-          />
+          /-->
 
   
 <!-- STOCK QUANT -->
@@ -163,18 +179,22 @@
       <record id="action_stock_quant_remove_from_producteca" model="ir.actions.act_window">
           <field name="name">Remove Product Variant From Producteca / Unbind</field>
           <field name="type">ir.actions.act_window</field>
+          <field name="binding_model_id" ref="stock.model_stock_quant" />
+          <field name="view_id" ref="view_stock_quant_remove_from_producteca"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">producteca.stock.quant.binder.wiz</field>
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
-      <act_window id="action_stock_quant_remove_from_producteca"
+      <!--act_window id="action_stock_quant_remove_from_producteca"
     			name="Remove Product Variant From Producteca / Unbind"
     			binding_model="stock.quant"
     			res_model="producteca.stock.quant.binder.wiz"
           view_id="view_stock_quant_remove_from_producteca"
     			binding_views="list,form"
           target="new"
-          />
+          /-->
 
           
       <!-- View wizard  - Add to Connector: Producteca-->      
@@ -197,18 +217,22 @@
       <record id="action_stock_quant_add_to_producteca" model="ir.actions.act_window">
           <field name="name">Add Product Variant To Producteca / Bind</field>
           <field name="type">ir.actions.act_window</field>
+          <field name="binding_model_id" ref="stock.model_stock_quant" />
+          <field name="view_id" ref="view_stock_quant_add_to_producteca"/>
+          <field name="binding_type">action</field>
+          <field name="binding_view_types">list,form</field>
           <field name="res_model">producteca.stock.quant.binder.wiz</field>
           <field name="view_mode">form</field>
           <field name="target">new</field>
       </record>
-      <act_window id="action_stock_quant_add_to_producteca"
+      <!--act_window id="action_stock_quant_add_to_producteca"
     			name="Add Product Variant To Producteca / Bind"
     			binding_model="stock.quant"
     			res_model="producteca.stock.quant.binder.wiz"
           view_id="view_stock_quant_add_to_producteca"
     			binding_views="list,form"
           target="new"
-          />
+          /-->
           
           
           
@@ -237,20 +261,22 @@
           <record id="action_producteca_notification_wiz" model="ir.actions.act_window">
               <field name="name">Procesar Notificaciones</field>
               <field name="type">ir.actions.act_window</field>
-              <!--field name="src_model">product.product</field-->
+              <field name="binding_model_id" ref="model_producteca_notification" />
+              <field name="view_id" ref="view_producteca_notification_wiz"/>
+              <field name="binding_type">action</field>
+              <field name="binding_view_types">list,form</field>
               <field name="res_model">producteca.notification.wiz</field>
-              <!--field name="view_type">form</field-->
               <field name="view_mode">form</field>
               <field name="target">new</field>
           </record>
-          <act_window id="action_producteca_notification_wiz"
+          <!--act_window id="action_producteca_notification_wiz"
               name="Producteca Notifications Process"
               binding_model="producteca.notification"
               res_model="producteca.notification.wiz"
               view_id="view_producteca_notification_wiz"
               view_mode="form"
               binding_views="list,form"
-              target="new"/>
+              target="new"/-->
   
     </data>
 </odoo>
