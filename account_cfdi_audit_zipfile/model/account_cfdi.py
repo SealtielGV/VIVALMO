@@ -111,7 +111,6 @@ class AccountCFDI(models.Model):
                                     ('34','Venta de Vehículos'),
                                     ('cfdi32','No aplica. Es CFDI 3.2')], string="Clasificación CFDI", default='cfdi32', readonly=True)
     
-    
     tipo_cfdi = fields.Selection([('INGRESO','Ingreso (3.2)'),
                                   ('EGRESO','Egreso (3.2)'),
                                   ('TRASLADO','Traslado (3.2)'),
