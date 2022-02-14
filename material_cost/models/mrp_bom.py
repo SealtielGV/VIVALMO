@@ -66,7 +66,7 @@ class CostoMrpBomLine(models.Model):
     
     
     
-    @api.depends('x_studio_costo')
+    @api.depends('x_studio_costo','product_qty')
     def compute_value_total_amount(self):
         for value in self:
             value.amount_total = value.product_qty * value.x_studio_costo
