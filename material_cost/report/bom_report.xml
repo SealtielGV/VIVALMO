@@ -85,7 +85,7 @@
                                     <strong>Utilidad en MXN:</strong> <span t-field="bom.x_studio_utilidad_en_mxn_bom" />
                                 </div>
                                 <div  class="row">
-                                    <strong>Utilidad en %:</strong> <span t-field="bom.x_studio_utilidad_porcetual_bom" />
+                                    <strong>Utilidad en %:</strong> <span t-field="bom.x_studio_utilidad_porcentual_bom" />
                                 </div>
                             </div>
                             <div class="col-6">
