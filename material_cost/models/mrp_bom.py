@@ -48,7 +48,6 @@ class MrpBomCostTotal(models.Model):
     @api.depends('x_studio_precio_de_venta_bom','x_studio_descuento_bom','x_studio_costo_total')
     def _compute_total_utilidad(self):
         for bom in self:
-            
             amount = bom.x_studio_precio_de_venta_bom - ( bom.x_studio_precio_de_venta_bom * bom.x_studio_descuento_bom) - bom.x_studio_costo_total
             bom.x_studio_utilidad_en_mxn_bom = amount
             

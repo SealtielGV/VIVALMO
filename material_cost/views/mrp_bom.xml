@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_bom_inherit_cost_values">
+            <field name="name">mrp.bom.form.inherit.value.cost</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="priority" eval="101"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree//field[@name='x_studio_costo']" position="after">
+                   <field name="amount_total"/>
+                </xpath>
+                <xpath expr="//field[@name='x_studio_total_de_servicios_bom']" position="replace">
+                    <field name="x_studio_total_de_servicios" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

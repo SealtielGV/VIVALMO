@@ -57,7 +57,7 @@
                                     <strong>Total de materiales:</strong> <span t-field="bom.x_studio_total_de_materiales" />
                                 </div>
                                 <div  class="row">
-                                    <strong>Total de servicios:</strong> <span t-field="bom.x_studio_total_de servicios" />
+                                    <strong>Total de servicios:</strong> <span t-field="bom.x_studio_total_de_servicios" />
                                 </div>
                                 <div  class="row">
                                     <strong>Costos indirectos:</strong> <span t-field="bom.x_studio_costos_indirectos" />
@@ -101,7 +101,7 @@
                                     <strong>SE00005 Servicio de terminado:</strong> <span t-field="bom.x_studio_se00005_servicio_de_terminado" /> 
                                 </div>
                                 <div  class="row">
-                                    <strong>Total de servicios:</strong> span t-field="bom.x_studio_total_de servicios" />
+                                    <strong>Total de servicios:</strong> <span t-field="bom.x_studio_total_de_servicios" />
                                 </div>
                             </div>
                         </div>
