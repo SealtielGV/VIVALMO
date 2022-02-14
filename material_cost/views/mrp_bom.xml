@@ -5,7 +5,7 @@
             <field name="name">mrp.bom.form.inherit.value.cost</field>
             <field name="model">mrp.bom</field>
             <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
-            <field name="priority" eval="101"/>
+            <field name="priority" eval="99"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree//field[@name='x_studio_costo']" position="after">
                    <field name="amount_total"/>
