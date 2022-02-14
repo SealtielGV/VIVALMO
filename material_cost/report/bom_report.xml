@@ -53,54 +53,54 @@
                                 <div t-if="bom.x_studio_type" class="row">
                                     <strong>Tipo de LdM:</strong> <span t-field="bom.type" />
                                 </div>
-                                <div t-if="bom.x_studio_total_de_maeriales" class="row">
+                                <div  class="row">
                                     <strong>Total de materiales:</strong> <span t-field="bom.x_studio_total_de_materiales" />
                                 </div>
-                                <div t-if="bom.x_studio_total_de servicios" class="row">
+                                <div  class="row">
                                     <strong>Total de servicios:</strong> <span t-field="bom.x_studio_total_de servicios" />
                                 </div>
-                                <div t-if="bom.x_studio_costos_indifrectos" class="row">
+                                <div  class="row">
                                     <strong>Costos indirectos:</strong> <span t-field="bom.x_studio_costos_indirectos" />
                                 </div>
-                                <div t-if="bom.x_studio_costo_total" class="row">
+                                <div  class="row">
                                     <strong>Costo total:</strong> <span t-field="bom.x_studio_costo_total" />
                                 </div>
-                                <div t-if="bom.x_studio_precio_de_venta_bom" class="row">
+                                <div  class="row">
                                     <strong>Precio de venta:</strong> <span t-field="bom.x_studio_precio_de_venta_bom" />
                                 </div>
-                                <div t-if="bom.x_studio_descuento" class="row">
+                                <div  class="row">
                                     <strong>Descuento:</strong> <span t-field="bom.x_studio_descuento" />
                                 </div>
-                                <div t-if="bom.x_studio_utilidad_en_mxn_bom" class="row">
+                                <div class="row">
                                     <strong>Utilidad en MXN:</strong> <span t-field="bom.x_studio_utilidad_en_mxn_bom" />
                                 </div>
-                                <div t-if="bom.x_studio_utilidad_porcetual_bom" class="row">
+                                <div  class="row">
                                     <strong>Utilidad en %:</strong> <span t-field="bom.x_studio_utilidad_porcetual_bom" />
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div t-if="bom.picking_type_id.name" class="row">
+                                <div  class="row">
                                     <strong>Operación:</strong> <span t-field="bom.picking_type_id.name" />
                                 </div>
-                                <div t-if="bom.consumption"  class="row">
+                                <div   class="row">
                                     <strong>Consumo:</strong> <span t-field="bom.consumption" /> 
                                 </div>
-                                <div t-if="bom.x_studio_se00001_servicio_de_corte"  class="row">
+                                <div   class="row">
                                     <strong>SE00001 Servicio de corte:</strong> <span t-field="bom.x_studio_se00001_servicio_de_corte" /> 
                                 </div>
-                                <div t-if="bom.x_studio_se00002_servicio_de_bordado"  class="row">
+                                <div   class="row">
                                     <strong>SE00002 Servicio de bordado:</strong> <span t-field="bom.x_studio_se00002_servicio_de_bordado" /> 
                                 </div>
-                                <div t-if="bom.x_studio_se00003_servicio_de_costura"  class="row">
+                                <div   class="row">
                                     <strong>SE00003 Servicio de costura:</strong> <span t-field="bom.x_studio_se00003_servicio_de_costura" /> 
                                 </div>
-                                <div t-if="bom.x_studio_se00004_servicio_de_lavado" class="row">
+                                <div  class="row">
                                     <strong>SE00004 Servicio de lavado:</strong> <span t-field="bom.x_studio_se00004_servicio_de_lavado" />
                                 </div>
-                                <div t-if="bom.x_studio_se00005_servicio_de_terminado"  class="row">
+                                <div   class="row">
                                     <strong>SE00005 Servicio de terminado:</strong> <span t-field="bom.x_studio_se00005_servicio_de_terminado" /> 
                                 </div>
-                                <div t-if="bom.x_studio_total_de servicios" class="row">
+                                <div  class="row">
                                     <strong>Total de servicios:</strong> span t-field="bom.x_studio_total_de servicios" />
                                 </div>
                             </div>

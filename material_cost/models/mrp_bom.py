@@ -62,7 +62,7 @@ class CostoMrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
     
     x_studio_costo = fields.Float(related='product_id.standard_price')
-    amount_total = fields.Float('Total')
+    amount_total = fields.Float('Total',compute='compute_value_total_amount')
     
     
     
