@@ -9,14 +9,12 @@
                             <div class="col-6">
                                 <h3><span t-field="bom.code" /></h3>
                             </div>
-                            <div class="col-6">
-                                <img t-attf-src="data:image/*;base64,{{bom.x_studio_fotografa}}" style="width:249px;height:249px;"/>
-                            </div>
                         </div>
+
                         <div class="row">
                             <div class="col-6">
                                 <div t-if="bom.x_studio_temporada" class="row">
-                                    <strong>Temporada:</strong> <span t-field="bom.x_studio_temporada" />
+                                    <strong>Temporada: </strong> <span t-field="bom.x_studio_temporada" />
                                 </div>
                                 <div t-if="bom.x_studio_canal_de_venta" class="row">
                                     <strong>Canal de venta:</strong> <span t-field="bom.x_studio_canal_de_venta" />
@@ -54,6 +52,9 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
+                                <div t-if="bom.x_studio_fotografa" class="row">
+                                    <img t-attf-src="data:image/*;base64,{{bom.x_studio_fotografa}}" style="width:249;height:249px;"/>                                   
+                                </div>
                                 <div t-if="bom.company_id" class="row">
                                     <strong>Fabricante:</strong> <span t-field="bom.company_id.name" />
                                 </div>
