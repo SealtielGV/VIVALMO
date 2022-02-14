@@ -45,10 +45,12 @@ class MrpBomCostTotal(models.Model):
             bom.x_studio_costo_total = bom. x_studio_total_de_materiales + bom. x_studio_total_de_servicios + bom. x_studio_costos_indirectos
             
             
-    @api.depends('x_studio_precio_de_venta_bom','x_studio_precio_de_venta_bom','x_studio_costo_total')
+    @api.depends('x_studio_precio_de_venta_bom','x_studio_descuento_bom','x_studio_costo_total')
     def _compute_total_utilidad(self):
         for bom in self:
-            bom.x_studio_utilidad_en_mxn_bom = bom.x_studio_precio_de_venta_bom - ( bom.x_studio_precio_de_venta_bom * bom.x_studio_precio_de_venta_bom) - bom.x_studio_costo_total
+            
+            amount = bom.x_studio_precio_de_venta_bom - ( bom.x_studio_precio_de_venta_bom * bom.x_studio_descuento_bom) - bom.x_studio_costo_total
+            bom.x_studio_utilidad_en_mxn_bom = amount
             
             
     @api.depends('x_studio_utilidad_en_mxn_bom','x_studio_precio_de_venta_bom')
