@@ -17,7 +17,7 @@
                                 <div t-if="bom.product_tmpl_id.name" class="row">
                                     <strong>Nodelo:</strong> <span t-field="bom.product_tmpl_id.name" />
                                 </div>
-                                <div t-if="bom.x_studio_segmento.name" class="row">
+                                <div t-if="bom.x_studio_segmento" class="row">
                                     <strong>Segmento:</strong> <span t-field="bom.x_studio_segmento" />
                                 </div>
                                 <div t-if="bom.x_studio_tallas_a_fabricar.name" class="row">
