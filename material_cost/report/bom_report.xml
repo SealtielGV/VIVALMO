@@ -47,7 +47,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <div t-if="bom.x_studio_company_id" class="row">
+                                <div t-if="bom.company_id" class="row">
                                     <strong>Fabricante:</strong> <span t-field="bom.company_id.name" />
                                 </div>
                                 <div t-if="bom.x_studio_disenador_bom" class="row">
