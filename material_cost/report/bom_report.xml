@@ -72,7 +72,7 @@
                                     <strong>Precio de venta:</strong> <span t-field="bom.x_studio_precio_de_venta_bom" />
                                 </div>
                                 <div  class="row">
-                                    <strong>Descuento:</strong> <span t-field="bom.x_studio_descuento" />
+                                    <strong>Descuento:</strong> <span t-field="bom.x_studio_descuento_bom" />
                                 </div>
                                 <div class="row">
                                     <strong>Utilidad en MXN:</strong> <span t-field="bom.x_studio_utilidad_en_mxn_bom" />
