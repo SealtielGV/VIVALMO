@@ -20,31 +20,31 @@
                                 <div t-if="bom.x_studio_segmento" class="row">
                                     <strong>Segmento:</strong> <span t-field="bom.x_studio_segmento" />
                                 </div>
-                                <div t-if="bom.x_studio_tallas_a_fabricar.name" class="row">
-                                    <strong>Tallas a fabricar:</strong> <span t-field="bom.x_studio_tallas_a_fabricar.name" />
+                                <div t-if="bom.x_studio_tallas_a_fabricar" class="row">
+                                    <strong>Tallas a fabricar:</strong> <span t-esc="','.join(bom.x_studio_tallas_a_fabricar.name)" />
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div t-if="bom.x_studio_color.name" class="row">
+                                <div t-if="bom.x_studio_color" class="row">
                                     <strong>Color:</strong> <span t-esc="','.join(bom.x_studio_color.name)" />
                                 </div>
-                                <div t-if="bom.x_studio_fit_bom.name" class="row">
+                                <div t-if="bom.x_studio_fit_bom" class="row">
                                     <strong>Fit:</strong> <span t-esc="','.join(bom.x_studio_fit_bom.x_studio_color_lavado)" />
                                 </div>
-                                <div t-if="bom.x_studio_estilos_bom.name" class="row">
+                                <div t-if="bom.x_studio_estilos_bom" class="row">
                                     <strong>Estilos:</strong> <span t-esc="','.join(bom.x_studio_estilos_bom.name)" />
                                 </div>
-                                <div t-if="bom.x_studio_instrucciones_de_lavado.name" class="row">
+                                <div t-if="bom.x_studio_instrucciones_de_lavado" class="row">
                                     <strong>Instrucciones de lavado húmedos:</strong> <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado.name)" />
                                 </div>
-                                <div t-if="bom.x_studio_instrucciones_de_lavado_secos.name" class="row">
+                                <div t-if="bom.x_studio_instrucciones_de_lavado_secos" class="row">
                                     <strong>Instrucciones de lavado secos:</strong> <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado_secos.name)" />
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <div t-if="bom.x_studio_company_id.name" class="row">
+                                <div t-if="bom.x_studio_company_id" class="row">
                                     <strong>Fabricante:</strong> <span t-field="bom.company_id.name" />
                                 </div>
                                 <div t-if="bom.x_studio_disenador_bom" class="row">
