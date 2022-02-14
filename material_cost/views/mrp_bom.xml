@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="studio_customization.odoo_studio_mrp_bom__27df743c-7351-4387-893f-64c9621e091e"/>
             <field name="priority" eval="99"/>
             <field name="arch" type="xml">
-                <xpath expr="//tree//field[@name='product_uom_id']" position="after">
+                <xpath expr="//field[@name='x_studio_costo']" position="after">
                    <field name="amount_total"/>
                 </xpath>
                 <xpath expr="//field[@name='x_studio_total_de_servicios_bom']" position="replace">
