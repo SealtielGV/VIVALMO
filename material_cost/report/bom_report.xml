@@ -5,7 +5,14 @@
             <t t-foreach="docs" t-as="bom">
                 <t t-call="web.external_layout">  
                     <div class="page">
-                        <h2><span t-field="bom.code" /></h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <h3><span t-field="bom.code" /></h3>
+                            </div>
+                            <div class="col-6">
+                                <img t-attf-src="data:image/*;base64,{{hd.sign_accept}}" style="width:249px;height:249px;"/>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-6">
                                 <div t-if="bom.x_studio_temporada" class="row">
@@ -125,7 +132,7 @@
                                             <span t-field="line.product_id.name" />
                                         </td>
                                         <td name="td_description">
-                                            <span t-field="line.x_studio_description" />
+                                            <span t-field="line.x_studio_descripcion" />
                                         </td>
                                         <td name="td_quantity">
                                             <span t-field="line.product_qty" />
@@ -155,6 +162,6 @@
         report_type = "qweb-pdf"
         name = "material_cost.vivalmo_mrp_bom_report"
         file = "material_cost.vivalmo_mrp_bom_report"
-        print_report_name="'Lista de Material #%i' % (object.display_name)"/>
+        print_report_name="'Lista de Material #%s' % (object.display_name)"/>
 
 </odoo>
