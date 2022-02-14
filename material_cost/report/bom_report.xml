@@ -10,7 +10,7 @@
                                 <h3><span t-field="bom.code" /></h3>
                             </div>
                             <div class="col-6">
-                                <img t-attf-src="data:image/*;base64,{{hd.sign_accept}}" style="width:249px;height:249px;"/>
+                                <img t-attf-src="data:image/*;base64,{{bom.x_studio_fotografa}}" style="width:249px;height:249px;"/>
                             </div>
                         </div>
                         <div class="row">
