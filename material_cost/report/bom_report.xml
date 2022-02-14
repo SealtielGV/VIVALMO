@@ -5,13 +5,13 @@
             <t t-foreach="docs" t-as="bom">
                 <t t-call="web.external_layout">  
                     <div class="page">
-                        <div class="row">
+                        <div class="row mb16 mt16">
                             <div class="col-6">
                                 <h3><span t-field="bom.code" /></h3>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mb16 mt16">
                             <div class="col-6">
                                 <div t-if="bom.x_studio_temporada" class="row">
                                     <strong>Temporada: </strong> <span t-field="bom.x_studio_temporada" />
@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div t-if="bom.x_studio_color" class="row">
+                                <div t-if="bom.x_studio_color" class="row mb16" >
                                     <strong>Color:</strong> <span t-esc="','.join(bom.x_studio_color.mapped('name'))" />
                                 </div>
                                 <div t-if="bom.x_studio_fit_bom" class="row">
