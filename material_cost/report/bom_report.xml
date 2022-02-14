@@ -53,7 +53,7 @@
                                 <div t-if="bom.x_studio_disenador_bom" class="row">
                                     <strong>Diseñador:</strong> <span t-field="bom.x_studio_disenador_bom.name" />
                                 </div>
-                                <div t-if="bom.x_studio_type" class="row">
+                                <div t-if="bom.type" class="row">
                                     <strong>Tipo de LdM:</strong> <span t-field="bom.type" />
                                 </div>
                                 <div  class="row">
