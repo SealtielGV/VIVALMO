@@ -22,103 +22,246 @@
                         <div class="row mb-3">
                             <div class="col-6">
                                 <div t-if="bom.x_studio_temporada" class="col-12">
-                                    <strong>Temporada: </strong> <span t-field="bom.x_studio_temporada" />
+                                    <div class="col-6">
+                                        <strong>Temporada: </strong> <span t-field="bom.x_studio_temporada" />
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-field="bom.x_studio_temporada" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.x_studio_canal_de_venta" class="col-12">
-                                    <strong>Canal de venta: </strong> <span t-field="bom.x_studio_canal_de_venta" />
+                                    <div class="col-6">
+                                        <strong>Canal de venta: </strong>
+                                     </div>
+                                    <div class="col-6">
+                                        <span t-field="bom.x_studio_canal_de_venta" />
+                                     </div>
                                 </div>
                                 <div t-if="bom.product_tmpl_id.name" class="col-12">
-                                    <strong>Nodelo: </strong> <span t-field="bom.product_tmpl_id.name" />
+                                    <div class="col-6">
+                                        <strong>Modelo: </strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-field="bom.product_tmpl_id.name" />
+                                    </div>
+                                    
                                 </div>
                                 <div t-if="bom.x_studio_segmento" class="col-12">
-                                    <strong>Segmento: </strong> <span t-field="bom.x_studio_segmento" />
+                                    <div class="col-6">
+                                        <strong>Segmento: </strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-field="bom.x_studio_segmento" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.x_studio_tallas_a_fabricar" class="col-12">
-                                    <strong>Tallas a fabricar: </strong> <span t-esc="','.join(bom.x_studio_tallas_a_fabricar.mapped('name'))" />
+                                    <div class="col-6">
+                                        <strong>Tallas a fabricar: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-esc="','.join(bom.x_studio_tallas_a_fabricar.mapped('name'))" />
+                                        </div>
                                 </div>
                             </div>
 
                             <div class="col-6">
                                 <div t-if="bom.x_studio_color" class="col-12" >
-                                    <strong>Color: </strong> <span t-esc="','.join(bom.x_studio_color.mapped('name'))" />
+                                    <div class="col-6">
+                                        <strong>Color: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-esc="','.join(bom.x_studio_color.mapped('name'))" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.x_studio_fit_bom" class="col-12">
-                                    <strong>Fit: </strong> <span t-esc="','.join(bom.x_studio_fit_bom.mapped('x_studio_color_lavado'))" />
+                                    <div class="col-6">
+                                        <strong>Fit: </strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="','.join(bom.x_studio_fit_bom.mapped('x_studio_color_lavado'))" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.x_studio_estilos_bom" class="col-12">
-                                    <strong>Estilos: </strong> 
-                                    <span t-esc="','.join(bom.x_studio_estilos_bom.mapped('name'))" />
+                                    <div class="col-6">
+                                        <strong>Estilos: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-esc="','.join(bom.x_studio_estilos_bom.mapped('name'))" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.x_studio_instrucciones_de_lavado" class="col-12">
-                                    <strong>Instrucciones de lavado húmedos: </strong> 
-                                    <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado.mapped('name'))" />
+                                    <div class="col-6">
+                                        <strong>Instrucciones de lavado húmedos: </strong> 
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado.mapped('name'))" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.x_studio_instrucciones_de_lavado_secos" class="col-12">
-                                    <strong>Instrucciones de lavado secos: </strong> 
-                                    <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado_secos.mapped('name'))" />
+                                    <div class="col-6">
+                                        <strong>Instrucciones de lavado secos: </strong> 
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="','.join(bom.x_studio_instrucciones_de_lavado_secos.mapped('name'))" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
                                 <div t-if="bom.company_id" class="col-12">
-                                    <strong>Fabricante: </strong> <span t-field="bom.company_id.name" />
+                                    <div class="col-6">
+                                        <strong>Fabricante: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="bom.company_id.name" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.x_studio_disenador_bom" cclass="col-12">
-                                    <strong>Diseñador: </strong> <span t-field="bom.x_studio_disenador_bom.name" />
+                                    <div class="col-6">
+                                        <strong>Diseñador: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="bom.x_studio_disenador_bom.name" />
+                                    </div>
                                 </div>
                                 <div t-if="bom.type" class="col-12">
-                                    <strong>Tipo de LdM: </strong> <span t-field="bom.type" />
+                                    <div class="col-6">
+                                        <strong>Tipo de LdM: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="bom.type" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Total de materiales: </strong> <span t-field="bom.x_studio_total_de_materiales" />
+                                    <div class="col-6">
+                                        <strong>Total de materiales: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_total_de_materiales" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Total de servicios: </strong> <span t-field="bom.x_studio_total_de_servicios" />
+                                    <div class="col-6">
+                                        <strong>Total de servicios: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_total_de_servicios" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Costos indirectos: </strong> <span t-field="bom.x_studio_costos_indirectos" />
+                                    <div class="col-6">
+                                        <strong>Costos indirectos: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_costos_indirectos" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Costo total: </strong> <span t-field="bom.x_studio_costo_total" />
+                                    <div class="col-6">
+                                        <strong>Costo total: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_costo_total" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Precio de venta: </strong> <span t-field="bom.x_studio_precio_de_venta_bom" />
+                                    <div class="col-6">
+                                        <strong>Precio de venta: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_precio_de_venta_bom" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Descuento: </strong> <span t-field="bom.x_studio_descuento_bom" />
+                                    <div class="col-6">
+                                        <strong>Descuento: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_descuento_bom" />
+                                    </div>
                                 </div>
                                 <div class="col-12">
-                                    <strong>Utilidad en MXN: </strong> <span t-field="bom.x_studio_utilidad_en_mxn_bom" />
+                                    <div class="col-6">
+                                        <strong>Utilidad en MXN: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_utilidad_en_mxn_bom" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Utilidad en %: </strong> <span t-field="bom.x_studio_utilidad_porcentual_bom" />
+                                    <div class="col-6">
+                                        <strong>Utilidad en %: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_utilidad_porcentual_bom" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div  class="col-12">
-                                    <strong>Operación: </strong> <span t-field="bom.picking_type_id.name" />
+                                    <div class="col-6">
+                                        <strong>Operación: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="bom.picking_type_id.name" />
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Consumo: </strong> <span t-field="bom.consumption" /> 
+                                    <div class="col-6">
+                                        <strong>Consumo: </strong>
+                                    </div> 
+                                    <div class="col-6 ">
+                                        <span t-field="bom.consumption" />
+                                    </div> 
                                 </div>
                                 <div   class="col-12">
-                                    <strong>SE00001 Servicio de corte: </strong> <span t-field="bom.x_studio_se00001_servicio_de_corte" /> 
+                                    <div class="col-6">
+                                        <strong>SE00001 Servicio de corte: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_se00001_servicio_de_corte" /> 
+                                    </div>
                                 </div>
                                 <div   class="col-12">
-                                    <strong>SE00002 Servicio de bordado: </strong> <span t-field="bom.x_studio_se00002_servicio_de_bordado" /> 
+                                    <div class="col-6">
+                                        <strong>SE00002 Servicio de bordado: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        span t-field="bom.x_studio_se00002_servicio_de_bordado" /> 
+                                    </div>
                                 </div>
                                 <div   class="col-12">
-                                    <strong>SE00003 Servicio de costura: </strong> <span t-field="bom.x_studio_se00003_servicio_de_costura" /> 
+                                    <div class="col-6">
+                                        <strong>SE00003 Servicio de costura: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_se00003_servicio_de_costura" /> 
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>SE00004 Servicio de lavado: </strong> <span t-field="bom.x_studio_se00004_servicio_de_lavado" />
+                                    <div class="col-6">
+                                        <strong>SE00004 Servicio de lavado: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_se00004_servicio_de_lavado" />
+                                    </div>
                                 </div>
                                 <div   class="col-12">
-                                    <strong>SE00005 Servicio de terminado:</strong> <span t-field="bom.x_studio_se00005_servicio_de_terminado" /> 
+                                    <div class="col-6">
+                                        <strong>SE00005 Servicio de terminado:</strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_se00005_servicio_de_terminado" /> 
+                                    </div>
                                 </div>
                                 <div  class="col-12">
-                                    <strong>Total de servicios: </strong> <span t-field="bom.x_studio_total_de_servicios" />
+                                    <div class="col-6">
+                                        <strong>Total de servicios: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="bom.x_studio_total_de_servicios" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
