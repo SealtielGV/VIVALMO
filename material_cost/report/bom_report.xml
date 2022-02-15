@@ -5,6 +5,7 @@
             <t t-foreach="docs" t-as="bom">
                 <t t-call="web.external_layout">  
                     <div class="page">
+
                         <div t-if="bom.x_studio_fotografa" class="row" style="margin-botton:50px;">
                             <div class="col-6 text-center" style="margin-top:100px;">
                                 <h3><span t-field="bom.code"/></h3>
@@ -13,6 +14,7 @@
                               <img t-attf-src="data:image/*;base64,{{bom.x_studio_fotografa}}" style="width:249;height:249px;"/>   
                             </div>
                         </div>
+
                         <div t-else="" class="row" style="margin-botton:50px;">
                             <div class="col-12 text-center" style="margin-top:100px;">
                                 <h3><span t-field="bom.code"/></h3>
@@ -22,46 +24,63 @@
                         <div class="row mb-3">
                             <div class="col-6">
                                 <div t-if="bom.x_studio_temporada" class="row">
+
                                     <div class="col-6">
                                         <strong>Temporada: </strong>
                                     </div>
+
                                     <div class="col-6">
                                         <span t-field="bom.x_studio_temporada"/>
                                     </div>
+
                                 </div>
+
                                 <div t-if="bom.x_studio_canal_de_venta" class="row">
+
                                     <div class="col-6">
                                         <strong>Canal de venta: </strong>
-                                     </div>
+                                    </div>
+
                                     <div class="col-6">
                                         <span t-field="bom.x_studio_canal_de_venta"/>
                                      </div>
                                 </div>
+
                                 <div t-if="bom.product_tmpl_id.name" class="row">
+
                                     <div class="col-6">
                                         <strong>Modelo: </strong>
                                     </div>
+
                                     <div class="col-6">
                                         <span t-field="bom.product_tmpl_id.name"/>
                                     </div>
                                     
                                 </div>
+
                                 <div t-if="bom.x_studio_segmento" class="row">
+
                                     <div class="col-6">
                                         <strong>Segmento: </strong>
                                     </div>
+
                                     <div class="col-6">
                                         <span t-field="bom.x_studio_segmento"/>
                                     </div>
                                 </div>
+
                                 <div t-if="bom.x_studio_tallas_a_fabricar" class="row">
+
                                     <div class="col-6">
                                         <strong>Tallas a fabricar: </strong>
                                     </div> 
+
                                     <div class="col-6">
                                         <span t-esc="','.join(bom.x_studio_tallas_a_fabricar.mapped('name'))"/>
-                                        </div>
+                                    </div>
+
                                 </div>
+
                             </div>
 
                             <div class="col-6">
@@ -107,7 +126,9 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row mb-3">
+
                             <div class="col-6">
                                 <div t-if="bom.company_id" class="row">
                                     <div class="col-6">
@@ -133,6 +154,7 @@
                                         <span t-field="bom.type"/>
                                     </div>
                                 </div>
+                            </div>
                             <div class="col-6">
                                 <div class="row">
                                     <div class="col-6">
@@ -152,7 +174,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row mb-3">
                             <div class="col-6"> 
                                 <div class="row">
@@ -225,53 +247,76 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <strong>SE00001 Servicio de corte: </strong>
-                                    </div> 
+                                    </div>
+
                                     <div class="col-6 text-center">
                                         <span t-field="bom.x_studio_se00001_servicio_de_corte"/> 
                                     </div>
+
                                 </div>
                                 <div class="row">
+
                                     <div class="col-6">
                                         <strong>SE00002 Servicio de bordado: </strong>
                                     </div> 
+
                                     <div class="col-6 text-center">
                                         <span t-field="bom.x_studio_se00002_servicio_de_bordado" />
                                     </div>
+
                                 </div>
+
                                 <div class="row">
+
                                     <div class="col-6">
                                         <strong>SE00003 Servicio de costura: </strong>
                                     </div> 
+
                                     <div class="col-6 text-center">
                                         <span t-field="bom.x_studio_se00003_servicio_de_costura"/> 
                                     </div>
+
                                 </div>
+
                                 <div class="row">
+
                                     <div class="col-6">
                                         <strong>SE00004 Servicio de lavado: </strong>
                                     </div> 
+
                                     <div class="col-6 text-center">
                                         <span t-field="bom.x_studio_se00004_servicio_de_lavado"/>
                                     </div>
+
                                 </div>
+
                                 <div class="row">
+
                                     <div class="col-6">
                                         <strong>SE00005 Servicio de terminado:</strong>
                                     </div> 
+
                                     <div class="col-6 text-center">
                                         <span t-field="bom.x_studio_se00005_servicio_de_terminado"/> 
                                     </div>
+
                                 </div>
+
                                 <div class="row">
                                     <div class="col-6">
                                         <strong>Total de servicios: </strong>
                                     </div> 
+
                                     <div class="col-6 text-center">
                                         <span t-field="bom.x_studio_total_de_servicios"/>
                                     </div>
+
                                 </div>
+
                             </div>
+
                         </div>
+
                         <table class="table table-sm o_main_table  table-striped ">
                             <thead>
                                 <tr>
@@ -307,6 +352,7 @@
                             </tbody>
                         </table>                         
                     </div>
+                
                 </t>
             </t>
         </t>
