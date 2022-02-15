@@ -109,7 +109,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
-                                <div t-if="bom.company_id" class="col-12">
+                                <div t-if="bom.company_id" class="row">
                                     <div class="col-6">
                                         <strong>Fabricante: </strong>
                                     </div> 
@@ -117,7 +117,7 @@
                                         <span t-field="bom.company_id.name" />
                                     </div>
                                 </div>
-                                <div t-if="bom.x_studio_disenador_bom" cclass="col-12">
+                                <div t-if="bom.x_studio_disenador_bom" class="row">
                                     <div class="col-6">
                                         <strong>Diseñador: </strong>
                                     </div> 
@@ -125,7 +125,7 @@
                                         <span t-field="bom.x_studio_disenador_bom.name" />
                                     </div>
                                 </div>
-                                <div t-if="bom.type" class="col-12">
+                                <div t-if="bom.type" class="row">
                                     <div class="col-6">
                                         <strong>Tipo de LdM: </strong>
                                     </div> 
@@ -133,7 +133,7 @@
                                         <span t-field="bom.type" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div  class="row">
                                     <div class="col-6">
                                         <strong>Total de materiales: </strong>
                                     </div> 
@@ -141,7 +141,7 @@
                                         <span t-field="bom.x_studio_total_de_materiales" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div  class="row">
                                     <div class="col-6">
                                         <strong>Total de servicios: </strong>
                                     </div> 
@@ -149,7 +149,7 @@
                                         <span t-field="bom.x_studio_total_de_servicios" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Costos indirectos: </strong>
                                     </div> 
@@ -157,7 +157,7 @@
                                         <span t-field="bom.x_studio_costos_indirectos" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Costo total: </strong>
                                     </div> 
@@ -165,7 +165,7 @@
                                         <span t-field="bom.x_studio_costo_total" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Precio de venta: </strong>
                                     </div> 
@@ -173,7 +173,7 @@
                                         <span t-field="bom.x_studio_precio_de_venta_bom" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Descuento: </strong>
                                     </div> 
@@ -181,7 +181,7 @@
                                         <span t-field="bom.x_studio_descuento_bom" />
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Utilidad en MXN: </strong>
                                     </div> 
@@ -189,7 +189,7 @@
                                         <span t-field="bom.x_studio_utilidad_en_mxn_bom" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Utilidad en %: </strong>
                                     </div> 
@@ -199,7 +199,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Operación: </strong>
                                     </div> 
@@ -207,7 +207,7 @@
                                         <span t-field="bom.picking_type_id.name" />
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Consumo: </strong>
                                     </div> 
@@ -215,7 +215,7 @@
                                         <span t-field="bom.consumption" />
                                     </div> 
                                 </div>
-                                <div   class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>SE00001 Servicio de corte: </strong>
                                     </div> 
@@ -223,7 +223,7 @@
                                         <span t-field="bom.x_studio_se00001_servicio_de_corte" /> 
                                     </div>
                                 </div>
-                                <div   class="col-12">
+                                <div  class="row">
                                     <div class="col-6">
                                         <strong>SE00002 Servicio de bordado: </strong>
                                     </div> 
@@ -231,7 +231,7 @@
                                         span t-field="bom.x_studio_se00002_servicio_de_bordado" /> 
                                     </div>
                                 </div>
-                                <div   class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>SE00003 Servicio de costura: </strong>
                                     </div> 
@@ -239,7 +239,7 @@
                                         <span t-field="bom.x_studio_se00003_servicio_de_costura" /> 
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>SE00004 Servicio de lavado: </strong>
                                     </div> 
@@ -247,7 +247,7 @@
                                         <span t-field="bom.x_studio_se00004_servicio_de_lavado" />
                                     </div>
                                 </div>
-                                <div   class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>SE00005 Servicio de terminado:</strong>
                                     </div> 
@@ -255,7 +255,7 @@
                                         <span t-field="bom.x_studio_se00005_servicio_de_terminado" /> 
                                     </div>
                                 </div>
-                                <div  class="col-12">
+                                <div class="row">
                                     <div class="col-6">
                                         <strong>Total de servicios: </strong>
                                     </div> 
