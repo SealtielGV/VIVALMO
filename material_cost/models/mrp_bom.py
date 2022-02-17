@@ -135,27 +135,29 @@ class MrpBomCostTotal(models.Model):
             message+="<li>Instrucciones y comentarios: "+self.convert_value(self.x_studio_instrucciones_y_comentarios_bom) +"</li>"
         if 'bom_line_ids' in vals:
             for line in vals['bom_line_ids']:
-                message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
-                if line[0] != 2 and line[3] != False:
+                if line[0] in [0,1] and line[2] == False:
+                    message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
                     values = line[2]
-                    _logger.info(values)
                     message+= "Nuevo: <br/>" if line[0] == 0 else "Modificación: en id "+str(line[1])+"<br/>"
                     if 'product_id' in values and values != False:
                         message+="Producto: "+self.env['product.product'].search([('id','=',values['product_id'])]).name+"<br/>"
                     if 'x_studio_descripcion' in  values and values != False:
                         message+="Descripción: "+values['x_studio_descripcion']+",<br/>"
                     if 'product_qty' in  values and values != False:
-                        message+="Cantidad: "+values['product_qty']+",<br/>"
+                        message+="Cantidad: "+str(values['product_qty'])+",<br/>"
                     if 'product_uom_id' in  values and values != False:
                         message+="Unidad: "+self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name+",<br/>"
                     if 'x_studio_costo' in  values and values != False:
-                        message+="Costo: "+values['x_studio_costo']+",<br/>"
+                        message+="Costo: "+str(values['x_studio_costo'])+",<br/>"
                     if 'amaount_total' in  values and values != False:
-                        message+="Total: "+values['amaount_total']+",<br/>"
+                        message+="Total: "+str(values['amaount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
                         message+="Aplicado en: "+values['x_studio_aplicado_en']+"<br/>"
-                else:
+                elif line[0] == 2:
+                    message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
                     message+= "Eliminado registro con id "+str(line[1])
+                else:
+                    pass
                 message+="</li>"
         message  +=  "</ul></span> "
         self.message_post(body=message)
