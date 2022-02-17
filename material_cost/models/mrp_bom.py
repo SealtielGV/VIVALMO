@@ -138,20 +138,21 @@ class MrpBomCostTotal(models.Model):
                 message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
                 if line[0] != 2:
                     values = line[2]
+                    _logger.info(values)
                     message+= "Nuevo: <br/>" if line[0] == 0 else "Modificación: en id "+str(line[1])+"<br/>"
-                    if 'product_id' in  values:
+                    if 'product_id' in values and values != False:
                         message+="Producto: "+self.env['product.product'].search([('id','=',values['product_id'])]).name+"<br/>"
-                    if 'x_studio_descripcion' in  values: 
+                    if 'x_studio_descripcion' in  values and values != False:
                         message+="Descripción: "+values['x_studio_descripcion']+",<br/>"
-                    if 'product_qty' in  values:
+                    if 'product_qty' in  values and values != False:
                         message+="Cantidad: "+values['product_qty']+",<br/>"
-                    if 'product_uom_id' in  values:
+                    if 'product_uom_id' in  values and values != False:
                         message+="Unidad: "+self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name+",<br/>"
-                    if 'x_studio_costo' in  values:
+                    if 'x_studio_costo' in  values and values != False:
                         message+="Costo: "+values['x_studio_costo']+",<br/>"
-                    if 'amaount_total' in  values:
+                    if 'amaount_total' in  values and values != False:
                         message+="Total: "+values['amaount_total']+",<br/>"
-                    if 'x_studio_aplicado_en' in  values:
+                    if 'x_studio_aplicado_en' in  values and values != False:
                         message+="Aplicado en: "+values['x_studio_aplicado_en']+"<br/>"
                 else:
                     message+= "Eliminado registro con id "+str(line[1])
