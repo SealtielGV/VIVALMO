@@ -138,24 +138,24 @@ class MrpBomCostTotal(models.Model):
                 if line[0] in [0,1] and line[2] == False:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
                     values = line[2]
-                    message+= "Nuevo: <br/>" if line[0] == 0 else "Modificación: en id "+str(line[1])+"<br/>"
+                    message+= " Nuevo: <br/>" if line[0] == 0 else "Modificación: en ID "+str(line[1])+"<br/>"
                     if 'product_id' in values and values != False:
-                        message+="Producto: "+self.env['product.product'].search([('id','=',values['product_id'])]).name+"<br/>"
+                        message+="  Producto: "+self.env['product.product'].search([('id','=',values['product_id'])]).name+"<br/>"
                     if 'x_studio_descripcion' in  values and values != False:
-                        message+="Descripción: "+values['x_studio_descripcion']+",<br/>"
+                        message+="  Descripción: "+values['x_studio_descripcion']+",<br/>"
                     if 'product_qty' in  values and values != False:
-                        message+="Cantidad: "+str(values['product_qty'])+",<br/>"
+                        message+="  Cantidad: "+str(values['product_qty'])+",<br/>"
                     if 'product_uom_id' in  values and values != False:
-                        message+="Unidad: "+self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name+",<br/>"
+                        message+="  Unidad: "+self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name+",<br/>"
                     if 'x_studio_costo' in  values and values != False:
-                        message+="Costo: "+str(values['x_studio_costo'])+",<br/>"
+                        message+="  Costo: "+str(values['x_studio_costo'])+",<br/>"
                     if 'amaount_total' in  values and values != False:
-                        message+="Total: "+str(values['amaount_total'])+",<br/>"
+                        message+="  Total: "+str(values['amaount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
-                        message+="Aplicado en: "+values['x_studio_aplicado_en']+"<br/>"
+                        message+="  Aplicado en: "+values['x_studio_aplicado_en']+"<br/>"
                 elif line[0] == 2:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
-                    message+= "Eliminado registro con id "+str(line[1])
+                    message+= " Eliminado registro con ID "+str(line[1])
                 else:
                     pass
                 message+="</li>"
