@@ -137,7 +137,7 @@ class MrpBomCostTotal(models.Model):
             for line in vals['bom_line_ids']:
                 message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
                 if line[0] != 2:
-                    values = line[3]
+                    values = line[2]
                     message+= "Nuevo: <br/>" if line[0] == 0 else "Modificación: en id "+str(line[1])+"<br/>"
                     if 'product_id' in  values:
                         message+="Producto: "+self.env['product.product'].search([('id','=',values['product_id'])]).name+"<br/>"
