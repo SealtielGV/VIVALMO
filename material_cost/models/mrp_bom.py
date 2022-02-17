@@ -136,7 +136,7 @@ class MrpBomCostTotal(models.Model):
         if 'bom_line_ids' in vals:
             for line in vals['bom_line_ids']:
                 message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
-                if line[0] != 2:
+                if line[0] != 2 and line[3] != False:
                     values = line[2]
                     _logger.info(values)
                     message+= "Nuevo: <br/>" if line[0] == 0 else "Modificación: en id "+str(line[1])+"<br/>"
