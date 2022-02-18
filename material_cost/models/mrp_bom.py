@@ -64,7 +64,7 @@ class MrpBomCostTotal(models.Model):
         if value == False:
             return ''
         else:
-            return value
+            return str(value)
             
     def write(self,vals):
         res = super(MrpBomCostTotal, self).write(vals)
