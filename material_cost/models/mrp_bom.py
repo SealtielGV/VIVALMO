@@ -70,7 +70,7 @@ class MrpBomCostTotal(models.Model):
         
         message = "<span>Se han modidicado los siguientes campos: <span> <ul>"
         if 'code' in vals:
-            message+="<li>Hoja de costo: "+self.convert_value(self.code) +"</li>"
+            message+="<li>Hoja de costo: "+self.convert_value(self.code)+"->"+vals['code']+"</li>"
         if 'x_studio_temporada' in vals:
             message+="<li>Temporada: "+self.convert_value(self.x_studio_temporada) +"</li>"
         if 'x_studio_canal_de_venta' in vals:
