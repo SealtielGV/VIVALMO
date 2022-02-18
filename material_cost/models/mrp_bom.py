@@ -67,7 +67,7 @@ class MrpBomCostTotal(models.Model):
             return str(value)
             
     def write(self,vals):
-        res = super(MrpBomCostTotal, self).write(vals)
+        
         message = "<span>Se han modidicado los siguientes campos: <span> <ul>"
         if 'code' in vals:
             message+="<li>Hoja de costo: "+self.convert_value(self.code) +"</li>"
@@ -161,6 +161,7 @@ class MrpBomCostTotal(models.Model):
                 message+="</li>"
         message  +=  "</ul></span> "
         self.message_post(body=message)
+        res = super(MrpBomCostTotal, self).write(vals)
         return res
         
         
