@@ -3,7 +3,7 @@
     <template id="vivalmo_mrp_bom_report" name="bill_of_materials">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="bom">
-                <t t-call="web.external_layout">  
+                <t t-call="web.external_layout_standard">  
                     <div class="page">
 
                         <div t-if="bom.x_studio_fotografa" class="row" style="margin-botton:50px;">
