@@ -45,7 +45,7 @@ class MrpBomCostTotal(models.Model):
     @api.depends('x_studio_total_de_materiales','x_studio_total_de_servicios','x_studio_costos_indirectos')
     def _compute_total_costo(self):
         for bom in self:
-            bom.x_studio_costo_total = bom. x_studio_total_de_materiales + bom. x_studio_total_de_servicios + bom. x_studio_costos_indirectos
+            bom.x_studio_costo_total = bom.x_studio_total_de_materiales + bom. x_studio_total_de_servicios + bom. x_studio_costos_indirectos
             
             
     @api.depends('x_studio_precio_de_venta_bom','x_studio_descuento_bom','x_studio_costo_total')
@@ -149,19 +149,20 @@ class MrpBomCostTotal(models.Model):
                     values = line[2]
                     message+= " Nuevo: <br/>" 
                     if 'product_id' in values and values != False:
-                        message+="  Producto: "++"<br/>"
+                        product = self.env['product.product'].search([('id','=',values['product_id'])]).name
+                        message+="  Producto: "+self.convert_value(product)+"<br/>"
                     if 'x_studio_descripcion' in  values :
-                        message+="  Descripción: "+values['x_studio_descripcion']+",<br/>"
+                        message+="  Descripción: "+self.convert_value(values['x_studio_descripcion'])+",<br/>"
                     if 'product_qty' in  values and values != False:
-                        message+="  Cantidad: "+str(values['product_qty'])+",<br/>"
+                        message+="  Cantidad: "+self.convert_value(values['product_qty'])+",<br/>"
                     if 'product_uom_id' in  values and values != False:
                         message+="  Unidad: "+self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name+",<br/>"
                     if 'x_studio_costo' in  values and values != False:
-                        message+="  Costo: "+str(values['x_studio_costo'])+",<br/>"
+                        message+="  Costo: "+self.convert_value(values['x_studio_costo'])+",<br/>"
                     if 'amaount_total' in  values and values != False:
-                        message+="  Total: "+str(values['amaount_total'])+",<br/>"
+                        message+="  Total: "+self.convert_value(values['amaount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
-                        message+="  Aplicado en: "+values['x_studio_aplicado_en']+"<br/>"
+                        message+="  Aplicado en: "+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
                 elif line[0] == 1:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
                     values = line[2]
@@ -169,20 +170,20 @@ class MrpBomCostTotal(models.Model):
                     message+= "Modificación: "+str(bom_line.x_studio_descripcion)+"<br/>"
                     if 'product_id' in values and values != False:
                         product = self.env['product.product'].search([('id','=',values['product_id'])]).name
-                        message+="  Producto: "+bom_line.product_id.name+"--->"+product +"<br/>"
+                        message+="  Producto: "+self.convert_value(bom_line.product_id.name)+"--->"+self.convert_value(product) +"<br/>"
                     if 'x_studio_descripcion' in  values and values != False:
-                        message+="  Descripción: "+bom_line.x_studio_descripcion+"--->"+values['x_studio_descripcion']+",<br/>"
+                        message+="  Descripción: "+self.convert_value(bom_line.x_studio_descripcion)+"--->"+self.convert_value(values['x_studio_descripcion'])+",<br/>"
                     if 'product_qty' in  values and values != False:
-                        message+="  Cantidad: "+str(bom_line.product_qty)+"--->"+str(values['product_qty'])+",<br/>"
+                        message+="  Cantidad: "+self.convert_value(bom_line.product_qty)+"--->"+self.convert_value(values['product_qty'])+",<br/>"
                     if 'product_uom_id' in  values and values != False:
                         unidad = self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name
-                        message+="  Unidad: "+bom_line.product_uom_id.name+"--->"+unidad+",<br/>"
+                        message+="  Unidad: "+self.convert_value(bom_line.product_uom_id.name)+"--->"+self.convert_value(unidad)+",<br/>"
                     if 'x_studio_costo' in  values and values != False:
-                        message+="  Costo: "+bom_line.x_studio_costo+"--->"+str(values['x_studio_costo'])+",<br/>"
+                        message+="  Costo: "+self.convert_value(bom_line.x_studio_costo)+"--->"+self.convert_value(values['x_studio_costo'])+",<br/>"
                     if 'amount_total' in  values and values != False:
-                        message+="  Total: "+str(bom_line.amount_total)+"--->"+str(values['amount_total'])+",<br/>"
+                        message+="  Total: "+self.convert_value(bom_line.amount_total)+"--->"+self.convert_value(values['amount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
-                        message+="  Aplicado en: "+bom_line.x_studio_aplicado_en+"--->"+values['x_studio_aplicado_en']+"<br/>"
+                        message+="  Aplicado en: "+self.convert_value(bom_line.x_studio_aplicado_en)+"--->"+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
                 elif line[0] == 2:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
                     bom_line = self.env['mrp.bom.line'].search([('id','=',line[1])])
