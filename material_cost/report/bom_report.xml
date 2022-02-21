@@ -98,12 +98,12 @@
                                         <span t-esc="','.join(doc.x_studio_fit_bom.mapped('x_studio_color_lavado'))"/>
                                     </div>
                                 </div>
-                                <div t-if="doc.x_studio_estilos_doc" class="row">
+                                <div t-if="doc.x_studio_estilos_bom" class="row">
                                     <div class="col-6">
                                         <strong>Estilos: </strong>
                                     </div> 
                                     <div class="col-6">
-                                        <span t-esc="','.join(doc.x_studio_estilos_doc.mapped('name'))"/>
+                                        <span t-esc="','.join(doc.x_studio_estilos_bom.mapped('name'))"/>
                                     </div>
                                 </div>
                                 <div t-if="doc.x_studio_instrucciones_de_lavado" class="row">
