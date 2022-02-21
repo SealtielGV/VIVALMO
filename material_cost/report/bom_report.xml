@@ -3,7 +3,7 @@
     <template id="vivalmo_mrp_doc_report" name="bill_of_materials">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout_standard">         
+                <t t-call="web.external_layout">         
                     <div class="page">
 
                         <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
@@ -359,7 +359,7 @@
     <report
         id = "vivalmo_bill_of_material_report"
         string = "Lista de Materiales Reporte"
-        model = "mrp.doc"
+        model = "mrp.bom"
         report_type = "qweb-pdf"
         name = "material_cost.vivalmo_mrp_doc_report"
         file = "material_cost.vivalmo_mrp_doc_report"
