@@ -12,9 +12,9 @@
                             </div>
 
                             <div class="col-6 text-right">
-                              <img t-attf-src="data:image/*;base64,{{bom.x_studio_fotografa}}" style="width:249;height:249px;"/>   
+                              <img t-attf-src="data:image/*;base64,{{doc.x_studio_fotografa}}" style="width:249;height:249px;"/>   
                             </div>
-                        </div>
+                        
                         </div>
 
                         <div t-else="" class="row" style="margin-botton:50px;">
