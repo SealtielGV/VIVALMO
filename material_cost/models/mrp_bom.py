@@ -145,7 +145,7 @@ class MrpBomCostTotal(models.Model):
         if 'bom_line_ids' in vals:
             for line in vals['bom_line_ids']:
                 if line[0] == 0:
-                    message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
+                    message+="<li>Se ha creado el siguiente componente: <br/>"    
                     values = line[2]
                     message+= " Nuevo: <br/>" 
                     if 'product_id' in values and values != False:
@@ -163,7 +163,8 @@ class MrpBomCostTotal(models.Model):
                         message+="  Total: "+self.convert_value(values['amaount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
                         message+="  Aplicado en: "+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
-                elif line[0] == 1 and ('product_id' in vals or 'x_studio_descripcion' in vals or 'product_qty' in vals or 'product_uom_id' in vals or 'x_studio_costo' in vals or 'amount_total' in vals or 'x_studio_aplicado_en' in vals):
+                    message+="</li>"       
+                elif line[0] == 1 and 'product_id' in line[2] or 'x_studio_descripcion' in line[2] or 'product_qty' in line[2] or 'product_uom_id' in line[2] or 'x_studio_costo' in line[2] or 'amount_total' in line[2] or 'x_studio_aplicado_en' in line[2]:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
                     values = line[2]
                     bom_line = self.env['mrp.bom.line'].search([('id','=',line[1])])
@@ -184,13 +185,15 @@ class MrpBomCostTotal(models.Model):
                         message+="  Total: "+self.convert_value(bom_line.amount_total)+"--->"+self.convert_value(values['amount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
                         message+="  Aplicado en: "+self.convert_value(bom_line.x_studio_aplicado_en)+"--->"+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
+                    message+="</li>"       
                 elif line[0] == 2:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
                     bom_line = self.env['mrp.bom.line'].search([('id','=',line[1])])
-                    message+= " Eliminado registro"+str(bom_line.x_studio_descripcion)
+                    message+= " Eliminado registro"+str(bom_line.x_studio_descripcion)+"</li>"
+                    
                 else:
                     pass
-                message+="</li>"
+                
         message  +=  "</ul></span> "
         self.message_post(body=message)
         res = super(MrpBomCostTotal, self).write(vals)

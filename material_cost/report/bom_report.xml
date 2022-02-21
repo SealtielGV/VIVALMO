@@ -5,7 +5,14 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">         
                     <div class="page">
-
+                         <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
+                            <div class="col-6">
+                               
+                            <div class="col-6 text-right">
+                                <h3><span t-field="doc.x_studio_estatus_de_bom"/></h3> 
+                            </div>
+                        
+                        </div>
                         <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
                             <div class="col-6 text-center" style="margin-top:100px;">
                                 <h3><span t-field="doc.code"/></h3>
@@ -183,7 +190,7 @@
                                     <div class="col-6">
                                         <strong>Total de materiales: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_total_de_materiales"/>
                                     </div>
                                 </div>
@@ -191,7 +198,7 @@
                                     <div class="col-6">
                                         <strong>Total de servicios: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_total_de_servicios"/>
                                     </div>
                                 </div>
@@ -199,7 +206,7 @@
                                     <div class="col-6">
                                         <strong>Costos indirectos: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_costos_indirectos"/>
                                     </div>
                                 </div>
@@ -207,7 +214,7 @@
                                     <div class="col-6">
                                         <strong>Costo total: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_costo_total"/>
                                     </div>
                                 </div>
@@ -215,7 +222,7 @@
                                     <div class="col-6">
                                         <strong>Precio de venta: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_precio_de_venta_bom"/>
                                     </div>
                                 </div>
@@ -223,7 +230,7 @@
                                     <div class="col-6">
                                         <strong>Descuento: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_descuento_bom"/>
                                     </div>
                                 </div>
@@ -231,7 +238,7 @@
                                     <div class="col-6">
                                         <strong>Utilidad en MXN: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_utilidad_en_mxn_bom"/>
                                     </div>
                                 </div>
@@ -239,7 +246,7 @@
                                     <div class="col-6">
                                         <strong>Utilidad en %: </strong>
                                     </div> 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_utilidad_porcentual_bom"/>
                                     </div>
                                 </div>
@@ -251,7 +258,7 @@
                                         <strong>SE00001 Servicio de corte: </strong>
                                     </div>
 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_se00001_servicio_de_corte"/> 
                                     </div>
 
@@ -262,7 +269,7 @@
                                         <strong>SE00002 Servicio de bordado: </strong>
                                     </div> 
 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_se00002_servicio_de_bordado" />
                                     </div>
 
@@ -274,7 +281,7 @@
                                         <strong>SE00003 Servicio de costura: </strong>
                                     </div> 
 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_se00003_servicio_de_costura"/> 
                                     </div>
 
@@ -286,7 +293,7 @@
                                         <strong>SE00004 Servicio de lavado: </strong>
                                     </div> 
 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_se00004_servicio_de_lavado"/>
                                     </div>
 
@@ -298,7 +305,7 @@
                                         <strong>SE00005 Servicio de terminado:</strong>
                                     </div> 
 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_se00005_servicio_de_terminado"/> 
                                     </div>
 
@@ -309,7 +316,7 @@
                                         <strong>Total de servicios: </strong>
                                     </div> 
 
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_total_de_servicios"/>
                                     </div>
 
@@ -333,7 +340,7 @@
                                 <t t-foreach="doc.bom_line_ids" t-as="line">
                                     <tr>
                                         <td name="td_component">
-                                            <span t-field="line.product_id.name"/>
+                                            <span t-field="line.product_id.display_name"/>
                                         </td>
                                         <td name="td_description">
                                             <span t-field="line.x_studio_descripcion"/>
