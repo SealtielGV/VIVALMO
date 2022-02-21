@@ -90,12 +90,12 @@
                                         <span t-esc="','.join(doc.x_studio_color.mapped('name'))"/>
                                     </div>
                                 </div>
-                                <div t-if="doc.x_studio_fit_doc" class="row">
+                                <div t-if="doc.x_studio_fit_bom" class="row">
                                     <div class="col-6">
                                         <strong>Fit: </strong>
                                     </div>
                                     <div class="col-6">
-                                        <span t-esc="','.join(doc.x_studio_fit_doc.mapped('x_studio_color_lavado'))"/>
+                                        <span t-esc="','.join(doc.x_studio_fit_bom.mapped('x_studio_color_lavado'))"/>
                                     </div>
                                 </div>
                                 <div t-if="doc.x_studio_estilos_doc" class="row">
@@ -136,12 +136,12 @@
                                         <span t-field="doc.company_id.name"/>
                                     </div>
                                 </div>
-                                <div t-if="doc.x_studio_disenador_doc" class="row">
+                                <div t-if="doc.x_studio_disenador_bom" class="row">
                                     <div class="col-6">
                                         <strong>Diseñador: </strong>
                                     </div> 
                                     <div class="col-6">
-                                        <span t-field="doc.x_studio_disenador_doc.name"/>
+                                        <span t-field="doc.x_studio_disenador_bom.name"/>
                                     </div>
                                 </div>
                                 <div t-if="doc.type" class="row">
@@ -212,7 +212,7 @@
                                         <strong>Precio de venta: </strong>
                                     </div> 
                                     <div class="col-6 text-center">
-                                        <span t-field="doc.x_studio_precio_de_venta_doc"/>
+                                        <span t-field="doc.x_studio_precio_de_venta_bom"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -220,7 +220,7 @@
                                         <strong>Descuento: </strong>
                                     </div> 
                                     <div class="col-6 text-center">
-                                        <span t-field="doc.x_studio_descuento_doc"/>
+                                        <span t-field="doc.x_studio_descuento_bom"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -228,7 +228,7 @@
                                         <strong>Utilidad en MXN: </strong>
                                     </div> 
                                     <div class="col-6 text-center">
-                                        <span t-field="doc.x_studio_utilidad_en_mxn_doc"/>
+                                        <span t-field="doc.x_studio_utilidad_en_mxn_bom"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -236,7 +236,7 @@
                                         <strong>Utilidad en %: </strong>
                                     </div> 
                                     <div class="col-6 text-center">
-                                        <span t-field="doc.x_studio_utilidad_porcentual_doc"/>
+                                        <span t-field="doc.x_studio_utilidad_porcentual_bom"/>
                                     </div>
                                 </div>
                             </div>
@@ -326,7 +326,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="doc.doc_line_ids" t-as="line">
+                                <t t-foreach="doc.bom_line_ids" t-as="line">
                                     <tr>
                                         <td name="td_component">
                                             <span t-field="line.product_id.name"/>
