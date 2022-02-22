@@ -341,14 +341,14 @@
                                         <td name="td_description">
                                             <span t-field="line.x_studio_descripcion"/>
                                         </td>
-                                        <td name="td_quantity">
+                                        <td name="td_quantity text-right">
                                             <span t-field="line.product_qty"/>
                                             <span t-field="line.product_uom_id.name"/>
                                         </td>
-                                        <td name="td_cost">
+                                        <td name="td_cost text-right">
                                             <span t-field="line.x_studio_costo"/>
                                         </td>
-                                        <td name="td_total">
+                                        <td name="td_total text-right">
                                             <span t-field="line.amount_total"/>
                                         </td>
                                     </tr>
