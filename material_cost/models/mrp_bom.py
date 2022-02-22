@@ -164,7 +164,7 @@ class MrpBomCostTotal(models.Model):
                     if 'x_studio_aplicado_en' in  values and values != False:
                         message+="  Aplicado en: "+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
                     message+="</li>"       
-                elif line[0] == 1 and 'product_id' in line[2] or 'x_studio_descripcion' in line[2] or 'product_qty' in line[2] or 'product_uom_id' in line[2] or 'x_studio_costo' in line[2] or 'amount_total' in line[2] or 'x_studio_aplicado_en' in line[2]:
+                elif line[0] == 1 and ('product_id' in line[2] or 'x_studio_descripcion' in line[2] or 'product_qty' in line[2] or 'product_uom_id' in line[2] or 'x_studio_costo' in line[2] or 'amount_total' in line[2] or 'x_studio_aplicado_en' in line[2]):
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
                     values = line[2]
                     bom_line = self.env['mrp.bom.line'].search([('id','=',line[1])])
