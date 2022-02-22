@@ -6,11 +6,11 @@
                 <t t-call="web.external_layout">         
                     <div class="page">
                          <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
-                            <div class="col-6">
+                            <div class="col-6"></div>
                                
                             <div class="col-6 text-right">
                                 <h3><span t-field="doc.x_studio_estatus_de_bom"/></h3> 
-                            </div>
+                            
                         
                         </div>
                         <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
