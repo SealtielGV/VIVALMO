@@ -5,28 +5,24 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">         
                     <div class="page">
-                         <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
-                            <div class="col-6"></div>
-                               
-                            <div class="col-6 text-right">
-                                <h3><span t-field="doc.x_studio_estatus_de_bom"/></h3> 
-                            </div>
-                        
-                        </div>
                         <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
                             <div class="col-6 text-center" style="margin-top:100px;">
                                 <h3><span t-field="doc.code"/></h3>
                             </div>
 
                             <div class="col-6 text-right">
-                              <img t-attf-src="data:image/*;base64,{{doc.x_studio_fotografa}}" style="width:249;height:249px;"/>   
+                                <h3><span t-field="doc.x_studio_estatus_de_bom"/></h3> 
+                                <img t-attf-src="data:image/*;base64,{{doc.x_studio_fotografa}}" style="width:249;height:249px;"/>   
                             </div>
                         
                         </div>
 
                         <div t-else="" class="row" style="margin-botton:50px;">
-                            <div class="col-12 text-center" style="margin-top:100px;">
+                            <div class="col-6 text-center">
                                 <h3><span t-field="doc.code"/></h3>
+                            </div>
+                            <div class="col-6 text-right">
+                                <h3><span t-field="doc.x_studio_estatus_de_bom"/></h3> 
                             </div>
                         </div>
 
