@@ -20,14 +20,18 @@
                                 <field name="x_studio_total_de_materiales"/>
                                 <field name="x_studio_total_de_servicios"/>
                                 <field name="x_studio_costos_indirectos"/>
+                                <div class="oe_subtotal_footer_separator"/>
                                 <field name="x_studio_costo_total"/>
+                                <div class="oe_subtotal_footer_separator"/>
                                 <field name="x_studio_precio_de_venta_bom"/>
                                 <field name="x_studio_descuento_bom"/>
+                                <div class="oe_subtotal_footer_separator"/>
                                 <field name="net_price" />
                                 <field name="x_studio_costo_total"/>
                                 <field name="marketplace_cost" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
                                 <field name="marketplace_porcentage_commission" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
                                 <field name="marketplace_commission" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
+                                <div class="oe_subtotal_footer_separator"/>
                                 <field name="x_studio_utilidad_en_mxn_bom"/>
                                 <field name="x_studio_utilidad_porcentual_bom"/>
                             </group>

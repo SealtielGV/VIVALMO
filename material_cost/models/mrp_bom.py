@@ -28,7 +28,7 @@ class MrpBomCostTotal(models.Model):
     net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price')
     marketplace_cost = fields.Float(digits=(32, 2),string='Costo logístico marketplace')
     marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace')
-    marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace')
+    marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace',string='_compute_bom_comission_marketplace')
     
     @api.depends('bom_line_ids')
     def _compute_total_materiales_costo(self):
@@ -74,6 +74,11 @@ class MrpBomCostTotal(models.Model):
             bom.net_price = bom.x_studio_precio_de_venta_bom * (1-bom.x_studio_descuento_bom)
     
           
+    @api.depends('net_price','marketplace_porcentage_commission')
+    def _compute_bom_comission_marketplace(self)  :
+        for bom in self:
+            bom.marketplace_commission = bom.net_price * bom.marketplace_porcentage_commission
+    
     def convert_value(self, value):
         if value == False:
             return ''
