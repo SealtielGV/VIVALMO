@@ -13,7 +13,7 @@ class MrpBomCostTotal(models.Model):
     x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo')
     x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios',compute='_compute_total_servicios')
     x_studio_costos_indirectos = fields.Float(digits=(32, 2),string='Costos indirectos')
-    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo total',compute='_compute_total_costo')
+    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo producción',compute='_compute_total_costo')
     x_studio_precio_de_venta_bom = fields.Float(digits=(32, 2),string='Precio de venta')
     x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento')
     x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN',compute='_compute_total_utilidad')
@@ -23,6 +23,12 @@ class MrpBomCostTotal(models.Model):
     x_studio_se00003_servicio_de_costura = fields.Float(digits=(32, 2),string='SE00003 Servicio de costura')
     x_studio_se00004_servicio_de_lavado = fields.Float(digits=(32, 2),string='SE00004 Servicio de lavado')
     x_studio_se00005_servicio_de_terminado = fields.Float(digits=(32, 2),string='SE00005 Servicio de terminado')
+    
+    ##new_fields
+    net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price')
+    marketplace_cost = fields.Float(digits=(32, 2),string='Costo logístico marketplace')
+    marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace')
+    marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace')
     
     @api.depends('bom_line_ids')
     def _compute_total_materiales_costo(self):
@@ -48,18 +54,26 @@ class MrpBomCostTotal(models.Model):
             bom.x_studio_costo_total = bom.x_studio_total_de_materiales + bom. x_studio_total_de_servicios + bom. x_studio_costos_indirectos
             
             
-    @api.depends('x_studio_precio_de_venta_bom','x_studio_descuento_bom','x_studio_costo_total')
+    @api.depends('net_price','x_studio_costo_total','marketplace_cost','marketplace_commission','x_studio_canal_de_venta')
     def _compute_total_utilidad(self):
         for bom in self:
-            amount = bom.x_studio_precio_de_venta_bom - ( bom.x_studio_precio_de_venta_bom * bom.x_studio_descuento_bom) - bom.x_studio_costo_total
+            amount = bom.net_price - bom.x_studio_costo_total
+            if bom.x_studio_canal_de_venta == 'PRICE SHOES':
+                amount -= -bom.marketplace_cost - bom.marketplace_commission
             bom.x_studio_utilidad_en_mxn_bom = amount
             
             
-    @api.depends('x_studio_utilidad_en_mxn_bom','x_studio_precio_de_venta_bom')
+    @api.depends('x_studio_utilidad_en_mxn_bom','net_price')
     def _compute_porcentaje_utilidad(self):
         for bom in self:
-            bom.x_studio_utilidad_porcentual_bom = 1- (bom.x_studio_utilidad_en_mxn_bom / bom.x_studio_precio_de_venta_bom) if bom.x_studio_precio_de_venta_bom > 0.00 else 0.00
-            
+            bom.x_studio_utilidad_porcentual_bom = bom.net_price/bom.x_studio_utilidad_en_mxn_bom if bom.x_studio_utilidad_en_mxn_bom > 0 else 0
+    
+    @api.depends('x_studio_precio_de_venta_bom','x_studio_descuento_bom')
+    def _compute_net_price(self):
+        for bom in self:
+            bom.net_price = bom.x_studio_precio_de_venta_bom * (1-bom.x_studio_descuento_bom)
+    
+          
     def convert_value(self, value):
         if value == False:
             return ''
@@ -164,7 +178,7 @@ class MrpBomCostTotal(models.Model):
                     if 'x_studio_aplicado_en' in  values and values != False:
                         message+="  Aplicado en: "+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
                     message+="</li>"       
-                elif line[0] == 1 and ('product_id' in line[2] or 'x_studio_descripcion' in line[2] or 'product_qty' in line[2] or 'product_uom_id' in line[2] or 'x_studio_costo' in line[2] or 'amount_total' in line[2] or 'x_studio_aplicado_en' in line[2]):
+                elif line[0] == 1 and line[2] != False and ('product_id' in line[2] or 'x_studio_descripcion' in line[2] or 'product_qty' in line[2] or 'product_uom_id' in line[2] or 'x_studio_costo' in line[2] or 'amount_total' in line[2] or 'x_studio_aplicado_en' in line[2]):
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
                     values = line[2]
                     bom_line = self.env['mrp.bom.line'].search([('id','=',line[1])])
