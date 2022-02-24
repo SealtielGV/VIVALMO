@@ -84,6 +84,12 @@ class MrpBomCostTotal(models.Model):
             return ''
         else:
             return str(value)
+        
+    @api.onchange('x_studio_canal_de_venta')
+    def onchange_marketplace_values(self):
+        if self.x_studio_canal_de_venta == 'PRICE SHOES':
+            self.marketplace_porcentage_commission = 0
+            self.marketplace_cost = 0
             
     def write(self,vals):
         
@@ -135,11 +141,24 @@ class MrpBomCostTotal(models.Model):
         if 'x_studio_costos_indirectos' in vals:
             message+="<li>Costos indirectos: "+self.convert_value(self.x_studio_costos_indirectos)+"--->"+self.convert_value(vals['x_studio_costos_indirectos']) +"</li>"
         if 'x_studio_costo_total' in vals:
-            message+="<li>Costos indirectos: "+self.convert_value(self.x_studio_costo_total)+"--->"+self.convert_value(vals['x_studio_costo_total']) +"</li>"
+            message+="<li>Costos Producción: "+self.convert_value(self.x_studio_costo_total)+"--->"+self.convert_value(vals['x_studio_costo_total']) +"</li>"
         if 'x_studio_precio_de_venta_bom' in vals:
             message+="<li>Precio de venta: "+self.convert_value(self.x_studio_precio_de_venta_bom)+"--->"+self.convert_value(vals['x_studio_precio_de_venta_bom']) +"</li>"
         if 'x_studio_descuento_bom' in vals:
             message+="<li>Descuento: "+self.convert_value(self.x_studio_descuento_bom)+"--->"+self.convert_value(vals['x_studio_descuento_bom']) +"</li>"
+        
+        if 'net_price' in vals:
+            message+="<li>Precio neto: "+self.convert_value(self.net_price)+"--->"+self.convert_value(vals['net_price']) +"</li>"
+        
+        if 'marketplace_cost' in vals:
+            message+="<li>Costo logístico marketplace: "+self.convert_value(self.marketplace_cost)+"--->"+self.convert_value(vals['marketplace_cost']) +"</li>"
+            
+        if 'marketplace_porcentage_commission' in vals:
+            message+="<li>Porcentaje comisión marketplace: "+self.convert_value(self.marketplace_porcentage_commission)+"--->"+self.convert_value(vals['marketplace_porcentage_commission']) +"</li>"
+
+        if 'marketplace_commission' in vals:
+            message+="<li>Costo comisión marketplace: "+self.convert_value(self.marketplace_commission)+"--->"+self.convert_value(vals['marketplace_commission']) +"</li>"
+            
         if 'x_studio_utilidad_en_mxn_bom' in vals:
             message+="<li>Utilidad en MXN: "+self.convert_value(self.x_studio_utilidad_en_mxn_bom)+"--->"+self.convert_value(vals['x_studio_utilidad_en_mxn_bom']) +"</li>"
         if 'x_studio_utilidad_porcentual_bom' in vals:

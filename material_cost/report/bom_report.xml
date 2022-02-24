@@ -251,7 +251,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" t-if="bom.x_studio_canal_de_venta == 'ONLINE'">
                                     <div class="col-6">
                                         <strong>Costo logístico marketplace: </strong>
                                     </div> 
@@ -261,7 +261,7 @@
                                 </div>
                                 
 
-                                <div class="row">
+                                <div class="row" t-if="bom.x_studio_canal_de_venta == 'ONLINE'">
                                     <div class="col-6">
                                         <strong>Porcentaje comisión marketplace: </strong>
                                     </div> 
@@ -270,7 +270,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" t-if="bom.x_studio_canal_de_venta == 'ONLINE'">
                                     <div class="col-6">
                                         <strong>Costo comisión marketplace: </strong>
                                     </div> 
