@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        <strong>Costo total: </strong>
+                                        <strong>Costo producción: </strong>
                                     </div> 
                                     <div class="col-6 text-right">
                                         <span t-field="doc.x_studio_costo_total"/>
@@ -230,6 +230,58 @@
                                         <span t-field="doc.x_studio_descuento_bom"/>
                                     </div>
                                 </div>
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Precio neto: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.net_price"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Costo de producción: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_costo_total"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Costo logístico marketplace: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.marketplace_cost"/>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Porcentaje comisión marketplace: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.marketplace_porcentage_commission"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Costo comisión marketplace: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.marketplace_commission"/>
+                                    </div>
+                                </div>
+
+
+
+
                                 <div class="row">
                                     <div class="col-6">
                                         <strong>Utilidad en MXN: </strong>
@@ -238,6 +290,8 @@
                                         <span t-field="doc.x_studio_utilidad_en_mxn_bom"/>
                                     </div>
                                 </div>
+                                
+
                                 <div class="row">
                                     <div class="col-6">
                                         <strong>Utilidad en %: </strong>
