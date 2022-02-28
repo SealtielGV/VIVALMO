@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row" style="margin-bottom:100px;">
                             <div class="col-6">
                                 <div t-if="doc.x_studio_temporada" class="row">
 
@@ -386,7 +386,7 @@
 
                         </div>
 
-                        <table class="table table-sm o_main_table  table-striped mt-3">
+                        <table class="table table-sm o_main_table  table-striped mt-3" style="margin-bottom:50px;">
                             <thead>
                                 <tr>
                                     <th name="th_component">Componente</th>
