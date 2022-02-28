@@ -386,7 +386,7 @@
 
                         </div>
 
-                        <table class="table table-sm o_main_table  table-striped ">
+                        <table class="table table-sm o_main_table  table-striped mt-3">
                             <thead>
                                 <tr>
                                     <th name="th_component">Componente</th>

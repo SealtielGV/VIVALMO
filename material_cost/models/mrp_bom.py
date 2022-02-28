@@ -58,7 +58,7 @@ class MrpBomCostTotal(models.Model):
     def _compute_total_utilidad(self):
         for bom in self:
             amount = bom.net_price - bom.x_studio_costo_total
-            if bom.x_studio_canal_de_venta == 'PRICE SHOES':
+            if bom.x_studio_canal_de_venta != 'PRICE SHOES':
                 amount -= -bom.marketplace_cost - bom.marketplace_commission
             bom.x_studio_utilidad_en_mxn_bom = amount
             
@@ -66,11 +66,12 @@ class MrpBomCostTotal(models.Model):
     @api.depends('x_studio_utilidad_en_mxn_bom','net_price')
     def _compute_porcentaje_utilidad(self):
         for bom in self:
-            bom.x_studio_utilidad_porcentual_bom = bom.net_price/bom.x_studio_utilidad_en_mxn_bom if bom.x_studio_utilidad_en_mxn_bom > 0 else 0
+            bom.x_studio_utilidad_porcentual_bom = bom.x_studio_utilidad_en_mxn_bom/bom.net_price if bom.x_studio_utilidad_en_mxn_bom > 0 else 0
     
     @api.depends('x_studio_precio_de_venta_bom','x_studio_descuento_bom')
     def _compute_net_price(self):
         for bom in self:
+            
             bom.net_price = bom.x_studio_precio_de_venta_bom * (1-bom.x_studio_descuento_bom)
     
           
@@ -93,7 +94,7 @@ class MrpBomCostTotal(models.Model):
             
     def write(self,vals):
         
-        message = "<span>Se han modidicado los siguientes campos: <span> <ul>"
+        message = "<span>Se han modificado los siguientes campos: <span> <ul>"
         if 'code' in vals:
             message+="<li>Hoja de costo: "+self.convert_value(self.code)+"--->"+self.convert_value(vals['code'])+"</li>"
         if 'x_studio_temporada' in vals:
