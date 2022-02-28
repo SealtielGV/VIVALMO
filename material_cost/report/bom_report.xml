@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="row" style="margin-bottom:100px;">
+                        <div class="row" style="margin-bottom:250px;">
                             <div class="col-6">
                                 <div t-if="doc.x_studio_temporada" class="row">
 
