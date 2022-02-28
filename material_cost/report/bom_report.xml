@@ -299,7 +299,7 @@
                             </div>
                         </div>
 
-                         <div class="row"  style="border-right:2px solid black;">
+                         <div class="row"  style="border-bottom:2px solid black;">
                             <div class="col-6 text-center"> 
                                 <h5>COMENTARIOS</h5>    
                             </div>
@@ -308,7 +308,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-6" style="border-right:1px solid black;"> 
                                 <span t-field="doc.x_studio_instrucciones_y_comentarios_bom" />
                             </div>
