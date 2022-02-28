@@ -26,6 +26,15 @@
                             </div>
                         </div>
 
+                        <div class="row" style="border-bottom:2px solid black;">
+                            <div class="col-6">
+                                <h5>INFORMACIÓN GENERAL</h5>
+                            </div>
+                            <div class="col-6">
+                                <h5>RESUMEN DE COSTOS</h5>
+                            </div>
+                        </div>
+
                         <div class="row mb-3">
                             <div class="col-6">
                                 <div t-if="doc.x_studio_temporada" class="row">
@@ -63,32 +72,6 @@
                                     
                                 </div>
 
-                                <div t-if="doc.x_studio_segmento" class="row">
-
-                                    <div class="col-6">
-                                        <strong>Segmento: </strong>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <span t-field="doc.x_studio_segmento"/>
-                                    </div>
-                                </div>
-
-                                <div t-if="doc.x_studio_tallas_a_fabricar" class="row">
-
-                                    <div class="col-6">
-                                        <strong>Tallas a fabricar: </strong>
-                                    </div> 
-
-                                    <div class="col-6">
-                                        <span t-esc="','.join(doc.x_studio_tallas_a_fabricar.mapped('name'))"/>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="col-6">
                                 <div t-if="doc.x_studio_color" class="row">
                                     <div class="col-6 ">
                                         <strong>Color: </strong>
@@ -129,12 +112,29 @@
                                         <span t-esc="','.join(doc.x_studio_instrucciones_de_lavado_secos.mapped('name'))"/>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row mb-3">
+                                <div t-if="doc.x_studio_segmento" class="row">
 
-                            <div class="col-6">
+                                    <div class="col-6">
+                                        <strong>Segmento: </strong>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <span t-field="doc.x_studio_segmento"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="doc.x_studio_tallas_a_fabricar" class="row">
+
+                                    <div class="col-6">
+                                        <strong>Tallas a fabricar: </strong>
+                                    </div> 
+
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_tallas_a_fabricar.mapped('name'))"/>
+                                    </div>
+                                </div>
+
                                 <div t-if="doc.company_id" class="row">
                                     <div class="col-6">
                                         <strong>Fabricante: </strong>
@@ -143,6 +143,7 @@
                                         <span t-field="doc.company_id.name"/>
                                     </div>
                                 </div>
+
                                 <div t-if="doc.x_studio_disenador_bom" class="row">
                                     <div class="col-6">
                                         <strong>Diseñador: </strong>
@@ -151,6 +152,7 @@
                                         <span t-field="doc.x_studio_disenador_bom.name"/>
                                     </div>
                                 </div>
+
                                 <div t-if="doc.type" class="row">
                                     <div class="col-6">
                                         <strong>Tipo de LdM: </strong>
@@ -159,8 +161,7 @@
                                         <span t-field="doc.type"/>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-6">
+
                                 <div class="row">
                                     <div class="col-6">
                                         <strong>Operación: </strong>
@@ -178,10 +179,8 @@
                                     </div> 
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-6"> 
+                            <div class="col-6">
                                 <div class="row">
                                     <div class="col-6">
                                         <strong>Total de materiales: </strong>
@@ -297,11 +296,26 @@
                                         <span t-field="doc.x_studio_utilidad_porcentual_bom"/>
                                     </div>
                                 </div>
+                                
+                            </div>
+                        </div>
+
+                         <div class="row" >
+                            <div class="col-6"> 
+                                <h5>COMENTARIOS</h5>    
                             </div>
                             <div class="col-6">
-                                
+                                <h5>SERVICIOS</h5>    
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6" style="border-right:1px solid black;"> 
+                                <span t-field="doc.x_studio_instrucciones_y_comentarios_bom" />
+                            </div>
+                            <div class="col-6" style="border-left:1px solid black;">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-6 text-right">
                                         <strong>SE00001 Servicio de corte: </strong>
                                     </div>
 
@@ -312,7 +326,7 @@
                                 </div>
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-6 text-right">
                                         <strong>SE00002 Servicio de bordado: </strong>
                                     </div> 
 
@@ -324,7 +338,7 @@
 
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-6 text-right">
                                         <strong>SE00003 Servicio de costura: </strong>
                                     </div> 
 
@@ -336,7 +350,7 @@
 
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-6 text-right">
                                         <strong>SE00004 Servicio de lavado: </strong>
                                     </div> 
 
@@ -348,7 +362,7 @@
 
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-6 text-right">
                                         <strong>SE00005 Servicio de terminado:</strong>
                                     </div> 
 
@@ -359,7 +373,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-6 text-right">
                                         <strong>Total de servicios: </strong>
                                     </div> 
 
