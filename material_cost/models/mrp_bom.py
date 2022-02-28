@@ -59,7 +59,7 @@ class MrpBomCostTotal(models.Model):
         for bom in self:
             amount = bom.net_price - bom.x_studio_costo_total
             if bom.x_studio_canal_de_venta != 'PRICE SHOES':
-                amount -= -bom.marketplace_cost - bom.marketplace_commission
+                amount = bom.net_price - bom.x_studio_costo_total -bom.marketplace_cost - bom.marketplace_commission
             bom.x_studio_utilidad_en_mxn_bom = amount
             
             

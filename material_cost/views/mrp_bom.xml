@@ -27,7 +27,6 @@
                                 <field name="x_studio_descuento_bom"/>
                                 <div class="oe_subtotal_footer_separator"/>
                                 <field name="net_price" />
-                                <field name="x_studio_costo_total"/>
                                 <field name="marketplace_cost" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
                                 <field name="marketplace_porcentage_commission" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
                                 <field name="marketplace_commission" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
