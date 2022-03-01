@@ -189,19 +189,19 @@ class MrpBomCostTotal(models.Model):
                     message+= " Nuevo: <br/>" 
                     if 'product_id' in values and values != False:
                         product = self.env['product.product'].search([('id','=',values['product_id'])]).name
-                        message+="  Producto: "+self.convert_value(product)+"<br/>"
+                        message+="<span style='tab-size:4;'>Producto: "+self.convert_value(product)+"</span>,<br/>"
                     if 'x_studio_descripcion' in  values :
-                        message+="  Descripción: "+self.convert_value(values['x_studio_descripcion'])+",<br/>"
+                        message+="<span style='tab-size:4;'>Descripción: "+self.convert_value(values['x_studio_descripcion'])+"</span>,<br/>"
                     if 'product_qty' in  values and values != False:
-                        message+="  Cantidad: "+self.convert_value(values['product_qty'])+",<br/>"
+                        message+="<span style='tab-size:4;'>Cantidad: "+self.convert_value(values['product_qty'])+"</span>,<br/>"
                     if 'product_uom_id' in  values and values != False:
-                        message+="  Unidad: "+self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name+",<br/>"
+                        message+="<span style='tab-size:4;'>Unidad: "+self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name+"</span>,<br/>"
                     if 'x_studio_costo' in  values and values != False:
-                        message+="  Costo: "+self.convert_value(values['x_studio_costo'])+",<br/>"
+                        message+="<span style='tab-size:4;'>Costo: "+self.convert_value(values['x_studio_costo'])+"</span>,<br/>"
                     if 'amaount_total' in  values and values != False:
-                        message+="  Total: "+self.convert_value(values['amaount_total'])+",<br/>"
+                        message+="<span style='tab-size:4;'>Total: "+self.convert_value(values['amaount_total'])+"</span>,<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
-                        message+="  Aplicado en: "+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
+                        message+="<span style='tab-size:4;'>Aplicado en: "+self.convert_value(values['x_studio_aplicado_en'])+"</span><br/>"
                     message+="</li>"       
                 elif line[0] == 1 and line[2] != False and ('product_id' in line[2] or 'x_studio_descripcion' in line[2] or 'product_qty' in line[2] or 'product_uom_id' in line[2] or 'x_studio_costo' in line[2] or 'amount_total' in line[2] or 'x_studio_aplicado_en' in line[2]):
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
