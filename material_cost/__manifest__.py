@@ -14,4 +14,5 @@
     'data' : ['views/mrp_bom.xml','report/bom_report.xml'],
     'installable':True,
     'auto_install':False,    
+    'application': True,
 }

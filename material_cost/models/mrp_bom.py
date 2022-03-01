@@ -95,6 +95,8 @@ class MrpBomCostTotal(models.Model):
     def write(self,vals):
         
         message = "<span>Se han modificado los siguientes campos: <span> <ul>"
+        if 'x_studio_estatus_de_bom' in vals:
+            message+="<li>Estatus: "+self.convert_value(self.x_studio_estatus_de_bom)+"--->"+self.convert_value(vals['x_studio_estatus_de_bom'])+"</li>"
         if 'code' in vals:
             message+="<li>Hoja de costo: "+self.convert_value(self.code)+"--->"+self.convert_value(vals['code'])+"</li>"
         if 'x_studio_temporada' in vals:
