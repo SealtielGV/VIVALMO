@@ -14,13 +14,13 @@ class VivalmoProjectTask(models.Model):
     
     
     @api.depends('stock_product_ids')
-    def _compute_costo_de_materiales(self):
+    def compute_costo_de_materiales(self):
         for task in self:
             task.x_studio_costo_de_materiales = sum(task.stock_product_ids.mapped('value'))*-1
     
     
     @api.depends('invoice_ids')
-    def _compute_costo_de_operaciones(self):
+    def compute_costo_de_operaciones(self):
         for task in self:
             task.x_studio_costo_de_operaciones = sum(task.invoice_ids.mapped('amount_total_signed'))*-1
         
