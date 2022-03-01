@@ -28,7 +28,7 @@ class VivalmoProjectTask(models.Model):
     @api.depends('x_studio_costo_de_materiales','x_studio_costo_de_operaciones')
     def _compute_costo_total(self):
         for task in self:
-            task.value = task.x_studio_costo_de_materiales+task.x_studio_costo_de_operaciones
+            task.x_studio_costo_total = task.x_studio_costo_de_materiales+task.x_studio_costo_de_operaciones
         
 
     
