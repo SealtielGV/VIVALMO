@@ -11,7 +11,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
     'depends': ['base','project'],
-    'data' : [],
+    'data' : ['view/project_task.xml'],
     'installable':True,
     'auto_install':False,
     'application': True,
