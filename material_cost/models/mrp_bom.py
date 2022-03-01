@@ -228,7 +228,7 @@ class MrpBomCostTotal(models.Model):
                 elif line[0] == 2:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
                     bom_line = self.env['mrp.bom.line'].search([('id','=',line[1])])
-                    message+= " Eliminado registro"+str(bom_line.x_studio_descripcion)+"</li>"
+                    message+= " Eliminado registro: "+str(bom_line.x_studio_descripcion)+"</li>"
                     
                 else:
                     pass
