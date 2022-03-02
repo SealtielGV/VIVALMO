@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_bom_inherit_cost_values">
+            <field name="name">mrp.bom.form.inherit.value.cost</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="studio_customization.odoo_studio_mrp_bom__27df743c-7351-4387-893f-64c9621e091e"/>
+            <field name="priority" eval="99"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='x_studio_costo']" position="after">
+                   <field name="amount_total"/>
+                </xpath>
+                <xpath expr="//field[@name='x_studio_total_de_servicios_bom']" position="replace">
+                    <field name="x_studio_total_de_servicios" />
+                </xpath>
+                <xpath expr="//page[@name='studio_page_iGc1D']" position="after">
+                    <page string="Costos">
+                        <group>
+                            <group>
+                                <field name="x_studio_total_de_materiales"/>
+                                <field name="x_studio_total_de_servicios"/>
+                                <field name="x_studio_costos_indirectos"/>
+                                <div class="oe_subtotal_footer_separator"/>
+                                <field name="x_studio_costo_total"/>
+                                <div class="oe_subtotal_footer_separator"/>
+                                <field name="x_studio_precio_de_venta_bom"/>
+                                <field name="x_studio_descuento_bom"/>
+                                <div class="oe_subtotal_footer_separator"/>
+                                <field name="net_price" />
+                                <field name="marketplace_cost" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
+                                <field name="marketplace_porcentage_commission" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
+                                <field name="marketplace_commission" attrs="{'invisible':[('x_studio_canal_de_venta', '=', 'PRICE SHOES')]}"/>
+                                <div class="oe_subtotal_footer_separator"/>
+                                <field name="x_studio_utilidad_en_mxn_bom"/>
+                                <field name="x_studio_utilidad_porcentual_bom"/>
+                            </group>
+                            
+                        </group>
+                    </page>
+                    
+                   
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
