@@ -45,22 +45,10 @@ class MrpBomCostTotal(models.Model):
             bom.x_studio_total_de_materiales = bom_total
             
             
-    @api.depends('x_studio_se00001_servicio_de_corte',
-                 'x_studio_se00002_servicio_de_bordado',
-                 'x_studio_se00003_servicio_de_costura',
-                 'x_studio_se00004_servicio_de_lavado',
-                 'x_studio_se00005_servicio_de_terminado',
-                 'servicio_serigrafia',
-                'servicio_planchar_transfer')
+    @api.depends('x_studio_se00001_servicio_de_corte','x_studio_se00002_servicio_de_bordado','x_studio_se00003_servicio_de_costura','x_studio_se00004_servicio_de_lavado','x_studio_se00005_servicio_de_terminado','servicio_serigrafia','servicio_planchar_transfer')
     def _compute_total_servicios(self):
         for bom in self:
-            bom.x_studio_total_de_servicios = bom.x_studio_se00001_servicio_de_corte 
-            + bom.x_studio_se00002_servicio_de_bordado 
-            + bom.x_studio_se00003_servicio_de_costura 
-            + bom.x_studio_se00004_servicio_de_lavado 
-            + bom.x_studio_se00005_servicio_de_terminado
-            + bom.servicio_serigrafia 
-            + bom.servicio_planchar_transfer
+            bom.x_studio_total_de_servicios = bom.x_studio_se00001_servicio_de_corte + bom.x_studio_se00002_servicio_de_bordado + bom.x_studio_se00003_servicio_de_costura + bom.x_studio_se00004_servicio_de_lavado + bom.x_studio_se00005_servicio_de_terminado+ bom.servicio_serigrafia + bom.servicio_planchar_transfer
                 
                 
     @api.depends('x_studio_total_de_materiales','x_studio_total_de_servicios','x_studio_costos_indirectos')
