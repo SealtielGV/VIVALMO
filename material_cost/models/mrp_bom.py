@@ -18,17 +18,20 @@ class MrpBomCostTotal(models.Model):
     x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento')
     x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN',compute='_compute_total_utilidad')
     x_studio_utilidad_porcentual_bom = fields.Float(digits=(32, 2),string='Utilidad en %',compute='_compute_porcentaje_utilidad')
-    x_studio_se00001_servicio_de_corte = fields.Float(digits=(32, 2),string='SE00001 Servicio de corte')
-    x_studio_se00002_servicio_de_bordado = fields.Float(digits=(32, 2),string='SE00002 Servicio de bordado')
-    x_studio_se00003_servicio_de_costura = fields.Float(digits=(32, 2),string='SE00003 Servicio de costura')
-    x_studio_se00004_servicio_de_lavado = fields.Float(digits=(32, 2),string='SE00004 Servicio de lavado')
-    x_studio_se00005_servicio_de_terminado = fields.Float(digits=(32, 2),string='SE00005 Servicio de terminado')
+    x_studio_se00001_servicio_de_corte = fields.Float(digits=(32, 2),string='Servicio de corte')
+    x_studio_se00002_servicio_de_bordado = fields.Float(digits=(32, 2),string='Servicio de bordado')
+    x_studio_se00003_servicio_de_costura = fields.Float(digits=(32, 2),string='Servicio de costura')
+    x_studio_se00004_servicio_de_lavado = fields.Float(digits=(32, 2),string='Servicio de lavado')
+    x_studio_se00005_servicio_de_terminado = fields.Float(digits=(32, 2),string='Servicio de terminado')
     
     ##new_fields
     net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price')
     marketplace_cost = fields.Float(digits=(32, 2),string='Costo logístico marketplace')
     marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace')
     marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace',compute='_compute_bom_comission_marketplace')
+    #service
+    servicio_serigrafia = fields.Float(digits=(32,2),string="Servicio de serigrafía")
+    servicio_planchar_transfer  = fields.Float(digits=(32,2),string="Servicio de planchar transfer")
     
     @api.depends('bom_line_ids')
     def _compute_total_materiales_costo(self):
@@ -42,10 +45,22 @@ class MrpBomCostTotal(models.Model):
             bom.x_studio_total_de_materiales = bom_total
             
             
-    @api.depends('x_studio_se00001_servicio_de_corte','x_studio_se00002_servicio_de_bordado','x_studio_se00003_servicio_de_costura','x_studio_se00004_servicio_de_lavado','x_studio_se00005_servicio_de_terminado')
+    @api.depends('x_studio_se00001_servicio_de_corte',
+                 'x_studio_se00002_servicio_de_bordado',
+                 'x_studio_se00003_servicio_de_costura',
+                 'x_studio_se00004_servicio_de_lavado',
+                 'x_studio_se00005_servicio_de_terminado',
+                 'servicio_serigrafia',
+                'servicio_planchar_transfer')
     def _compute_total_servicios(self):
         for bom in self:
-            bom.x_studio_total_de_servicios = bom.x_studio_se00001_servicio_de_corte + bom.x_studio_se00002_servicio_de_bordado + bom.x_studio_se00003_servicio_de_costura + bom.x_studio_se00004_servicio_de_lavado + bom.x_studio_se00005_servicio_de_terminado 
+            bom.x_studio_total_de_servicios = bom.x_studio_se00001_servicio_de_corte 
+            + bom.x_studio_se00002_servicio_de_bordado 
+            + bom.x_studio_se00003_servicio_de_costura 
+            + bom.x_studio_se00004_servicio_de_lavado 
+            + bom.x_studio_se00005_servicio_de_terminado
+            + bom.servicio_serigrafia 
+            + bom.servicio_planchar_transfer
                 
                 
     @api.depends('x_studio_total_de_materiales','x_studio_total_de_servicios','x_studio_costos_indirectos')
@@ -179,6 +194,10 @@ class MrpBomCostTotal(models.Model):
             message+="<li>SE00003 Servicio de costura: "+self.convert_value(self.x_studio_se00003_servicio_de_costura)+"--->"+self.convert_value(vals['x_studio_se00003_servicio_de_costura']) +"</li>"
         if 'x_studio_se00004_servicio_de_lavado' in vals:
             message+="<li>SE00004 Servicio de lavado: "+self.convert_value(self.x_studio_se00004_servicio_de_lavado)+"--->"+self.convert_value(vals['x_studio_se00004_servicio_de_lavado']) +"</li>"
+        if 'servicio_serigrafia' in vals:
+            message+="<li> Servicio de serigrafía: "+self.convert_value(self.servicio_serigrafia)+"--->"+self.convert_value(vals['servicio_serigrafia']) +"</li>"     
+        if 'servicio_planchar_transfer' in vals:
+            message+="<li>Servicio de planchar transfer: "+self.convert_value(self.servicio_planchar_transfer)+"--->"+self.convert_value(vals['servicio_planchar_transfer']) +"</li>"
         if 'x_studio_se00005_servicio_de_terminado' in vals:
             message+="<li>SE00005 Servicio de terminado: "+self.convert_value(self.x_studio_se00005_servicio_de_terminado)+"--->"+self.convert_value(vals['x_studio_se00005_servicio_de_terminado']) +"</li>"
         if 'x_studio_instrucciones_y_comentarios_bom' in vals:

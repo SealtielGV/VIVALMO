@@ -10,6 +10,10 @@
                 <xpath expr="//field[@name='x_studio_costo']" position="after">
                    <field name="amount_total"/>
                 </xpath>
+                <xpath expr="//field[@name='x_studio_se00004_servicio_de_lavado']" position="after">
+                    <field name="servicio_serigrafia"/>
+                   <field name="servicio_planchar_transfer"/>
+                </xpath>
                 <xpath expr="//field[@name='x_studio_total_de_servicios_bom']" position="replace">
                     <field name="x_studio_total_de_servicios" />
                 </xpath>
