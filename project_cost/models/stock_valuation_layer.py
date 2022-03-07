@@ -5,3 +5,4 @@ class VivalmoStockValuationLayer(models.Model):
     _inherit = 'stock.valuation.layer'
 
     x_studio_pr_relacionada = fields.Many2one('project.task',string='PR relacionada')
+    production_id = fields.Many2one('mrp.production',string='MO')
