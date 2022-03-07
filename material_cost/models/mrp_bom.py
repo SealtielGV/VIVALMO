@@ -10,14 +10,19 @@ class MrpBomCostTotal(models.Model):
     _inherit = 'mrp.bom'
     
     
-    x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo')
-    x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios',compute='_compute_total_servicios')
+    x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo',                                        
+    help='Suma de los componentes de la lista de materiales')
+    x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios',compute='_compute_total_servicios',
+    help='Sericio de corte + Servicio de bordado + Servicio de costura + Servicio de lavado + Servicio de serigrafía + Servicio de planchar/transfer')
     x_studio_costos_indirectos = fields.Float(digits=(32, 2),string='Costos indirectos')
-    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo producción',compute='_compute_total_costo')
+    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo producción',compute='_compute_total_costo',
+    help='Total de materiales - Total Servicios')
     x_studio_precio_de_venta_bom = fields.Float(digits=(32, 2),string='Precio de venta')
     x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento')
-    x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN',compute='_compute_total_utilidad')
-    x_studio_utilidad_porcentual_bom = fields.Float(digits=(32, 2),string='Utilidad en %',compute='_compute_porcentaje_utilidad')
+    x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN',compute='_compute_total_utilidad',
+    help='Price shoes = Precio de venta - Costo total  \n Online = Precio de venta - Costo total - Costo lógistico marketplace - Costo comisión marketplace')
+    x_studio_utilidad_porcentual_bom = fields.Float(digits=(32, 2),string='Utilidad en %',compute='_compute_porcentaje_utilidad',
+    help='Utilidad MXN/ Precio neto')
     x_studio_se00001_servicio_de_corte = fields.Float(digits=(32, 2),string='Servicio de corte')
     x_studio_se00002_servicio_de_bordado = fields.Float(digits=(32, 2),string='Servicio de bordado')
     x_studio_se00003_servicio_de_costura = fields.Float(digits=(32, 2),string='Servicio de costura')
@@ -25,13 +30,15 @@ class MrpBomCostTotal(models.Model):
     x_studio_se00005_servicio_de_terminado = fields.Float(digits=(32, 2),string='Servicio de terminado')
     
     ##new_fields
-    net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price')
+    net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price',
+    help='Precio de venta - % Descuento')
     marketplace_cost = fields.Float(digits=(32, 2),string='Costo logístico marketplace')
     marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace')
-    marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace',compute='_compute_bom_comission_marketplace')
+    marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace',compute='_compute_bom_comission_marketplace',
+    help='Precio neto % Porcentaje de comisión market')
     #service
     servicio_serigrafia = fields.Float(digits=(32,2),string="Servicio de serigrafía")
-    servicio_planchar_transfer  = fields.Float(digits=(32,2),string="Servicio de planchar transfer")
+    servicio_planchar_transfer  = fields.Float(digits=(32,2),string="Servicio de planchar/transfer")
     
     @api.depends('bom_line_ids')
     def _compute_total_materiales_costo(self):
@@ -120,7 +127,7 @@ class MrpBomCostTotal(models.Model):
             message+="<li>Estilos: "+','.join(self.x_studio_estilos_bom.mapped('name'))+"--->"+','.join(attributes)  +"</li>"
         if 'x_studio_instrucciones_de_lavado' in vals:
             attributes = self.env['product.attribute.value'].search([('id','in',vals['x_studio_instrucciones_de_lavado'][0][2])]).mapped('x_studio_color_lavado')
-            message+="<li>Instrucciones de labado húmedos : "+','.join(self.x_studio_instrucciones_de_lavado.mapped('x_studio_color_lavado'))+"--->"+','.join(attributes) +"</li>"
+            message+="<li>Instrucciones de lavado húmedos : "+','.join(self.x_studio_instrucciones_de_lavado.mapped('x_studio_color_lavado'))+"--->"+','.join(attributes) +"</li>"
         if 'x_studio_instrucciones_de_lavado_secos' in vals:
             attributes = self.env['product.attribute.value'].search([('id','in',vals['x_studio_instrucciones_de_lavado_secos'][0][2])]).mapped('x_studio_color_lavado')
             message+="<li>Instrucciones de labado secos : "+','.join(self.x_studio_instrucciones_de_lavado_secos.mapped('x_studio_color_lavado')) +"--->"+','.join(attributes)+"</li>"

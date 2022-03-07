@@ -56,7 +56,7 @@
                     <attribute name="string">Servicio de lavado</attribute>
                 </xpath>
                 <xpath expr="//field[@name='x_studio_se00005_servicio_de_terminado']" position="attributes">
-                    <attribute name="string">Servicio de terminad</attribute>
+                    <attribute name="string">Servicio de terminado</attribute>
                 </xpath>
 
 
