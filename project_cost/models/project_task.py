@@ -10,7 +10,7 @@ class VivalmoProjectTask(models.Model):
     x_studio_costo_total = fields.Float(digits=(32,2),string='Costo total',compute='_compute_costo_total')
     
     stock_product_ids = fields.One2many('stock.valuation.layer','x_studio_pr_relacionada',string='Productos Consumidos')
-    invoice_ids = fields.One2many('account.move','x_studio_many2one_field_rHur1',string='Facturas de contratista')
+    invoice_ids = fields.One2many('account.move','x_studio_orden_de_fabricacion_pr',string='Facturas de contratista')
     prodction_ids = fields.One2many('mrp.production','x_studio_pr',string='MO')
     scrap_ids = fields.One2many('stock.scrap','task_id',string='Desechos',domain=[('state','=','done')])
     
