@@ -10,7 +10,7 @@
     'website': "",
     'category': 'Uncategorized',
     'version': '0.1',
-    'depends': ['base','project','stock','account','stock_account'],
+    'depends': ['base','project','stock','account','stock_account','mrp'],
     'data' : ['view/project_task.xml'],
     'installable':True,
     'auto_install':False,

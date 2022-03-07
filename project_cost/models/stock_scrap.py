@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 class VivalmoStockScrap(models.Model):
-    _inherit = 'stcok.scrap'
+    _inherit = 'stock.scrap'
     
     
     task_id = fields.Many2one('project.task',string='Tarea')
