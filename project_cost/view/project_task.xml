@@ -26,6 +26,7 @@
                         </tree>
                     </field>
                 </xpath>
+                
                 <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
                     <field name="invoice_ids">
                         <tree>
