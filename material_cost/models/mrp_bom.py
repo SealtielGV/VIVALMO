@@ -11,16 +11,17 @@ class MrpBomCostTotal(models.Model):
     
     
     x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo',                                        
-    help='Suma de los componentes de la lista de materiales')
+    help='Suma total de los componentes de la lista de materiales, el costo de los SKU talleros solo se suma una vez.')
     x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios',compute='_compute_total_servicios',
-    help='Sericio de corte + Servicio de bordado + Servicio de costura + Servicio de lavado + Servicio de serigrafía + Servicio de planchar/transfer')
+    help='Suma total de los servicios')
     x_studio_costos_indirectos = fields.Float(digits=(32, 2),string='Costos indirectos')
     x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo producción',compute='_compute_total_costo',
-    help='Total de materiales - Total Servicios')
+    help='Costo producción = Total de materiales + Total de servicios + Costos indirectos')
     x_studio_precio_de_venta_bom = fields.Float(digits=(32, 2),string='Precio de venta')
-    x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento')
+    x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento',
+    help='Expresado en decimales, por ejemplo: 3% = 0.03, 105% = 1.05')
     x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN',compute='_compute_total_utilidad',
-    help='Price shoes = Precio de venta - Costo total  \n Online = Precio de venta - Costo total - Costo lógistico marketplace - Costo comisión marketplace')
+    help='Para Price Shoes Utilidad en MXN = Precio neto - Costo producción \nPara Online Utilidad en MXN = Precio neto - Costo producción - Costo logístico marketplace - Costo comisión marketplace')
     x_studio_utilidad_porcentual_bom = fields.Float(digits=(32, 2),string='Utilidad en %',compute='_compute_porcentaje_utilidad',
     help='Utilidad MXN/ Precio neto')
     x_studio_se00001_servicio_de_corte = fields.Float(digits=(32, 2),string='Servicio de corte')
@@ -33,7 +34,8 @@ class MrpBomCostTotal(models.Model):
     net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price',
     help='Precio de venta - % Descuento')
     marketplace_cost = fields.Float(digits=(32, 2),string='Costo logístico marketplace')
-    marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace')
+    marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace',
+    help = 'Expresado en decimales, por ejemplo: 3% = 0.03, 105% = 1.05')
     marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace',compute='_compute_bom_comission_marketplace',
     help='Precio neto % Porcentaje de comisión market')
     #service
@@ -130,7 +132,7 @@ class MrpBomCostTotal(models.Model):
             message+="<li>Instrucciones de lavado húmedos : "+','.join(self.x_studio_instrucciones_de_lavado.mapped('x_studio_color_lavado'))+"--->"+','.join(attributes) +"</li>"
         if 'x_studio_instrucciones_de_lavado_secos' in vals:
             attributes = self.env['product.attribute.value'].search([('id','in',vals['x_studio_instrucciones_de_lavado_secos'][0][2])]).mapped('x_studio_color_lavado')
-            message+="<li>Instrucciones de labado secos : "+','.join(self.x_studio_instrucciones_de_lavado_secos.mapped('x_studio_color_lavado')) +"--->"+','.join(attributes)+"</li>"
+            message+="<li>Instrucciones de lavado secos : "+','.join(self.x_studio_instrucciones_de_lavado_secos.mapped('x_studio_color_lavado')) +"--->"+','.join(attributes)+"</li>"
         if 'x_studio_segmento' in vals:            
             message+="<li>Segmento : "+self.convert_value(self.x_studio_segmento)+"--->"+self.convert_value(vals['x_studio_segmento']) +"</li>"
         if 'x_studio_tallas_a_fabricar' in vals:
