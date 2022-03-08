@@ -236,8 +236,11 @@ class MrpBomCostTotal(models.Model):
                     pass
                 
         message  +=  "</ul></span> "
-        self.message_post(body=message)
+       
         res = super(MrpBomCostTotal, self).write(vals)
+        for mrp in self:
+            mrp.message_post(body=message)
+            
         return res
         
                   
@@ -247,6 +250,7 @@ class CostoMrpBomLine(models.Model):
     
     x_studio_costo = fields.Float(related='product_id.standard_price')
     amount_total = fields.Float('Total',compute='compute_value_total_amount')
+    
     
 
     @api.depends('x_studio_costo','product_qty')
