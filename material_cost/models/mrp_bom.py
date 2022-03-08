@@ -236,8 +236,8 @@ class MrpBomCostTotal(models.Model):
                     if 'product_uom_id' in  values and values != False:
                         unidad = self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name
                         message+="  Unidad: "+self.convert_value(bom_line.product_uom_id.name)+"--->"+self.convert_value(unidad)+",<br/>"
-                    if 'x_studio_costo' in  values and values != False:
-                        message+="  Costo: "+self.convert_value(bom_line.x_studio_costo)+"--->"+self.convert_value(values['x_studio_costo'])+",<br/>"
+                    #if 'x_studio_costo' in  values and values != False:
+                    #    message+="  Costo: "+self.convert_value(bom_line.x_studio_costo)+"--->"+self.convert_value(values['x_studio_costo'])+",<br/>"
                     if 'amount_total' in  values and values != False:
                         message+="  Total: "+self.convert_value(bom_line.amount_total)+"--->"+self.convert_value(values['amount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
@@ -261,8 +261,13 @@ class MrpBomCostTotal(models.Model):
 class CostoMrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
     
-    x_studio_costo = fields.Float(related='product_id.standard_price')
+    x_studio_costo = fields.Float(digits=(32, 2),string="Costo",compute='_compute_standard_price')
     amount_total = fields.Float('Total',compute='compute_value_total_amount')
+    
+    @api.depends('product_id','product_id.standard_price')
+    def _compute_standard_price(self):
+        for line in self:
+            line.x_studio_costo = line.product_id.standard_price if line.product_id else 0
     
 
     @api.depends('x_studio_costo','product_qty')
