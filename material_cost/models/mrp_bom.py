@@ -252,8 +252,9 @@ class MrpBomCostTotal(models.Model):
                     pass
                 
         message  +=  "</ul></span> "
-        self.message_post(body=message)
         res = super(MrpBomCostTotal, self).write(vals)
+        for mrp in self:
+            mrp.message_post(body=message)
         return res
         
                   
