@@ -34,7 +34,7 @@ class VivalmoProjectTask(models.Model):
     @api.depends('production_ids','production_ids.qty_produced','scrap_ids','scrap_ids.scrap_qty')
     def _compute_production_delivery(self):
         for task in self:
-            task.delivery_quantites = sum(task.production_ids.mapped('qty_produced')) + sum(task.scrap_ids.maped('scrap_qty'))
+            task.delivery_quantites = sum(task.production_ids.mapped('qty_produced')) + sum(task.scrap_ids.mapped('scrap_qty'))
     
     @api.depends('price_unit_bom','delivery_quantities')
     def _compute_estimated_utility(self):
