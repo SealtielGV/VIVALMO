@@ -11,7 +11,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
     'depends': ['base','project','stock','account','stock_account','mrp'],
-    'data' : ['view/project_task.xml'],
+    'data' : ['view/project_task.xml','view/mrp_production.xml'],
     'installable':True,
     'auto_install':False,
     'application': True,
