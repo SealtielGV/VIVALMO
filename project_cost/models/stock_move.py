@@ -9,14 +9,16 @@ class VivalmoStockMove(models.Model):
     
     def write(self,vals):
         res = super(VivalmoStockMove, self).write(vals)
-        if self.production_id and self.stock_valuation_layer_ids.filtered(lambda s: s.production_id == False):
+        if self.raw_material_production_id and self.stock_valuation_layer_ids.filtered(lambda s: s.production_id == False):
             for valuation in self.stock_valuation_layer_ids:
-                if self.production_id.x_studio_pr:
+                if self.raw_material_production_id.x_studio_pr:
                     valuation.update({
-                        'x_studio_pr_relacionada':self.production_id.x_studio_pr.id,
-                        'production_id': self.production_id.id
+                        'x_studio_pr_relacionada':self.raw_material_production_id.x_studio_pr.id,
+                        'production_id': self.raw_material_production_id.id
                     })
                 else:
                     valuation.update({
                         'production_id': self.production_id.id
                     })
+                    
+        return res
