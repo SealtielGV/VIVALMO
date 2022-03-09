@@ -33,11 +33,11 @@
                             <field name="invoice_date"/>
                             <field name="name"/>
                             <field name="invoice_partner_display_name"/>
-                            <field name="x_studio_referencia_proveedor"/>
                             <field name="amount_untaxed_signed"/>
                             <field name="amount_tax"/>
                             <field name="amount_total_signed"/>
                             <field name="state"/>
+                           <field name="payment_state"/>
                         </tree>
                     </field>
                 </xpath>
