@@ -18,7 +18,7 @@ class VivalmoStockMove(models.Model):
                     })
                 else:
                     valuation.update({
-                        'production_id': self.production_id.id
+                        'production_id': self.raw_material_production_id.id
                     })
                     
         return res
