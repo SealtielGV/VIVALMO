@@ -6,7 +6,7 @@ class VivalmoStockMove(models.Model):
 
     task_id = fields.Many2one('project.task',string='Tarea',)
     
-    """
+    
     def write(self,vals):
         res = super(VivalmoStockMove, self).write(vals)
         if self.raw_material_production_id and self.stock_valuation_layer_ids.filtered(lambda s: s.production_id == False):
@@ -22,4 +22,4 @@ class VivalmoStockMove(models.Model):
                     })
                     
         return res
-    """
+    
