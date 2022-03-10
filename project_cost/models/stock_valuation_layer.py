@@ -8,6 +8,7 @@ class VivalmoStockValuationLayer(models.Model):
     production_id = fields.Many2one('mrp.production',string='MO')
     production_status = fields.Selection(related='production_id.state')
     
+    
     @api.model
     def create(self,vals):
         res = super(VivalmoStockValuationLayer,self).create(vals)
@@ -15,4 +16,6 @@ class VivalmoStockValuationLayer(models.Model):
             res.update({
                 'x_studio_pr_relacionada': res.stock_move_id.raw_material_production_id.x_studio_pr.id,
                 'production_id': res.stock_move_id.raw_material_production_id.id
-            })
+            }) 
+        return res 
+    
