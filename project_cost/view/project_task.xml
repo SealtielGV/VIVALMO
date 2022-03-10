@@ -24,7 +24,7 @@
                            <field name="uom_id"/>
                            <field name="unit_cost"/>
                            <field name="value" sum="Total"/>
-                           <field name="production_status" widget="badge" decoration-success="state == 'done'" decoration-info="state not in ('done', 'cancel')" />
+                           <field name="production_status" widget="badge" decoration-success="production_status == 'done'" decoration-info="production_status not in ('done', 'cancel')" />
                         </tree>
                     </field>
                 </xpath>
