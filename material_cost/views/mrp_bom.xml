@@ -10,6 +10,13 @@
                 <xpath expr="//field[@name='x_studio_costo']" position="after">
                    <field name="amount_total"/>
                 </xpath>
+<<<<<<< HEAD
+=======
+                <xpath expr="//field[@name='x_studio_se00004_servicio_de_lavado']" position="after">
+                    <field name="servicio_serigrafia"/>
+                   <field name="servicio_planchar_transfer"/>
+                </xpath>
+>>>>>>> 1bf5d95610bfb486a2c3cc1801ed19e88b1de0ad
                 <xpath expr="//field[@name='x_studio_total_de_servicios_bom']" position="replace">
                     <field name="x_studio_total_de_servicios" />
                 </xpath>
@@ -37,9 +44,32 @@
                             
                         </group>
                     </page>
+<<<<<<< HEAD
                     
                    
                 </xpath>
+=======
+                   
+                </xpath>
+                <xpath expr="//field[@name='x_studio_se00001_servicio_de_corte']" position="attributes">
+                    <attribute name="string">Servicio de corte</attribute>
+                </xpath>
+                <xpath expr="//field[@name='x_studio_se00002_servicio_de_bordado']" position="attributes">
+                    <attribute name="string">Servicio de bordado</attribute>
+                </xpath>
+                <xpath expr="//field[@name='x_studio_se00003_servicio_de_costura']" position="attributes">
+                    <attribute name="string">Servicio de costura</attribute>
+                </xpath>
+                <xpath expr="//field[@name='x_studio_se00004_servicio_de_lavado']" position="attributes">
+                    <attribute name="string">Servicio de lavado</attribute>
+                </xpath>
+                <xpath expr="//field[@name='x_studio_se00005_servicio_de_terminado']" position="attributes">
+                    <attribute name="string">Servicio de terminado</attribute>
+                </xpath>
+
+
+                
+>>>>>>> 1bf5d95610bfb486a2c3cc1801ed19e88b1de0ad
             </field>
         </record>
     </data>

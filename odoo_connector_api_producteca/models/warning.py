@@ -5,9 +5,15 @@ import pdb
 WARNING_MODULE = 'odoo_connector_api_producteca'
 WARNING_TYPES = [('warning','Warning'),('info','Information'),('error','Error')]
 
+<<<<<<< HEAD
 class oldwarning(models.TransientModel):
     _name = 'warning'
     _description = 'old warning'
+=======
+#class oldwarning(models.TransientModel):
+#    _name = 'warning'
+#    _description = 'old warning'
+>>>>>>> 1bf5d95610bfb486a2c3cc1801ed19e88b1de0ad
 
 class warning(models.TransientModel):
     _name = 'producteca.warning'

@@ -315,7 +315,7 @@
                             <div class="col-6" style="border-left:1px solid black;">
                                 <div class="row">
                                     <div class="col-6 text-right">
-                                        <strong>SE00001 Servicio de corte: </strong>
+                                        <strong>Servicio de corte: </strong>
                                     </div>
 
                                     <div class="col-6 text-right">
@@ -326,7 +326,7 @@
                                 <div class="row">
 
                                     <div class="col-6 text-right">
-                                        <strong>SE00002 Servicio de bordado: </strong>
+                                        <strong>Servicio de bordado: </strong>
                                     </div> 
 
                                     <div class="col-6 text-right">
@@ -338,7 +338,7 @@
                                 <div class="row">
 
                                     <div class="col-6 text-right">
-                                        <strong>SE00003 Servicio de costura: </strong>
+                                        <strong>Servicio de costura: </strong>
                                     </div> 
 
                                     <div class="col-6 text-right">
@@ -350,7 +350,7 @@
                                 <div class="row">
 
                                     <div class="col-6 text-right">
-                                        <strong>SE00004 Servicio de lavado: </strong>
+                                        <strong>Servicio de lavado: </strong>
                                     </div> 
 
                                     <div class="col-6 text-right">
@@ -362,7 +362,31 @@
                                 <div class="row">
 
                                     <div class="col-6 text-right">
-                                        <strong>SE00005 Servicio de terminado:</strong>
+                                        <strong>Servicio de serigrafía: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.servicio_serigrafia"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de planchar/transfer: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.servicio_planchar_transfer"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de terminado:</strong>
                                     </div> 
 
                                     <div class="col-6 text-right">

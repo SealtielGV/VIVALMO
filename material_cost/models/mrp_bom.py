@@ -10,25 +10,37 @@ class MrpBomCostTotal(models.Model):
     _inherit = 'mrp.bom'
     
     
-    x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo')
-    x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios',compute='_compute_total_servicios')
+    x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo',                                        
+    help='Suma total de los componentes de la lista de materiales, el costo de los SKU talleros solo se suma una vez.')
+    x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios',compute='_compute_total_servicios',
+    help='Suma total de los servicios')
     x_studio_costos_indirectos = fields.Float(digits=(32, 2),string='Costos indirectos')
-    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo producción',compute='_compute_total_costo')
+    x_studio_costo_total = fields.Float(digits=(32, 2),string='Costo producción',compute='_compute_total_costo',
+    help='Costo producción = Total de materiales + Total de servicios + Costos indirectos')
     x_studio_precio_de_venta_bom = fields.Float(digits=(32, 2),string='Precio de venta')
-    x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento')
-    x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN',compute='_compute_total_utilidad')
-    x_studio_utilidad_porcentual_bom = fields.Float(digits=(32, 2),string='Utilidad en %',compute='_compute_porcentaje_utilidad')
-    x_studio_se00001_servicio_de_corte = fields.Float(digits=(32, 2),string='SE00001 Servicio de corte')
-    x_studio_se00002_servicio_de_bordado = fields.Float(digits=(32, 2),string='SE00002 Servicio de bordado')
-    x_studio_se00003_servicio_de_costura = fields.Float(digits=(32, 2),string='SE00003 Servicio de costura')
-    x_studio_se00004_servicio_de_lavado = fields.Float(digits=(32, 2),string='SE00004 Servicio de lavado')
-    x_studio_se00005_servicio_de_terminado = fields.Float(digits=(32, 2),string='SE00005 Servicio de terminado')
+    x_studio_descuento_bom = fields.Float(digits=(32, 2),string='Descuento',
+    help='Expresado en decimales, por ejemplo: 3% = 0.03, 105% = 1.05')
+    x_studio_utilidad_en_mxn_bom = fields.Float(digits=(32, 2),string='Utilidad en MXN',compute='_compute_total_utilidad',
+    help='Para Price Shoes Utilidad en MXN = Precio neto - Costo producción \nPara Online Utilidad en MXN = Precio neto - Costo producción - Costo logístico marketplace - Costo comisión marketplace')
+    x_studio_utilidad_porcentual_bom = fields.Float(digits=(32, 2),string='Utilidad en %',compute='_compute_porcentaje_utilidad',
+    help='Utilidad MXN/ Precio neto')
+    x_studio_se00001_servicio_de_corte = fields.Float(digits=(32, 2),string='Servicio de corte')
+    x_studio_se00002_servicio_de_bordado = fields.Float(digits=(32, 2),string='Servicio de bordado')
+    x_studio_se00003_servicio_de_costura = fields.Float(digits=(32, 2),string='Servicio de costura')
+    x_studio_se00004_servicio_de_lavado = fields.Float(digits=(32, 2),string='Servicio de lavado')
+    x_studio_se00005_servicio_de_terminado = fields.Float(digits=(32, 2),string='Servicio de terminado')
     
     ##new_fields
-    net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price')
+    net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price',
+    help='Precio de venta - % Descuento')
     marketplace_cost = fields.Float(digits=(32, 2),string='Costo logístico marketplace')
-    marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace')
-    marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace',compute='_compute_bom_comission_marketplace')
+    marketplace_porcentage_commission = fields.Float(digits=(32, 2),string='Porcentaje comisión marketplace',
+    help = 'Expresado en decimales, por ejemplo: 3% = 0.03, 105% = 1.05')
+    marketplace_commission = fields.Float(digits=(32, 2),string='Costo comisión marketplace',compute='_compute_bom_comission_marketplace',
+    help='Precio neto % Porcentaje de comisión market')
+    #service
+    servicio_serigrafia = fields.Float(digits=(32,2),string="Servicio de serigrafía")
+    servicio_planchar_transfer  = fields.Float(digits=(32,2),string="Servicio de planchar/transfer")
     
     @api.depends('bom_line_ids')
     def _compute_total_materiales_costo(self):
@@ -42,10 +54,10 @@ class MrpBomCostTotal(models.Model):
             bom.x_studio_total_de_materiales = bom_total
             
             
-    @api.depends('x_studio_se00001_servicio_de_corte','x_studio_se00002_servicio_de_bordado','x_studio_se00003_servicio_de_costura','x_studio_se00004_servicio_de_lavado','x_studio_se00005_servicio_de_terminado')
+    @api.depends('x_studio_se00001_servicio_de_corte','x_studio_se00002_servicio_de_bordado','x_studio_se00003_servicio_de_costura','x_studio_se00004_servicio_de_lavado','x_studio_se00005_servicio_de_terminado','servicio_serigrafia','servicio_planchar_transfer')
     def _compute_total_servicios(self):
         for bom in self:
-            bom.x_studio_total_de_servicios = bom.x_studio_se00001_servicio_de_corte + bom.x_studio_se00002_servicio_de_bordado + bom.x_studio_se00003_servicio_de_costura + bom.x_studio_se00004_servicio_de_lavado + bom.x_studio_se00005_servicio_de_terminado 
+            bom.x_studio_total_de_servicios = bom.x_studio_se00001_servicio_de_corte + bom.x_studio_se00002_servicio_de_bordado + bom.x_studio_se00003_servicio_de_costura + bom.x_studio_se00004_servicio_de_lavado + bom.x_studio_se00005_servicio_de_terminado+ bom.servicio_serigrafia + bom.servicio_planchar_transfer
                 
                 
     @api.depends('x_studio_total_de_materiales','x_studio_total_de_servicios','x_studio_costos_indirectos')
@@ -117,10 +129,10 @@ class MrpBomCostTotal(models.Model):
             message+="<li>Estilos: "+','.join(self.x_studio_estilos_bom.mapped('name'))+"--->"+','.join(attributes)  +"</li>"
         if 'x_studio_instrucciones_de_lavado' in vals:
             attributes = self.env['product.attribute.value'].search([('id','in',vals['x_studio_instrucciones_de_lavado'][0][2])]).mapped('x_studio_color_lavado')
-            message+="<li>Instrucciones de labado húmedos : "+','.join(self.x_studio_instrucciones_de_lavado.mapped('x_studio_color_lavado'))+"--->"+','.join(attributes) +"</li>"
+            message+="<li>Instrucciones de lavado húmedos : "+','.join(self.x_studio_instrucciones_de_lavado.mapped('x_studio_color_lavado'))+"--->"+','.join(attributes) +"</li>"
         if 'x_studio_instrucciones_de_lavado_secos' in vals:
             attributes = self.env['product.attribute.value'].search([('id','in',vals['x_studio_instrucciones_de_lavado_secos'][0][2])]).mapped('x_studio_color_lavado')
-            message+="<li>Instrucciones de labado secos : "+','.join(self.x_studio_instrucciones_de_lavado_secos.mapped('x_studio_color_lavado')) +"--->"+','.join(attributes)+"</li>"
+            message+="<li>Instrucciones de lavado secos : "+','.join(self.x_studio_instrucciones_de_lavado_secos.mapped('x_studio_color_lavado')) +"--->"+','.join(attributes)+"</li>"
         if 'x_studio_segmento' in vals:            
             message+="<li>Segmento : "+self.convert_value(self.x_studio_segmento)+"--->"+self.convert_value(vals['x_studio_segmento']) +"</li>"
         if 'x_studio_tallas_a_fabricar' in vals:
@@ -179,6 +191,10 @@ class MrpBomCostTotal(models.Model):
             message+="<li>SE00003 Servicio de costura: "+self.convert_value(self.x_studio_se00003_servicio_de_costura)+"--->"+self.convert_value(vals['x_studio_se00003_servicio_de_costura']) +"</li>"
         if 'x_studio_se00004_servicio_de_lavado' in vals:
             message+="<li>SE00004 Servicio de lavado: "+self.convert_value(self.x_studio_se00004_servicio_de_lavado)+"--->"+self.convert_value(vals['x_studio_se00004_servicio_de_lavado']) +"</li>"
+        if 'servicio_serigrafia' in vals:
+            message+="<li> Servicio de serigrafía: "+self.convert_value(self.servicio_serigrafia)+"--->"+self.convert_value(vals['servicio_serigrafia']) +"</li>"     
+        if 'servicio_planchar_transfer' in vals:
+            message+="<li>Servicio de planchar transfer: "+self.convert_value(self.servicio_planchar_transfer)+"--->"+self.convert_value(vals['servicio_planchar_transfer']) +"</li>"
         if 'x_studio_se00005_servicio_de_terminado' in vals:
             message+="<li>SE00005 Servicio de terminado: "+self.convert_value(self.x_studio_se00005_servicio_de_terminado)+"--->"+self.convert_value(vals['x_studio_se00005_servicio_de_terminado']) +"</li>"
         if 'x_studio_instrucciones_y_comentarios_bom' in vals:
@@ -220,8 +236,8 @@ class MrpBomCostTotal(models.Model):
                     if 'product_uom_id' in  values and values != False:
                         unidad = self.env['uom.uom'].search([('id','=',values['product_uom_id'])]).name
                         message+="  Unidad: "+self.convert_value(bom_line.product_uom_id.name)+"--->"+self.convert_value(unidad)+",<br/>"
-                    if 'x_studio_costo' in  values and values != False:
-                        message+="  Costo: "+self.convert_value(bom_line.x_studio_costo)+"--->"+self.convert_value(values['x_studio_costo'])+",<br/>"
+                    #if 'x_studio_costo' in  values and values != False:
+                    #    message+="  Costo: "+self.convert_value(bom_line.x_studio_costo)+"--->"+self.convert_value(values['x_studio_costo'])+",<br/>"
                     if 'amount_total' in  values and values != False:
                         message+="  Total: "+self.convert_value(bom_line.amount_total)+"--->"+self.convert_value(values['amount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
@@ -236,11 +252,9 @@ class MrpBomCostTotal(models.Model):
                     pass
                 
         message  +=  "</ul></span> "
-       
         res = super(MrpBomCostTotal, self).write(vals)
         for mrp in self:
-            mrp.message_post(body=message)
-            
+            mrp.message_post(body=message) 
         return res
         
                   
@@ -248,9 +262,13 @@ class MrpBomCostTotal(models.Model):
 class CostoMrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
     
-    x_studio_costo = fields.Float(related='product_id.standard_price')
+    x_studio_costo = fields.Float(digits=(32, 2),string="Costo",compute='_compute_standard_price')
     amount_total = fields.Float('Total',compute='compute_value_total_amount')
     
+    @api.depends('product_id','product_id.standard_price')
+    def _compute_standard_price(self):
+        for line in self:
+            line.x_studio_costo = line.product_id.standard_price if line.product_id else 0
     
 
     @api.depends('x_studio_costo','product_qty')
