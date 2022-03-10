@@ -6,7 +6,10 @@ class VivalmoStockValuationLayer(models.Model):
 
     x_studio_pr_relacionada = fields.Many2one('project.task',string='PR relacionada')
     production_id = fields.Many2one('mrp.production',string='MO')
-    production_status = fields.Selection(related='production_id.state')
+    production_status = fields.Selection([
+        ('draft','Borrador'),('confirmed','Confirmado'),('progress','En progreso'),
+        ('to_close','Por cerrar'),('done','Hecho'),('cancel','Cancelado')
+        ],related='production_id.state',string="Estado Producción")
     location_id = fields.Many2one('stock.location',string='Ubicación',related='stock_move_id.location_id')
     
     

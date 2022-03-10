@@ -32,14 +32,15 @@
                 <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
                     <field name="invoice_ids">
                         <tree>
-                            <field name="invoice_date"/>
+                            <field name="invoice_date" string="Fecha"/>
                             <field name="name"/>
-                            <field name="invoice_partner_display_name"/>
-                            <field name="amount_untaxed_signed"/>
+                            <field name="invoice_partner_display_name" string="Proveedor"/>
+                           <field name="x_studio_etapa_del_proceso_de_la_pr"/>
+                            <field name="amount_untaxed_signed" string="Importe"/>
                             <field name="amount_tax"/>
-                            <field name="amount_total_signed"/>
-                            <field name="state"/>
-                           <field name="payment_state"/>
+                            <field name="amount_total_signed" string="Total"/>
+                            <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'"/>
+                           <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')"/>
                         </tree>
                     </field>
                 </xpath>
