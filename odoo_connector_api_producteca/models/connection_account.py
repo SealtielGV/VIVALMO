@@ -40,7 +40,11 @@ class ProductecaConnectionAccount(models.Model):
 
     configuration = fields.Many2one( "producteca.configuration", string="Configuration", help="Connection Parameters Configuration"  )
     #type = fields.Selection([("custom","Custom"),("producteca","Producteca")],string='Connector',index=True)
-    type = fields.Selection(selection_add=[("producteca","Producteca")],string='Connector Type',default="producteca", index=True)
+    type = fields.Selection(selection_add=[("producteca","Producteca")],
+				string='Connector Type',
+				default="producteca",
+				ondelete={'producteca': 'set default'},
+				index=True)
     country_id = fields.Many2one("res.country",string="Country",index=True)
 
     producteca_product_template_bindings = fields.One2many( "producteca.binding.product_template", "connection_account", string="Product Bindings" )
@@ -1024,7 +1028,8 @@ class ProductecaConnectionAccount(models.Model):
 
                 _logger.info(account.configuration.import_stock_locations)
                 #default is first instance
-                whouse = account.configuration.import_stock_locations[0]
+                whouse = chanbinded and chanbinded.warehouse_id or account.configuration.import_stock_locations[0]
+                #account.configuration.import_stock_locations
 
                 #check for logistic type
                 if pso.logisticType:

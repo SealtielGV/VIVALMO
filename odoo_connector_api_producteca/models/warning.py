@@ -8,7 +8,7 @@ WARNING_TYPES = [('warning','Warning'),('info','Information'),('error','Error')]
 class oldwarning(models.TransientModel):
     _name = 'warning'
     _description = 'old warning'
-
+    
 class warning(models.TransientModel):
     _name = 'producteca.warning'
     _description = 'warning'

@@ -8,7 +8,7 @@
 
 {
     'name': 'Producteca Odoo Connector',
-    'version': '14.0.22.1',
+    'version': '14.0.22.3',
     'author': 'Moldeo Interactive, Producteca',
     'website': 'https://www.moldeointeractive.com',
     "category": "Sales",

@@ -8,7 +8,7 @@
 
 {
     'name': 'Odoo Connector Api',
-    'version': '14.0.22.2',
+    'version': '14.0.22.3',
     'author': 'Moldeo Interactive',
     'website': 'https://www.moldeointeractive.com',
     "category": "Sales",
