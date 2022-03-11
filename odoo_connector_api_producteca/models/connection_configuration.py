@@ -67,6 +67,9 @@ class ProductectaChannelBinding(models.Model):
     seller_user = fields.Many2one("res.users", string="Vendedor", help="Usuario con el que se registrarán las órdenes automáticamente")
     seller_team = fields.Many2one("crm.team", string="Equipo de venta", help="Equipo de ventas para ordenes de venta")
 
+    #chequear configuration_id.import_stock_locations
+    warehouse_id = fields.Many2one( "stock.warehouse", string="Almacen" )
+
 
 class ProductecaConnectionConfiguration(models.Model):
 

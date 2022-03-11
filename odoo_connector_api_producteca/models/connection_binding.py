@@ -82,14 +82,21 @@ class ProductecaConnectionBindingProductTemplate(models.Model):
             }
             #prices.append(price)
             prices_str+= str(price["priceList"])+str(": ")+str(price["amount"])
+            prices.append(plprice)
 
-        return prices_str
+        if not prices:
+            prices.append(0.0)
+
+        return prices_str, prices
 
     def _calculate_price_resume_tmpl(self):
         #_logger.info("Calculate price resume")
         for bindT in self:
             #var.stock_resume = "LOEC: 5, MFULL: 3"
-            bindT.price_resume_tmpl = bindT.get_price_str_tmpl()
+            price_resume_tmpl, prices = bindT.get_price_str_tmpl()
+            bindT.price_resume_tmpl = price_resume_tmpl
+            bindT.price = prices[0]
+
 
     def get_stock_str_tmpl(self):
         stocks = []
@@ -169,14 +176,20 @@ class ProductecaConnectionBindingProductVariant(models.Model):
             #prices.append(price)
             prices_str+= str(price["priceList"])+str(": ")+str(price["amount"])
             self.price = plprice
+            prices.append(plprice)
 
-        return prices_str
+        if not prices:
+            prices.append(0.0)
+
+        return prices_str, prices
 
     def _calculate_price_resume(self):
         #_logger.info("Calculate price resume")
         for var in self:
             #var.stock_resume = "LOEC: 5, MFULL: 3"
-            var.price_resume = var.get_price_str()
+            price_resume, prices = var.get_price_str()
+            var.price_resume = price_resume
+            var.price = prices[0]
 
     def get_stock_str(self):
         stocks = []
