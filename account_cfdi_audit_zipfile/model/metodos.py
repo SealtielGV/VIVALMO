@@ -168,11 +168,12 @@ class AccountCFDItWizardZipFile(models.TransientModel):
         os.close(fileno)
         try:
             archivo_zip = zipfile.ZipFile(fname, 'r')
+            _logger.info(archivo_zip)
         except:
             archivo_zip = False
         if not archivo_zip:
             raise UserError(_("Error ! El archivo no es un archivo ZIP o no contiene archivos XML de CFDIs..."))
-        
+        _logger.info(archivo_zip)
         cfdi_ids = []
         for file_name in archivo_zip.namelist():
             _logger.info(_('Importando: %s') % (file_name))
@@ -185,10 +186,10 @@ class AccountCFDItWizardZipFile(models.TransientModel):
                 #chunk_bytes = chunk_stream.read()
                
             try:
-                x = file_name.split('.')[1]
+                x = file_name[:-4]
             except:
                 continue
-            if file_name.split('.')[1] != 'xml':
+            if file_name[:-4] != '.xml':
                 _logger.info(_('Archivo %s descartado porque no es un archivo XML') % (file_name))
                 continue
             
