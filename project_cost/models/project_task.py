@@ -10,11 +10,11 @@ class VivalmoProjectTask(models.Model):
     _inherit = 'project.task'
     
     
-    x_studio_costo_de_materiales = fields.Float(digits=(32,2),string='Costo de materiales',compute='_compute_costo_de_materiales'
+    x_studio_costo_de_materiales = fields.Float(digits=(32,2),string='Costo de materiales',compute='_compute_costo_de_materiales',
     help='Suma del costo de materailes utilizados en la PR')
-    x_studio_costo_de_operaciones = fields.Float(digits=(32,2),string='Costo de operaciones',compute='_compute_costo_de_operaciones'
+    x_studio_costo_de_operaciones = fields.Float(digits=(32,2),string='Costo de operaciones',compute='_compute_costo_de_operaciones',
     help='Suma del total de facturas de contratista')
-    x_studio_costo_total = fields.Float(digits=(32,2),string='Costo total',compute='_compute_costo_total'
+    x_studio_costo_total = fields.Float(digits=(32,2),string='Costo total',compute='_compute_costo_total',
     help='Costo total = Costo de materiales + Costo de operaciones')
     
     stock_product_ids = fields.One2many('stock.valuation.layer','x_studio_pr_relacionada',string='Productos Consumidos')
@@ -25,13 +25,13 @@ class VivalmoProjectTask(models.Model):
     price_unit_bom = fields.Float(digits=(32,2),string='Precio de neto Bom',compute='_get_price_unit_bom',
     help='Precio de venta de la lista de precio')
     delivery_quantities = fields.Float(digits=(32,2),string='Cantidades entregadas',compute='_compute_production_delivery',
-    help='Cantidades Recibidas = Cantidades producidas - Cantidades desechadas')
-    estimated_utility = fields.Float(digits=(32,2),string='Utilidad estimada por PR en MXN',compute='_compute_estimated_utility',
-    help='Precio de venta Bom * Cantidades entregadas')
-    utility = fields.Float(digits=(32,2),string='Utilidad MXN',compute='_compute_total_utility',
-    help='Utilidad estimada por PR en MXN = Utilidad estimada - Costo total')
+    help='Cantidades Recibidas = Cantidades producidas de MO - Cantidades desechadas')
+    estimated_utility = fields.Float(digits=(32,2),string='Utilidad',compute='_compute_estimated_utility',
+    help='Utilidad = Precio de venta Bom * Cantidades entregadas')
+    utility = fields.Float(digits=(32,2),string='Utilidad estimada por PR en MXN',compute='_compute_total_utility',
+    help='Utilidad estimada por PR en MXN = (Precio de neto Bom x Cantidades Recibidas) - Costo total')
     porcentaje_utility  = fields.Float(digits=(32,2),string='Utilidad % MXN',compute='_compute_porcentaje_utility',
-    help='Utilidad % MXN = Utilidad estimada por PR en MXN/(Precio de neto Bom*delivery_quantities)')
+    help='Utilidad % MXN = Utilidad estimada por PR en MXN/(Precio de neto Bom x Cantidades Recibidas)')
     
     
     @api.depends('production_ids','production_ids.bom_id')

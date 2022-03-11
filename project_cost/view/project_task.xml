@@ -9,7 +9,7 @@
                 <xpath expr="//field[@name='x_studio_costo_total']" position="after">
                     <field name="price_unit_bom"/>
                     <field name="delivery_quantities"/>
-                    <field name="estimated_utility"/>
+                    <field name="estimated_utility"invisible="1"/>
                     <field name="utility"/>
                     <field name="porcentaje_utility"/>
                 </xpath>
