@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="vivalmo_mrp_doc_report" name="bill_of_materials">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">         
+                    <div class="page">
+                        <div t-if="doc.x_studio_fotografa" class="row" style="margin-botton:50px;">
+                            <div class="col-6 text-center" style="margin-top:100px;">
+                                <h3><span t-field="doc.code"/></h3>
+                            </div>
+
+                            <div class="col-6 text-right">
+                                <h3><span t-field="doc.x_studio_estatus_de_bom"/></h3> 
+                                <img t-attf-src="data:image/*;base64,{{doc.x_studio_fotografa}}" style="width:249;height:249px;"/>   
+                            </div>
+                        
+                        </div>
+
+                        <div t-else="" class="row" style="margin-botton:50px;">
+                            <div class="col-6 text-center">
+                                <h3><span t-field="doc.code"/></h3>
+                            </div>
+                            <div class="col-6 text-right">
+                                <h3><span t-field="doc.x_studio_estatus_de_bom"/></h3> 
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom:2px solid black;">
+                            <div class="col-6 text-center">
+                                <h5>INFORMACIÓN GENERAL</h5>
+                            </div>
+                            <div class="col-6 text-center">
+                                <h5>RESUMEN DE COSTOS</h5>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom:50px;">
+                            <div class="col-6">
+                                <div t-if="doc.x_studio_temporada" class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Temporada: </strong>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <span t-field="doc.x_studio_temporada"/>
+                                    </div>
+
+                                </div>
+
+                                <div t-if="doc.x_studio_canal_de_venta" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Canal de venta: </strong>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <span t-field="doc.x_studio_canal_de_venta"/>
+                                     </div>
+                                </div>
+
+                                <div t-if="doc.product_tmpl_id.name" class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Modelo: </strong>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <span t-field="doc.product_tmpl_id.name"/>
+                                    </div>
+                                    
+                                </div>
+
+                                <div t-if="doc.x_studio_color" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Color: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_color.mapped('name')).strip()"/>
+                                    </div>
+                                </div>
+                                <div t-if="doc.x_studio_fit_bom" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Fit: </strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_fit_bom.mapped('x_studio_color_lavado')).strip()"/>
+                                    </div>
+                                </div>
+                                <div t-if="doc.x_studio_estilos_bom" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Estilos: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_estilos_bom.mapped('name')).strip()"/>
+                                    </div>
+                                </div>
+                                <div t-if="doc.x_studio_instrucciones_de_lavado" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Instrucciones de lavado húmedos: </strong> 
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_instrucciones_de_lavado.mapped('name')).strip()"/>
+                                    </div>
+                                </div>
+                                <div t-if="doc.x_studio_instrucciones_de_lavado_secos" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Instrucciones de lavado secos: </strong> 
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_instrucciones_de_lavado_secos.mapped('name')).strip()"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="doc.x_studio_segmento" class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Segmento: </strong>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <span t-field="doc.x_studio_segmento"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="doc.x_studio_tallas_a_fabricar" class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Tallas a fabricar: </strong>
+                                    </div> 
+
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_tallas_a_fabricar.mapped('name')).strip()"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="doc.company_id" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Fabricante: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="doc.company_id.name"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="doc.x_studio_disenador_bom" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Diseñador: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="doc.x_studio_disenador_bom.name"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="doc.type" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Tipo de LdM: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="doc.type"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div t-if="doc.picking_type_id" class="col-6 text-right">
+                                        <strong>Operación: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-field="doc.picking_type_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Consumo: </strong>
+                                    </div> 
+                                    <div class="col-6 ">
+                                        <span t-field="doc.consumption"/>
+                                    </div> 
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Total de materiales: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_total_de_materiales"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Total de servicios: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_total_de_servicios"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Costos indirectos: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_costos_indirectos"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Costo producción: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_costo_total"/>
+                                    </div>
+                                </div>
+                                <div class="row text-right">
+                                    <div class="col-6">
+                                        <strong>Precio de venta: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_precio_de_venta_bom"/>
+                                    </div>
+                                </div>
+                                <div class="row text-right">
+                                    <div class="col-6">
+                                        <strong>Descuento: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_descuento_bom"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Precio neto: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.net_price"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Costo de producción: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_costo_total"/>
+                                    </div>
+                                </div>
+
+                                <div class="row" t-if="doc.x_studio_canal_de_venta == 'ONLINE'">
+                                    <div class="col-6 text-right">
+                                        <strong>Costo logístico marketplace: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.marketplace_cost"/>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="row" t-if="doc.x_studio_canal_de_venta == 'ONLINE'">
+                                    <div class="col-6 text-right">
+                                        <strong>Porcentaje comisión marketplace: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.marketplace_porcentage_commission"/>
+                                    </div>
+                                </div>
+
+                                <div class="row" t-if="doc.x_studio_canal_de_venta == 'ONLINE'">
+                                    <div class="col-6 text-right">
+                                        <strong>Costo comisión marketplace: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.marketplace_commission"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Utilidad en MXN: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_utilidad_en_mxn_bom"/>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Utilidad en %: </strong>
+                                    </div> 
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_utilidad_porcentual_bom"/>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                         <div class="row"  style="border-bottom:2px solid black;">
+                            <div class="col-6 text-center"> 
+                                <h5>COMENTARIOS</h5>    
+                            </div>
+                            <div class="col-6 text-center">
+                                <h5>SERVICIOS</h5>    
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6" style="border-right:1px solid black;"> 
+                                <span t-field="doc.x_studio_instrucciones_y_comentarios_bom" />
+                            </div>
+                            <div class="col-6" style="border-left:1px solid black;">
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de corte: </strong>
+                                    </div>
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_se00001_servicio_de_corte"/> 
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de bordado: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_se00002_servicio_de_bordado" />
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de costura: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_se00003_servicio_de_costura"/> 
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de lavado: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_se00004_servicio_de_lavado"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de serigrafía: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.servicio_serigrafia"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de planchar/transfer: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.servicio_planchar_transfer"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6 text-right">
+                                        <strong>Servicio de terminado:</strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_se00005_servicio_de_terminado"/> 
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Total de servicios: </strong>
+                                    </div> 
+
+                                    <div class="col-6 text-right">
+                                        <span t-field="doc.x_studio_total_de_servicios"/>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <table class="table table-sm o_main_table  table-striped mt-3" style="margin-bottom:50px;">
+                            <thead>
+                                <tr>
+                                    <th name="th_component">Componente</th>
+                                    <th name="th_description">Descripción</th>
+                                    <th name="th_quantity">Cantidad</th>
+                                    <th name="th_cost">Costo</th>
+                                    <th name="th_total">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.bom_line_ids" t-as="line">
+                                    <tr>
+                                        <td name="td_component">
+                                            <span t-field="line.product_id.display_name"/>
+                                        </td>
+                                        <td name="td_description">
+                                            <span t-field="line.x_studio_descripcion"/>
+                                        </td>
+                                        <td name="td_quantity text-right">
+                                            <span t-field="line.product_qty"/>
+                                            <span t-field="line.product_uom_id.name"/>
+                                        </td>
+                                        <td name="td_cost text-right">
+                                            <span t-field="line.x_studio_costo"/>
+                                        </td>
+                                        <td name="td_total text-right">
+                                            <span t-field="line.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                
+                            </tbody>
+                        </table>                         
+                    </div>
+                
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id = "vivalmo_bill_of_material_report"
+        string = "Lista de Materiales Reporte"
+        model = "mrp.bom"
+        report_type = "qweb-pdf"
+        name = "material_cost.vivalmo_mrp_doc_report"
+        file = "material_cost.vivalmo_mrp_doc_report"
+        print_report_name="'Lista de Material %s' % (object.display_name)"/>
+
+</odoo>

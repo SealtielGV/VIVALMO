@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="project_task_inherit_new_field">
+            <field name="name">project.task.form.inherit.field.o2m</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="studio_customization.odoo_studio_project__ef9ca25a-6028-43ad-8524-e2313c326c67"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='x_studio_costo_total']" position="after">
+                    <field name="price_unit_bom"/>
+                    <field name="delivery_quantities"/>
+                    <field name="estimated_utility"/>
+                    <field name="utility"/>
+                    <field name="porcentaje_utility"/>
+                </xpath>
+                <xpath expr="//page[@name='studio_page_IQj5h']" position="inside">
+                    <field name="stock_product_ids">
+                        <tree>
+                           <field name="production_id"/>
+                           <field name="create_date"/>
+                           <field name="product_id"/>
+                           <field name="quantity"/>
+                           <field name="uom_id"/>
+                           <field name="unit_cost"/>
+                           <field name="value"/>
+                        </tree>
+                    </field>
+                </xpath>
+                
+                <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
+                    <field name="invoice_ids">
+                        <tree>
+                            <field name="invoice_date"/>
+                            <field name="name"/>
+                            <field name="invoice_partner_display_name"/>
+                            <field name="amount_untaxed_signed"/>
+                            <field name="amount_tax"/>
+                            <field name="amount_total_signed"/>
+                            <field name="state"/>
+                           <field name="payment_state"/>
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
