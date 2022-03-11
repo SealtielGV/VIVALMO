@@ -94,7 +94,7 @@ class ProductecaConnectionBindingProductTemplate(models.Model):
         for bindT in self:
             #var.stock_resume = "LOEC: 5, MFULL: 3"
             price_resume_tmpl, prices = bindT.get_price_str_tmpl()
-            bindT.price_resume_tmpl = price_resume
+            bindT.price_resume_tmpl = price_resume_tmpl
             bindT.price = prices[0]
 
 
