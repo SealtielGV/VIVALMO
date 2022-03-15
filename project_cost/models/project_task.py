@@ -23,7 +23,7 @@ class VivalmoProjectTask(models.Model):
     scrap_ids = fields.One2many('stock.scrap','task_id',string='Desechos',domain=[('state','=','done')])
     
     price_unit_bom = fields.Float(digits=(32,2),string='Precio de neto Bom',compute='_get_price_unit_bom',
-    help='Precio de venta de la lista de precio')
+    help='Precio de venta de la lista de materiales')
     delivery_quantities = fields.Float(digits=(32,2),string='Cantidades entregadas',compute='_compute_production_delivery',
     help='Cantidades Recibidas = Cantidades producidas de MO - Cantidades desechadas')
     estimated_utility = fields.Float(digits=(32,2),string='Utilidad',compute='_compute_estimated_utility',
@@ -37,7 +37,7 @@ class VivalmoProjectTask(models.Model):
     @api.depends('production_ids','production_ids.bom_id')
     def _get_price_unit_bom(self):
         for task in self:
-            task.price_unit_bom = sum(task.production_ids.bom_id.mapped('x_studio_utilidad_en_mxn_bom'))/len(task.production_ids) if task.production_ids else 0
+            task.price_unit_bom = task.production_ids[0].bom_id.x_studio_utilidad_en_mxn_bom if task.production_ids else 0
 
     @api.depends('production_ids','production_ids.qty_produced','scrap_ids','scrap_ids.scrap_qty')
     def _compute_production_delivery(self):

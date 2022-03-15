@@ -38,7 +38,7 @@
                            <field name="x_studio_etapa_del_proceso_de_la_pr"/>
                             <field name="amount_untaxed_signed" string="Importe"/>
                             <field name="amount_tax"/>
-                            <field name="amount_total_signed" string="Total"/>
+                            <field name="amount_total_signed" string="Total" sum="total"/>
                             <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'"/>
                            <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')"/>
                         </tree>
