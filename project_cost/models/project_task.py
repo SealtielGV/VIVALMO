@@ -37,7 +37,7 @@ class VivalmoProjectTask(models.Model):
     @api.depends('production_ids','production_ids.bom_id')
     def get_price_unit_bom(self):
         for task in self:
-            task.price_unit_bom = max(task.production_ids.bom_id.mapped('x_studio_precio_de_venta_bom')) if task.production_ids else 0
+            task.price_unit_bom = max(task.production_ids.bom_id.mapped('net_price')) if task.production_ids else 0
 
     @api.depends('production_ids','production_ids.qty_produced','scrap_ids','scrap_ids.scrap_qty')
     def _compute_production_delivery(self):
