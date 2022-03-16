@@ -6,3 +6,5 @@ class VivalmoMrpProduction(models.Model):
 
 
     x_studio_pr = fields.Many2one('project.task',string='PR')
+    
+    
