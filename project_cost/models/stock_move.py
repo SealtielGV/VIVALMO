@@ -22,3 +22,4 @@ class VivalmoStockMove(models.Model):
                     })
                     
         return res
+    
