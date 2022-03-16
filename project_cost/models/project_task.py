@@ -34,10 +34,11 @@ class VivalmoProjectTask(models.Model):
     help='Utilidad % MXN = Utilidad estimada por PR en MXN/(Precio de neto Bom x Cantidades Recibidas)')
     
     
+    
     @api.depends('production_ids','production_ids.bom_id')
     def get_price_unit_bom(self):
         for task in self:
-            task.price_unit_bom = max(task.production_ids.bom_id.mapped('net_price')) if task.production_ids else 0
+            task.price_unit_bom = task.production_ids[0].bom_id.net_price if task.production_ids and task.production_ids.mapped('bom_id') else 0
 
     @api.depends('production_ids','production_ids.qty_produced','scrap_ids','scrap_ids.scrap_qty')
     def _compute_production_delivery(self):
