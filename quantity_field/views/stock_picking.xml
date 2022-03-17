@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="stock_picking_form_inherit_quantity_field">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_ids_without_package']" position="before">
+                    <div class="row mb-2">
+                        <div class="col-6 text-center">
+                            <label for="demand_qty" string="Demanda"/>
+                           <field name="demand_qty"/>
+                        </div>
+                        <div class="col-6 text-center">
+                            <label for="done_qty" string="Hecho"/>
+                            <field name="done_qty"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

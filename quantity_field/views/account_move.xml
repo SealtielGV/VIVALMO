@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="nama_model_form">
+            <field name="name">nama.model.form</field>
+            <field name="model">nama.model</field>
+            <field name="inherit_id" ref="nama_modul.nama_model_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invice_line_ids']" position="before">
+                    <div class="row mb-2"> 
+                        <div class="col-4 text-center"> </div>
+                        <div class="col-4 text-center">
+                            <label for="qty_total" string="Cantidad"/>
+                            <field name="qty_total"/>
+                        </div>
+                        <div class="col-4 text-center"></div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

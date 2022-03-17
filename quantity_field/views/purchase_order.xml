@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="purchase_order_form_inherit_fields">
+            <field name="name">purchase.order.form.inherit.fields</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']" position="before">
+                    <div class="row mb-2">
+                        <div class="col-4 text-center">
+                            <label for="qty_total" string="Cantidad"/>
+                           <field name="qty_total"/>
+                        </div>
+                        <div class="col-4 text-center">
+                            <label for="delivery_total" string="Entregado"/>
+                            <field name="delivery_total"/>
+                        </div>
+                        <div class="col-4 text-center">
+                            <label for="invoicing_total" string="Facturado"/>
+                            <field name="invoicing_total"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
