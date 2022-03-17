@@ -31,4 +31,4 @@ class StockPicking(models.Model):
     @api.depends('move_line_ids_without_package')
     def _compute_done_qty_move_line(self):
         for picking in self:
-            picking.done_qty_move_line = sum(picking.move_line_ids_without_package.mapped('quantity_done'))
+            picking.done_qty_move_line = sum(picking.move_line_ids_without_package.mapped('qty_done'))
