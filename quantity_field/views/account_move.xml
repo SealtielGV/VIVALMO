@@ -6,7 +6,7 @@
             <field name="model">nama.model</field>
             <field name="inherit_id" ref="nama_modul.nama_model_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='invice_line_ids']" position="before">
+                <xpath expr="//field[@name='invoice_line_ids']" position="before">
                     <div class="row mb-2"> 
                         <div class="col-4 text-center"> </div>
                         <div class="col-4 text-center">
