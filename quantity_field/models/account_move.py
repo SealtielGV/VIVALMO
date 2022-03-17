@@ -7,7 +7,7 @@ class AccountMove(models.Model):
     qty_total = fields.Float(digits=(32, 2),string='Cantidad',compute='_compte_qty_total')
     
     
-    @api.depends('invice_line_ids')
+    @api.depends('invoice_line_ids')
     def _compte_qty_total(self):
         for account in self:
             account.qty_total = sum(account.invoice_line_ids.mapped('quantity'))
