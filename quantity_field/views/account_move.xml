@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record model="ir.ui.view" id="nama_model_form">
-            <field name="name">nama.model.form</field>
-            <field name="model">nama.model</field>
-            <field name="inherit_id" ref="nama_modul.nama_model_form"/>
+        <record model="ir.ui.view" id="account_move_form_inherit_fields">
+            <field name="name">account.move.form.inherit.fields</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='invoice_line_ids']" position="before">
                     <div class="row mb-2"> 
