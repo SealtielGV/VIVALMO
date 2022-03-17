@@ -9,12 +9,24 @@
                 <xpath expr="//field[@name='move_ids_without_package']" position="before">
                     <div class="row mb-2">
                         <div class="col-6 text-center">
-                            <label for="demand_qty" string="Demanda"/>
-                           <field name="demand_qty"/>
+                            <label for="demand_qty_move" string="Demanda"/>
+                           <field name="demand_qty_move"/>
                         </div>
                         <div class="col-6 text-center">
-                            <label for="done_qty" string="Hecho"/>
-                            <field name="done_qty"/>
+                            <label for="done_qty_move" string="Hecho"/>
+                            <field name="done_qty_move"/>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='move_line_ids_without_package']" position="before">
+                    <div class="row mb-2">
+                        <div class="col-6 text-center">
+                            <label for="demand_qty_move_line" string="Demanda"/>
+                           <field name="demand_qty_move_line"/>
+                        </div>
+                        <div class="col-6 text-center">
+                            <label for="done_qty_move_line" string="Hecho"/>
+                            <field name="done_qty_move_line"/>
                         </div>
                     </div>
                 </xpath>

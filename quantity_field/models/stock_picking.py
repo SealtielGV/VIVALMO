@@ -4,16 +4,31 @@ from odoo.exceptions import UserError
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    demand_qty = fields.Float(digits=(32,2),string='Demanda',compute='_compute_demand_qty')
-    done_qty = fields.Float(digits=(32,2),string='Hecho',compute='_compute_done_qty')
+    demand_qty_move = fields.Float(digits=(32,2),string='Demanda Movimiento',compute='_compute_demand_qty_move')
+    done_qty_move = fields.Float(digits=(32,2),string='Hecho Movimiento',compute='_compute_done_qty_move')
+    
+    demand_qty_move_line = fields.Float(digits=(32,2),string='Demanda Movimiento Linea',compute='_compute_demand_qty_move_line')
+    done_qty_move_line = fields.Float(digits=(32,2),string='Hecho Movimiento Linea',compute='_compute_done_qty')
     
     @api.depends('move_ids_without_package')
-    def _compute_demand_qty(self):
+    def _compute_demand_qty_move(self):
         for picking in self:
-            picking.demand_qty = sum(picking.move_ids_without_package.mapped('product_uom_qty'))
+            picking.demand_qty_move = sum(picking.move_ids_without_package.mapped('product_uom_qty'))
    
    
     @api.depends('move_ids_without_package')
-    def _compute_done_qty(self):
+    def _compute_done_qty_move(self):
         for picking in self:
-            picking.done_qty = sum(picking.move_ids_without_package.mapped('quantity_done'))
+            picking.done_qty_move = sum(picking.move_ids_without_package.mapped('quantity_done'))
+            
+            
+    @api.depends('move_line_ids_without_package')
+    def _compute_demand_qty_move_line(self):
+        for picking in self:
+            picking.demand_qty_move_line = sum(picking.move_line_ids_without_package.mapped('product_uom_qty'))
+   
+   
+    @api.depends('move_line_ids_without_package')
+    def _compute_done_qty_move_line(self):
+        for picking in self:
+            picking.done_qty_move_line = sum(picking.move_line_ids_without_package.mapped('quantity_done'))
