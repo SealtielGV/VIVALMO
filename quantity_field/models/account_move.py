@@ -10,4 +10,4 @@ class AccountMove(models.Model):
     @api.depends('invoice_line_ids')
     def _compte_qty_total(self):
         for account in self:
-            account.qty_total = sum(account.invoice_line_ids.mapped('quantity'))
+            account.qty_total = sum(account.invoice_line_ids.filtered(lambda i: i.account_id or i.product_id).mapped('quantity'))
