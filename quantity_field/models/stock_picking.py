@@ -8,7 +8,7 @@ class StockPicking(models.Model):
     done_qty_move = fields.Float(digits=(32,2),string='Hecho Movimiento',compute='_compute_done_qty_move')
     
     demand_qty_move_line = fields.Float(digits=(32,2),string='Demanda Movimiento Linea',compute='_compute_demand_qty_move_line')
-    done_qty_move_line = fields.Float(digits=(32,2),string='Hecho Movimiento Linea',compute='_compute_done_qty')
+    done_qty_move_line = fields.Float(digits=(32,2),string='Hecho Movimiento Linea',compute='_compute_done_qty_move_line')
     
     @api.depends('move_ids_without_package')
     def _compute_demand_qty_move(self):
