@@ -30,6 +30,21 @@
                         </div>
                     </div>
                 </xpath>
+                <xpath expr="//field[@name='move_line_nosuggest_ids']" position="before">
+                    <div class="row mb-2">
+                        <div class="col-4 text-center">
+                           
+                        </div>
+                        <div class="col-4 text-center">
+                            <label for="done_qty_move_line" string="Hecho"/>
+                            <field name="done_qty_move_line"/>
+                        </div>
+                        <div class="col-4 text-center">
+                           
+                        </div>
+                    </div>
+                </xpath>
+
             </field>
         </record>
     </data>
