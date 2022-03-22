@@ -9,13 +9,13 @@
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="partner_name" invisible="1"/>
                 </xpath>
-
-                <xpath expr="//tree//field[@name='x_qty']" position="replace">
-                    <field name="prepact_cant" attrs="{ 'column_invisible': [('parent.partner_name','not ilike', 'COPPEL S.A. DE C.V.')]}"/>
+                <xpath expr="//field[@name='x_qty']" position="attributes">
+                    <attribute name="attrs">{ 'column_invisible': [('parent.partner_name','!=', 'COPPEL S.A. DE C.V.')]}</attribute>
                 </xpath>
-                <xpath expr="//tree//field[@name='x_quantity']" position="replace">
-                    <field name="pallet_quantity" attrs="{ 'column_invisible': [('parent.partner_name','not ilike', 'COPPEL S.A. DE C.V.')]}"/>
+                <xpath expr="//field[@name='x_quantity']" position="attributes">
+                    <attribute name="attrs">{ 'column_invisible': [('parent.partner_name','!=', 'COPPEL S.A. DE C.V.')]}</attribute>
                 </xpath>
+                
             </field>
         </record>
     </data>
