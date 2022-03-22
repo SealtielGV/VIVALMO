@@ -6,15 +6,8 @@
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='invoice_line_ids']" position="before">
-                    <div class="row mb-2"> 
-                        <div class="col-4 text-center"> </div>
-                        <div class="col-4 text-center">
-                            <label for="qty_total" string="Cantidad"/>
-                            <field name="qty_total"/>
-                        </div>
-                        <div class="col-4 text-center"></div>
-                    </div>
+                <xpath expr="//field[@name='payment_referece']" position="after">
+                    <field name="qty_total" string="Cantidad"/>
                 </xpath>
             </field>
         </record>

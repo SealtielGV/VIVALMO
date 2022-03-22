@@ -2,49 +2,30 @@
 <odoo>
     <data>
         <record model="ir.ui.view" id="stock_picking_form_inherit_quantity_field">
-            <field name="name">stock.picking.form</field>
+            <field name="name">stock.picking.form.inehrit.filed</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='move_ids_without_package']" position="before">
-                    <div class="row mb-2">
-                        <div class="col-6 text-center">
-                            <label for="demand_qty_move" string="Demanda"/>
-                           <field name="demand_qty_move"/>
-                        </div>
-                        <div class="col-6 text-center">
-                            <label for="done_qty_move" string="Hecho"/>
-                            <field name="done_qty_move"/>
-                        </div>
-                    </div>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="demand_qty_move" string="Demanda operaciones"/>
+                    <field name="done_qty_move" string="Hecho opearaciones"/>
+                    <field name="demand_qty_move_line" string="Reservado operaciones detalladas"/>
+                    <field name="done_qty_move_line" string="Hecho operaciones detalladas"/>
                 </xpath>
-                <xpath expr="//field[@name='move_line_ids_without_package']" position="before">
-                    <div class="row mb-2">
-                        <div class="col-6 text-center">
-                            <label for="demand_qty_move_line" string="Reservado"/>
-                           <field name="demand_qty_move_line"/>
-                        </div>
-                        <div class="col-6 text-center">
-                            <label for="done_qty_move_line" string="Hecho"/>
-                            <field name="done_qty_move_line"/>
-                        </div>
-                    </div>
-                </xpath>
-                <xpath expr="//field[@name='move_line_nosuggest_ids']" position="before">
-                    <div class="row mb-2">
-                        <div class="col-4 text-center">
-                           
-                        </div>
-                        <div class="col-4 text-center">
-                            <label for="done_qty_move_line" string="Hecho"/>
-                            <field name="done_qty_move_line"/>
-                        </div>
-                        <div class="col-4 text-center">
-                           
-                        </div>
-                    </div>
-                </xpath>
+            </field>
+        </record>
 
+        <record model="ir.ui.view" id="stock_picking__stduio_form_inherit_quantity_field">
+            <field name="name">stock.picking.form.hide.fileds</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="studio_customization.odoo_studio_stock_pi_948e610d-84e6-442f-8d85-314004bea01c"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='x_studio_cantidad_de_piezas']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='x_qty_lote']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
             </field>
         </record>
     </data>
