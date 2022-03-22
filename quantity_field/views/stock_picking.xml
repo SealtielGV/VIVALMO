@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="demand_qty_move" string="Demanda operaciones"/>
-                    <field name="done_qty_move" string="Hecho opearaciones"/>
+                    <field name="done_qty_move" string="Hecho operaciones"/>
                     <field name="demand_qty_move_line" string="Reservado operaciones detalladas"/>
                     <field name="done_qty_move_line" string="Hecho operaciones detalladas"/>
                 </xpath>
