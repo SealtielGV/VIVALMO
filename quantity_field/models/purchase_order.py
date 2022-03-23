@@ -24,3 +24,4 @@ class PurchaseOrder(models.Model):
     def _compute_invoicing_total(self):
         for purchase in self:
             purchase.invoicing_total = sum(purchase.order_line.mapped('qty_invoiced'))
+            
