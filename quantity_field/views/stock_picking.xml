@@ -15,7 +15,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="stock_picking__stduio_form_inherit_quantity_field">
+        <!--<record model="ir.ui.view" id="stock_picking__stduio_form_inherit_quantity_field">
             <field name="name">stock.picking.form.hide.fileds</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="studio_customization.odoo_studio_stock_pi_948e610d-84e6-442f-8d85-314004bea01c"/>
@@ -27,6 +27,6 @@
                     <attribute name="invisible">1</attribute>
                 </xpath>
             </field>
-        </record>
+        </record>-->
     </data>
 </odoo>
