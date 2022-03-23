@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="purchase_order_form_inherit_fields">
+            <field name="name">purchase.order.form.inherit.fields</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='effective_date']" position="after">
+                    <field name="qty_total" string="Cantidad"/>
+                    <field name="delivery_total" string="Entregado"/>   
+                    <field name="invoicing_total" string="Facturado"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
