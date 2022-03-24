@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 class ProductTemplate(models.Model):
-    _inherit = 'ProductTemplate'
+    _inherit = 'product.product'
     
     
     x_code = fields.Char(string='Código Coppel',compute="_compute_x_code",inverse="_set_x_code", store=True)
