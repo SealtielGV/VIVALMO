@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="stock_picking_form_inherit_quantity_field">
+            <field name="name">stock.picking.form.inehrit.filed</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="demand_qty_move" string="Demanda operaciones"/>
+                    <field name="done_qty_move" string="Hecho operaciones"/>
+                    <field name="demand_qty_move_line" string="Reservado operaciones detalladas"/>
+                    <field name="done_qty_move_line" string="Hecho operaciones detalladas"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_picking__stduio_form_inherit_quantity_field">
+            <field name="name">stock.picking.form.hide.fileds</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="studio_customization.odoo_studio_stock_pi_948e610d-84e6-442f-8d85-314004bea01c"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='x_studio_cantidad_de_piezas']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='x_qty_lote']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

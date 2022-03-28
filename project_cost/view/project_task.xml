@@ -9,9 +9,10 @@
                 <xpath expr="//field[@name='x_studio_costo_total']" position="after">
                     <field name="price_unit_bom"/>
                     <field name="delivery_quantities"/>
-                    <field name="estimated_utility"/>
+                    <field name="estimated_utility" invisible="1"/>
                     <field name="utility"/>
                     <field name="porcentaje_utility"/>
+                    <button name="get_price_unit_bom" type="object" string="Test"/>
                 </xpath>
                 <xpath expr="//page[@name='studio_page_IQj5h']" position="inside">
                     <field name="stock_product_ids">
@@ -38,7 +39,7 @@
                            <field name="x_studio_etapa_del_proceso_de_la_pr"/>
                             <field name="amount_untaxed_signed" string="Importe"/>
                             <field name="amount_tax"/>
-                            <field name="amount_total_signed" string="Total"/>
+                            <field name="amount_total_signed" string="Total" sum="total"/>
                             <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'"/>
                            <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')"/>
                         </tree>
