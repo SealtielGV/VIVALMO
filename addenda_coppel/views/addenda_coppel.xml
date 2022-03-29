@@ -39,53 +39,54 @@
 
             <t t-set="number" t-value="1"/>
             <t t-foreach="sale_id.order_line" t-as="line">
-                
-                <lineItem type="SimpleInvoiceLineItemType" t-att-number="number">
-                    <tradeItemIdentification>
-                        <gtin/>
-                    </tradeItemIdentification>
-                    <alternateTradeItemIdentification type="BUYER_ASSIGNED"/>
-                    <codigoTallaInternoCop>
-                        <codigo><t t-raw="line.product_id.x_code"/></codigo>
-                        <talla><t t-raw="line.product_id.x_size" /></talla>
-                    </codigoTallaInternoCop>
-                    <tradeItemDescriptionInformation language="ES">
-                        <longText><t t-raw="line.product_id.name"/></longText>
-                    </tradeItemDescriptionInformation>
-                    <invoicedQuantity unitOfMeasure="PCE"><t t-raw="line.qty_invoiced"/></invoicedQuantity>
-                    <grossPrice>
-                        <Amount><t t-raw="line.price_unit"/></Amount>
-                    </grossPrice>
-                    <netPrice>
-                        <Amount><t t-raw="line.price_unit"/></Amount>
-                    </netPrice>
-                    <palletInformation>
-                        <palletQuantity><t t-raw="line.x_quantity"/></palletQuantity> 
-                        <description type="BOX" /> 
-                        <transport>
-                            <methodOfPayment>PREPAID_BY_SELLER</methodOfPayment>
-                        </transport>
-                        <prepactCant><t t-raw="line.x_qty"/></prepactCant>
-                    </palletInformation>    
-                    <allowanceCharge allowanceChargeType="ALLOWANCE_GLOBAL">
-                        <specialServicesType>CAC</specialServicesType> 
-                        <monetaryAmountOrPercentage>
-                            <percentagePerUnit>0.00</percentagePerUnit> 
-                            <ratePerUnit>
-                                <amountPerUnit>0.00</amountPerUnit>
-                            </ratePerUnit>
-                        </monetaryAmountOrPercentage>
-                    </allowanceCharge>
-                    <totalLineAmount>
-                        <grossAmount>
-                            <Amount><t t-raw="line.price_subtotal"/></Amount>
-                        </grossAmount>
-                        <netAmount>
-                            <Amount><t t-raw="line.price_subtotal"/></Amount>
-                        </netAmount>
-                    </totalLineAmount>
-                </lineItem>
-                <t t-set="number" t-value="number+1"/>
+                <t t-if="line.product_id">
+                    <lineItem type="SimpleInvoiceLineItemType" t-att-number="number">
+                        <tradeItemIdentification>
+                            <gtin/>
+                        </tradeItemIdentification>
+                        <alternateTradeItemIdentification type="BUYER_ASSIGNED"/>
+                        <codigoTallaInternoCop>
+                            <codigo><t t-raw="line.product_id.x_code"/></codigo>
+                            <talla><t t-raw="line.product_id.x_size" /></talla>
+                        </codigoTallaInternoCop>
+                        <tradeItemDescriptionInformation language="ES">
+                            <longText><t t-raw="line.product_id.name"/></longText>
+                        </tradeItemDescriptionInformation>
+                        <invoicedQuantity unitOfMeasure="PCE"><t t-raw="line.qty_invoiced"/></invoicedQuantity>
+                        <grossPrice>
+                            <Amount><t t-raw="line.price_unit"/></Amount>
+                        </grossPrice>
+                        <netPrice>
+                            <Amount><t t-raw="line.price_unit"/></Amount>
+                        </netPrice>
+                        <palletInformation>
+                            <palletQuantity><t t-raw="line.x_quantity"/></palletQuantity> 
+                            <description type="BOX" /> 
+                            <transport>
+                                <methodOfPayment>PREPAID_BY_SELLER</methodOfPayment>
+                            </transport>
+                            <prepactCant><t t-raw="line.x_qty"/></prepactCant>
+                        </palletInformation>    
+                        <allowanceCharge allowanceChargeType="ALLOWANCE_GLOBAL">
+                            <specialServicesType>CAC</specialServicesType> 
+                            <monetaryAmountOrPercentage>
+                                <percentagePerUnit>0.00</percentagePerUnit> 
+                                <ratePerUnit>
+                                    <amountPerUnit>0.00</amountPerUnit>
+                                </ratePerUnit>
+                            </monetaryAmountOrPercentage>
+                        </allowanceCharge>
+                        <totalLineAmount>
+                            <grossAmount>
+                                <Amount><t t-raw="line.price_subtotal"/></Amount>
+                            </grossAmount>
+                            <netAmount>
+                                <Amount><t t-raw="line.price_subtotal"/></Amount>
+                            </netAmount>
+                        </totalLineAmount>
+                    </lineItem>
+                    <t t-set="number" t-value="number+1"/>
+                </t>
             </t>
 
             <totalAmount>
