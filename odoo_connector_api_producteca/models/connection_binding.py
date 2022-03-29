@@ -68,7 +68,7 @@ class ProductecaConnectionBindingProductTemplate(models.Model):
         product_tpl = self.product_tmpl_id
         account = self.connection_account
         if not product_tpl or not account:
-            return prices_str
+            return prices_str, [0]
 
         #self.with_context(pricelist=pricelist.id).price
         #for plitem in product.item_ids:
@@ -161,7 +161,7 @@ class ProductecaConnectionBindingProductVariant(models.Model):
         variant = self.product_id
         account = self.connection_account
         if not variant or not account:
-            return prices_str
+            return prices_str, [0]
 
         #self.with_context(pricelist=pricelist.id).price
         #for plitem in product.item_ids:
