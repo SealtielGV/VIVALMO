@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record model="ir.ui.view" id="sale_order_inherit_fields_form">
+            <field name="name">sale.order.inherit.addenda.extra.fields.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="partner_name" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="sale_order_inherit_addenda_extra_fields_form">
             <field name="name">sale.order.inherit.addenda.extra.fields.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="addenda_coppel.addenda_sale_fields_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="partner_name" invisible="1"/>
-                </xpath>
+                
                 <xpath expr="//field[@name='x_qty']" position="attributes">
                     <attribute name="attrs">{ 'column_invisible': [('parent.partner_name','!=', 'COPPEL S.A. DE C.V.')]}</attribute>
                 </xpath>
