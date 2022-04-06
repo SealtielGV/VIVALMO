@@ -1322,7 +1322,7 @@ class ProductecaConnectionAccount(models.Model):
                     #delivery_message = vals.get('warning_message', False)
                     delivery_message = "Defined by Producteca"
                     #delivery_price = vals['price']
-                    delivery_price = pso.shippingCost
+                    delivery_price = self.ocapi_price_unit( product_shipping_id, float(pso.shippingCost) )
                     #display_price = vals['carrier_price']
                     #_logger.info(vals)
                     set_delivery_line( so, delivery_price, delivery_message )
