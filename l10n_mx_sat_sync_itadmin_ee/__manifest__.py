@@ -26,6 +26,7 @@
                     'views/res_company_view.xml',
                     'views/esignature_view.xml',
                     'views/account_move_view.xml',
+                    'views/unspsc.xml',
                     
                     'wizard/cfdi_invoice.xml',
                     'wizard/import_invoice_process_message.xml',
