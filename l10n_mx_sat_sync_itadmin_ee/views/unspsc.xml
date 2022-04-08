@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        searc
+        <!--Apartado creado de manera especial para ver los unspsc -->
 
         <record id="unspsc_view_form" model="ir.ui.view">
             <field name="name">product.unspsc.code.form</field>

@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class MrpBomCostTotal(models.Model):
     _inherit = 'mrp.bom'
     
-    
+    #campos qye tuebe vivalmo se volvieron a definir
     x_studio_total_de_materiales = fields.Float(digits=(32, 2),string='Total de materiales',compute='_compute_total_materiales_costo',                                        
     help='Suma total de los componentes de la lista de materiales, el costo de los SKU talleros solo se suma una vez.')
     x_studio_total_de_servicios = fields.Float(digits=(32, 2),string='Total de servicios',compute='_compute_total_servicios',
@@ -30,7 +30,7 @@ class MrpBomCostTotal(models.Model):
     x_studio_se00004_servicio_de_lavado = fields.Float(digits=(32, 2),string='Servicio de lavado')
     x_studio_se00005_servicio_de_terminado = fields.Float(digits=(32, 2),string='Servicio de terminado')
     
-    ##new_fields
+    #nuevos campos agregados
     net_price = fields.Float(digits=(32, 2),string='Precio neto',compute='_compute_net_price',
     help='Precio de venta - % Descuento')
     marketplace_cost = fields.Float(digits=(32, 2),string='Costo logístico marketplace')
@@ -42,6 +42,7 @@ class MrpBomCostTotal(models.Model):
     servicio_serigrafia = fields.Float(digits=(32,2),string="Servicio de serigrafía")
     servicio_planchar_transfer  = fields.Float(digits=(32,2),string="Servicio de planchar/transfer")
     
+    #calculo que trae la suma de los productos sin que se repitan 
     @api.depends('bom_line_ids')
     def _compute_total_materiales_costo(self):
         for bom in self:
@@ -53,19 +54,19 @@ class MrpBomCostTotal(models.Model):
                     bom_total += line.product_qty * line.x_studio_costo
             bom.x_studio_total_de_materiales = bom_total
             
-            
+    #suma de todos los campos de servicios            
     @api.depends('x_studio_se00001_servicio_de_corte','x_studio_se00002_servicio_de_bordado','x_studio_se00003_servicio_de_costura','x_studio_se00004_servicio_de_lavado','x_studio_se00005_servicio_de_terminado','servicio_serigrafia','servicio_planchar_transfer')
     def _compute_total_servicios(self):
         for bom in self:
             bom.x_studio_total_de_servicios = bom.x_studio_se00001_servicio_de_corte + bom.x_studio_se00002_servicio_de_bordado + bom.x_studio_se00003_servicio_de_costura + bom.x_studio_se00004_servicio_de_lavado + bom.x_studio_se00005_servicio_de_terminado+ bom.servicio_serigrafia + bom.servicio_planchar_transfer
                 
-                
+    #suma de parametros para calculo del costo total  
     @api.depends('x_studio_total_de_materiales','x_studio_total_de_servicios','x_studio_costos_indirectos')
     def _compute_total_costo(self):
         for bom in self:
             bom.x_studio_costo_total = bom.x_studio_total_de_materiales + bom. x_studio_total_de_servicios + bom. x_studio_costos_indirectos
             
-            
+    #suma de campos para sacar el valor de la utilidad, solo verficar que el canal de venta para calculo de comisión por market place
     @api.depends('net_price','x_studio_costo_total','marketplace_cost','marketplace_commission','x_studio_canal_de_venta')
     def _compute_total_utilidad(self):
         for bom in self:
@@ -74,38 +75,41 @@ class MrpBomCostTotal(models.Model):
                 amount = bom.net_price - bom.x_studio_costo_total -bom.marketplace_cost - bom.marketplace_commission
             bom.x_studio_utilidad_en_mxn_bom = amount
             
-            
+    #calculo para utilidad en porcentaje
     @api.depends('x_studio_utilidad_en_mxn_bom','net_price')
     def _compute_porcentaje_utilidad(self):
         for bom in self:
             bom.x_studio_utilidad_porcentual_bom = bom.x_studio_utilidad_en_mxn_bom/bom.net_price if bom.x_studio_utilidad_en_mxn_bom > 0 else 0
     
+    #calculo para sacar el precio neto
     @api.depends('x_studio_precio_de_venta_bom','x_studio_descuento_bom')
     def _compute_net_price(self):
         for bom in self:
-            
             bom.net_price = bom.x_studio_precio_de_venta_bom * (1-bom.x_studio_descuento_bom)
     
-          
+    #calculo para la comisión que cobra el market place     
     @api.depends('net_price','marketplace_porcentage_commission')
     def _compute_bom_comission_marketplace(self)  :
         for bom in self:
             bom.marketplace_commission = bom.net_price * bom.marketplace_porcentage_commission
     
+    #metodo para verificar que no retorne un valor vacio
     def convert_value(self, value):
         if value == False:
             return ''
         else:
             return str(value)
-        
+    
+    #metodo para que ponga en 0 según el canal de ventas
     @api.onchange('x_studio_canal_de_venta')
     def onchange_marketplace_values(self):
         if self.x_studio_canal_de_venta == 'PRICE SHOES':
             self.marketplace_porcentage_commission = 0
             self.marketplace_cost = 0
             
+    #La función se encarga de imprimir todos los valores que existen en la vista
     def write(self,vals):
-        
+        #se pone antes de escribir el super, para tomar los valores actuales
         message = "<span>Se han modificado los siguientes campos: <span> <ul>"
         if 'x_studio_estatus_de_bom' in vals:
             message+="<li>Estatus: "+self.convert_value(self.x_studio_estatus_de_bom)+"--->"+self.convert_value(vals['x_studio_estatus_de_bom'])+"</li>"
@@ -200,7 +204,9 @@ class MrpBomCostTotal(models.Model):
         if 'x_studio_instrucciones_y_comentarios_bom' in vals:
             message+="<li>Instrucciones y comentarios: "+self.convert_value(self.x_studio_instrucciones_y_comentarios_bom)+" --->"+self.convert_value(vals['x_studio_instrucciones_y_comentarios_bom']) +"</li>"
         if 'bom_line_ids' in vals:
+            # se hace el recorrrido de las lineas para ver lo nuevo
             for line in vals['bom_line_ids']:
+                #el 0 es para saber si es nuevo
                 if line[0] == 0:
                     message+="<li>Se ha creado el siguiente componente: <br/>"    
                     values = line[2]
@@ -220,7 +226,8 @@ class MrpBomCostTotal(models.Model):
                         message+="Total: "+self.convert_value(values['amaount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
                         message+="Aplicado en: "+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
-                    message+="</li>"       
+                    message+="</li>"   
+                #el valor de 1 es para saber si es una actualiación    
                 elif line[0] == 1 and line[2] != False and ('product_id' in line[2] or 'x_studio_descripcion' in line[2] or 'product_qty' in line[2] or 'product_uom_id' in line[2] or 'x_studio_costo' in line[2] or 'amount_total' in line[2] or 'x_studio_aplicado_en' in line[2]):
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"    
                     values = line[2]
@@ -242,17 +249,18 @@ class MrpBomCostTotal(models.Model):
                         message+="  Total: "+self.convert_value(bom_line.amount_total)+"--->"+self.convert_value(values['amount_total'])+",<br/>"
                     if 'x_studio_aplicado_en' in  values and values != False:
                         message+="  Aplicado en: "+self.convert_value(bom_line.x_studio_aplicado_en)+"--->"+self.convert_value(values['x_studio_aplicado_en'])+"<br/>"
-                    message+="</li>"       
+                    message+="</li>"  
+                #el valor de 2 es para saber si se ha eliminado el registro     
                 elif line[0] == 2:
                     message+="<li>Se han generado los siguientes cambios en componentes: <br/>"
                     bom_line = self.env['mrp.bom.line'].search([('id','=',line[1])])
                     message+= " Eliminado registro: "+str(bom_line.x_studio_descripcion)+"</li>"
-                    
                 else:
                     pass
                 
         message  +=  "</ul></span> "
         res = super(MrpBomCostTotal, self).write(vals)
+        #se aplico este metodo por que ocasionaba un error
         for mrp in self:
             mrp.message_post(body=message) 
         return res
@@ -265,12 +273,13 @@ class CostoMrpBomLine(models.Model):
     x_studio_costo = fields.Float(digits=(32, 2),string="Costo",compute='_compute_standard_price')
     amount_total = fields.Float('Total',compute='compute_value_total_amount')
     
+    #calcula el costo del producto
     @api.depends('product_id','product_id.standard_price')
     def _compute_standard_price(self):
         for line in self:
             line.x_studio_costo = line.product_id.standard_price if line.product_id else 0
     
-
+    #calcula el valor total del producto
     @api.depends('x_studio_costo','product_qty')
     def compute_value_total_amount(self):
         for value in self:

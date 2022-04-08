@@ -33,7 +33,7 @@ class VivalmoProjectTask(models.Model):
     porcentaje_utility  = fields.Float(digits=(32,2),string='Utilidad % MXN',compute='_compute_porcentaje_utility',
     help='Utilidad % MXN = Utilidad estimada por PR en MXN/(Precio de neto Bom x Cantidades Recibidas)')
     
-    
+    #metodos compute para calcular los valores esperados por el cliente
     @api.depends('production_ids','production_ids.bom_id')
     def get_price_unit_bom(self):
         for task in self:
