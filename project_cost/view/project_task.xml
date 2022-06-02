@@ -43,7 +43,7 @@
 
             </field>
         </record>
-        <record id="record_name" model="model_name">
+        <record id="project_task_inherit_kanban" model="ir.ui.view">
             <field name="name">project.task.form.inherit.kanban</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_kanban"/>
