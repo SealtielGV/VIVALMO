@@ -43,5 +43,17 @@
 
             </field>
         </record>
+        <record id="record_name" model="model_name">
+            <field name="name">project.task.form.inherit.kanban</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="product_qty" />
+                <field name="processed_qty" />
+                <field name="scrap_qty" />
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>
