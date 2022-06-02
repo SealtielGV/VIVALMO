@@ -7,11 +7,11 @@ class VivalmoStockScrap(models.Model):
     
     task_id = fields.Many2one('project.task',string='Tarea')
         
-        
+    #agrega el valor a la tarea para que haga relación  
     def action_validate(self):
-        res = super(VivalmoStockScrap).action_validate()
-        if self.production_id and self.production.x_studio_pr:
-            self.task_id = self.production.x_studio_pr
+        res = super(VivalmoStockScrap, self).action_validate()
+        if self.production_id and self.x_studio_pr_origen:
+            self.task_id = self.x_studio_pr_origen.id
         else:
             self.task_id = False
         return res
