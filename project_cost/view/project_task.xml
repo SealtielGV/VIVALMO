@@ -30,12 +30,15 @@
                     </field>
                 </xpath>
 
-                <xpath expr="//page[@name='extra_info']" position="inside">
-                        <group name="summary" string="Resumen">
+                <xpath expr="//page[@name='extra_info']" position="before">
+                    <page name="summary" string="Resumen">    
+                        <group name="summary">
                             <field name="product_qty" />
                             <field name="processed_qty" />
                             <field name="scrap_qty" />
-                        </group>
+                            </group>
+                    </page>
+
                 </xpath>
 
             </field>

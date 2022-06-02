@@ -45,6 +45,8 @@ class VivalmoProjectTask(models.Model):
         qty = 0.00
         for production in self.production_ids:
             qty += production.product_qty
+
+
         for record in self:
             record.product_qty = qty
     
@@ -54,14 +56,19 @@ class VivalmoProjectTask(models.Model):
         qty = 0.00
         for production in self.production_ids:
             qty += production.x_studio_cantidad_producida
+        
+
         for record in self:
             record.processed_qty = qty
     
 
     @api.depends('production_ids')
     def _compute_scrap_qty(self):
+        scrap = 0.00
+        for scrap_id in self.scrap_ids:
+                scrap += scrap_id.scrap_qty
         for record in self:
-            record.scrap_qty = record.product_qty - record.processed_qty
+            record.scrap_qty = scrap
 
     @api.depends('production_ids','production_ids.bom_id')
     def get_price_unit_bom(self):
@@ -106,7 +113,3 @@ class VivalmoProjectTask(models.Model):
     def _compute_costo_total(self):
         for task in self:
             task.x_studio_costo_total = task.x_studio_costo_de_materiales+task.x_studio_costo_de_operaciones
-        
-
-
-    

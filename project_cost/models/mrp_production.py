@@ -10,8 +10,9 @@ class VivalmoMrpProduction(models.Model):
 
     @api.depends('scrap_ids')
     def _compute_x_studio_cantidad_producida(self):
-        scrap = 0.00
-        for sq in self.scrap_ids:
-            scrap += sq.scrap_qty
-        for record in self:
-            record.x_studio_cantidad_producida = record.product_qty - scrap
+        if len(self.scrap_ids) > 0:
+            scrap = 0.00
+            for sq in self.scrap_ids:
+                scrap += sq.scrap_qty
+            for record in self:
+                record.x_studio_cantidad_producida = record.product_qty - scrap
