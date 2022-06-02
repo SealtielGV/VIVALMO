@@ -40,7 +40,7 @@ class VivalmoProjectTask(models.Model):
     #metodos compute para calcular los valores esperados por el cliente
     
     
-    @api.depends('production_ids.product_qty')
+    @api.depends('production_ids.product_qty', 'production_ids')
     def _compute_product_qty(self):
         qty = 0.00
         for production in self.production_ids:
@@ -52,7 +52,7 @@ class VivalmoProjectTask(models.Model):
             record.product_qty = qty
     
 
-    @api.depends('production_ids.x_studio_cantidad_producida')
+    @api.depends('production_ids.x_studio_cantidad_producida', 'production_ids')
     def _compute_processed_qty(self):
         qty = 0.00
         for production in self.production_ids:
@@ -64,7 +64,7 @@ class VivalmoProjectTask(models.Model):
             record.processed_qty = qty
     
 
-    @api.depends('production_ids', 'scrap_ids')
+    @api.depends('production_ids', 'production_ids.scrap_ids', 'scrap_ids')
     def _compute_scrap_qty(self):
         scrap = 0.00
         for scrap_id in self.scrap_ids:

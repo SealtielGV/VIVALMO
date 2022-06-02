@@ -36,22 +36,38 @@
                             <field name="product_qty" />
                             <field name="processed_qty" />
                             <field name="scrap_qty" />
-                            </group>
+                        </group>
                     </page>
-
                 </xpath>
-
             </field>
         </record>
+        <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
+                    <field name="invoice_ids">
+                        <tree>
+                            <field name="invoice_date" string="Fecha"/>
+                            <field name="name"/>
+                            <field name="invoice_partner_display_name" string="Proveedor"/>
+                           <field name="x_studio_etapa_del_proceso_de_la_pr"/>
+                            <field name="amount_untaxed_signed" string="Importe"/>
+                            <field name="amount_tax"/>
+                            <field name="amount_total_signed" string="Total" sum="total"/>
+                            <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'"/>
+                           <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')"/>
+                        </tree>
+                    </field>
+                </xpath>
+
         <record id="project_task_inherit_kanban" model="ir.ui.view">
             <field name="name">project.task.form.inherit.kanban</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_kanban"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="product_qty" />
-                <field name="processed_qty" />
-                <field name="scrap_qty" />
+                    <group name="summary">
+                        <strong>Cant. Planeada </strong><field name="product_qty" /><br/>
+                        <strong>Cant. Producida </strong><field name="processed_qty" /><br/>
+                        <strong>Desperdicio </strong><field name="scrap_qty" />
+                    </group>
                 </xpath>
             </field>
         </record>
