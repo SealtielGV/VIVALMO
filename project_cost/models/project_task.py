@@ -40,11 +40,11 @@ class VivalmoProjectTask(models.Model):
     #metodos compute para calcular los valores esperados por el cliente
     
     
-    @api.depends('production_ids')
+    @api.depends('production_ids.product_qty')
     def _compute_product_qty(self):
         qty = 0.00
         for production in self.production_ids:
-            if production.status == 'donde':
+            if production.state != 'draft':
                 qty += production.product_qty
 
 
@@ -56,7 +56,7 @@ class VivalmoProjectTask(models.Model):
     def _compute_processed_qty(self):
         qty = 0.00
         for production in self.production_ids:
-            if production.status == 'donde':
+            if production.state != 'draft':
                 qty += production.x_studio_cantidad_producida
         
 
