@@ -30,7 +30,7 @@
                     </field>
                 </xpath>
                 
-                <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
+                <!-- <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
                     <field name="invoice_ids">
                         <tree>
                             <field name="invoice_date" string="Fecha"/>
@@ -44,7 +44,7 @@
                            <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')"/>
                         </tree>
                     </field>
-                </xpath>
+                </xpath> -->
             </field>
         </record>
     </data>
