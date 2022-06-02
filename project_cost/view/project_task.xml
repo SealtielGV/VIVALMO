@@ -14,7 +14,7 @@
                     <field name="porcentaje_utility"/>
                     <button name="get_price_unit_bom" type="object" string="Test"/>
                 </xpath>
-                <!-- <xpath expr="//page[@name='studio_page_IQj5h']" position="inside">
+                <xpath expr="//page[@name='studio_page_IQj5h']" position="inside">
                     <field name="stock_product_ids">
                         <tree>
                            <field name="production_id"/>
@@ -28,7 +28,7 @@
                            <field name="production_status" widget="badge" decoration-success="production_status == 'done'" decoration-info="production_status not in ('done', 'cancel')" />
                         </tree>
                     </field>
-                </xpath> -->
+                </xpath>
 
                 <xpath expr="//page[@name='extra_info']" position="before">
                     <page name="summary" string="Resumen">    
