@@ -40,29 +40,43 @@ class VivalmoProjectTask(models.Model):
     #metodos compute para calcular los valores esperados por el cliente
     
     
-    @api.depends('production_ids.product_qty', 'production_ids')
+    @api.depends('production_ids.product_qty')
     def _compute_product_qty(self):
-        for task in self:
-            task.product_qty = sum(task.production_ids.mapped('product_qty'))
+        qty = 0.00
+        for production in self.production_ids:
+            if production.state not in ['cancel', 'draft']:
+                qty += production.product_qty
 
 
-    @api.depends('production_ids.x_studio_cantidad_producida', 'production_ids')
-    def _compute_processed_qty(self):
-        for task in self:
-            task.processed_qty = sum(task.production_ids.mapped('x_studio_cantidad_producida'))
-
+        for record in self:
+            record.product_qty = qty
     
-    @api.depends('production_ids','scrap_ids','scrap_ids.scrap_qty')
+
+    @api.depends('production_ids.x_studio_cantidad_producida')
+    def _compute_processed_qty(self):
+        qty = 0.00
+        for production in self.production_ids:
+            if production.state not in ['cancel', 'draft']:
+                qty += production.x_studio_cantidad_producida
+        
+
+        for record in self:
+            record.processed_qty = qty
+    
+
+    @api.depends('production_ids', 'scrap_ids')
     def _compute_scrap_qty(self):
-        for task in self:
-            task.scrap_qty = sum(task.production_ids.scrap_ids.mapped('scrap_qty'))
+        scrap = 0.00
+        for scrap_id in self.scrap_ids:
+                scrap += scrap_id.scrap_qty
+        for record in self:
+            record.scrap_qty = scrap
 
 
     @api.depends('production_ids','production_ids.bom_id')
     def get_price_unit_bom(self):
         for task in self:
             task.price_unit_bom = max(task.production_ids.bom_id.mapped('net_price')) if task.production_ids else 0
-
 
     @api.depends('production_ids','production_ids.qty_produced','scrap_ids','scrap_ids.scrap_qty')
     def _compute_production_delivery(self):
