@@ -30,27 +30,14 @@
                     </field>
                 </xpath>
 
-                <xpath expr="//page[@name='studio_page_0qn3m']" position="after">
-                    <field name="product_qty" />
-                    <field name="processed_qty" />
-                    <field name="scrap_qty" />
+                <xpath expr="//page[@name='extra_info']" position="after">
+                    <page name="summary" string="Resumen">
+                        <field name="product_qty" />
+                        <field name="processed_qty" />
+                        <field name="scrap_qty" />
+                    </page>
                 </xpath>
                 
-                <!-- <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
-                    <field name="invoice_ids">
-                        <tree>
-                            <field name="invoice_date" string="Fecha"/>
-                            <field name="name"/>
-                            <field name="invoice_partner_display_name" string="Proveedor"/>
-                           <field name="x_studio_etapa_del_proceso_de_la_pr"/>
-                            <field name="amount_untaxed_signed" string="Importe"/>
-                            <field name="amount_tax"/>
-                            <field name="amount_total_signed" string="Total" sum="total"/>
-                            <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'"/>
-                           <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')"/>
-                        </tree>
-                    </field>
-                </xpath> -->
             </field>
         </record>
     </data>
