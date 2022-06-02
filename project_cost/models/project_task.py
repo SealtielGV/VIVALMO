@@ -62,7 +62,7 @@ class VivalmoProjectTask(models.Model):
             record.processed_qty = qty
     
 
-    @api.depends('production_ids')
+    @api.depends('scrap_ids')
     def _compute_scrap_qty(self):
         scrap = 0.00
         for scrap_id in self.scrap_ids:
