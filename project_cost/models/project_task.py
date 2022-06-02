@@ -33,7 +33,36 @@ class VivalmoProjectTask(models.Model):
     porcentaje_utility  = fields.Float(digits=(32,2),string='Utilidad % MXN',compute='_compute_porcentaje_utility',
     help='Utilidad % MXN = Utilidad estimada por PR en MXN/(Precio de neto Bom x Cantidades Recibidas)')
     
+    product_qty = fields.Float(readonly=True, compute='_compute_product_qty', store=True)
+    processed_qty = fields.Float(readonly=True, compute='_compute_processed_qty', store=True)
+    scrap_qty = fields.Float(readonly=True, compute='_compute_scrap_qty', store=True)
+    
     #metodos compute para calcular los valores esperados por el cliente
+    
+    
+    @api.depends('production_ids')
+    def _compute_product_qty(self):
+        qty = 0.00
+        for production in self.production_ids:
+            qty += production.product_qty
+        for record in self:
+            record.product_qty = qty
+    
+
+    @api.depends('production_ids')
+    def _compute_processed_qty(self):
+        qty = 0.00
+        for production in self.production_ids:
+            qty += production.x_studio_cantidad_producida
+        for record in self:
+            record.processed_qty = qty
+    
+    
+    @api.depends('production_ids')
+    def _compute_scrap_qty(self):
+        for record in self:
+            record.scrap_qty = record.product_qty - record.processed_qty
+
     @api.depends('production_ids','production_ids.bom_id')
     def get_price_unit_bom(self):
         for task in self:

@@ -29,6 +29,12 @@
                         </tree>
                     </field>
                 </xpath>
+
+                <xpath expr="//page[@name='studio_page_0qn3m']" position="after">
+                    <field name="product_qty" />
+                    <field name="processed_qty" />
+                    <field name="scrap_qty" />
+                </xpath>
                 
                 <!-- <xpath expr="//group[@name='studio_group_9m0uQ']" position="after">
                     <field name="invoice_ids">
