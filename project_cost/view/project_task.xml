@@ -29,7 +29,9 @@
                         </tree>
                     </field>
                 </xpath>
-
+                <xpath expr="//field[@name='planned_date_begin' ]" position="after">
+                    <field name="date_end" attrs="{'invisible':[('is_end_stage', '=', False)], readonly: [('is_end_stage', '=', False)]}" />
+                </xpath>
                 <xpath expr="//page[@name='extra_info']" position="before">
                     <page name="summary" string="Resumen">    
                         <group name="summary">
@@ -57,19 +59,19 @@
             </field>
             </record>
 
-        <record id="project_task_inherit_kanban" model="ir.ui.view">
-            <field name="name">project.task.form.inherit.kanban</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_kanban"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='tag_ids']" position="after">
-                    <group name="summary">
-                        <strong>Cant. Planeada: </strong><field name="planned_qty" /><br/>
-                        <strong>Cant. Desechos: </strong><field name="scrap_qty" /><br/>
-                        <strong>Cant. Producida: </strong><field name="produced_qty" />
-                    </group>
-                </xpath>
-            </field>
-        </record>
+            <record id="project_task_inherit_kanban" model="ir.ui.view">
+                <field name="name">project.task.form.inherit.kanban</field>
+                <field name="model">project.task</field>
+                <field name="inherit_id" ref="project.view_task_kanban"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='tag_ids']" position="after">
+                        <group name="summary">
+                            <strong>Cant. Planeada: </strong><field name="planned_qty" /><br/>
+                            <strong>Cant. Desechos: </strong><field name="scrap_qty" /><br/>
+                            <strong>Cant. Producida: </strong><field name="produced_qty" />
+                        </group>
+                    </xpath>
+                </field>
+            </record>
     </data>
 </odoo>

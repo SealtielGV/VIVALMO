@@ -41,7 +41,7 @@
         <record id="mrp_production_list_inherit" model="ir.ui.view">
             <field name="name">mrp.production.list.inherit</field>
             <field name="model">mrp.production</field>
-            <field name="inherit_id" ref="mrp.mrp_production_tree_view" />
+            <field name="inherit_id" ref="studio_customization.odoo_studio_mrp_prod_3d606ad7-408a-4be1-9773-3eacd9a58fe6" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='x_studio_cantidad_producida']" position="before">
                     <field name="scrap_qty" sum="Total Qty" string="Cantidad Desechos" readonly="1" optional="show"/>
