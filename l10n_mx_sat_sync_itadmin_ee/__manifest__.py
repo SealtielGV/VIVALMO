@@ -2,7 +2,7 @@
 
 {
     'name':         'Administrador de documentos Digitales',
-    'version': '14.02',
+    'version': '14.03',
     'description':  ''' 
                     Descarga los CFDI del portal del SAT a la base de datos de 
                     Odoo para su procesamiento y administracion, se necesita de la libreria de python
@@ -11,7 +11,7 @@
                     ''',
     'category':     'Accounting',
     'author':       'IT Admin',
-    'website':      '',
+    'website':      'www.itadmin.com.mx',
     'depends':      [
                     'account','l10n_mx_edi','sale_management','purchase','account_accountant'
                     ],
@@ -26,7 +26,6 @@
                     'views/res_company_view.xml',
                     'views/esignature_view.xml',
                     'views/account_move_view.xml',
-                    'views/unspsc.xml',
                     
                     'wizard/cfdi_invoice.xml',
                     'wizard/import_invoice_process_message.xml',
@@ -42,5 +41,5 @@
                     ],
     'application':  False,
     'installable':  True,
-    'license':      'OPL-1',    
+    'license': 'OPL-1',
 }

@@ -66,6 +66,16 @@ class CfdiInvoiceAttachment(models.TransientModel):
     company_id = fields.Many2one('res.company', string='Compañia', 
         required=True, readonly=True, 
         default=lambda self: self.env.company)
+    si_producto_no_tiene_codigo = fields.Selection([('Crear automatico', 'Crear automatico'),('Buscar manual', 'Producto por defecto')], 'Si producto no se encuentra')
+    product_id = fields.Many2one("product.product",'Producto por defecto',help='Si un producto del XML no se encuentra en la base de datos, utilizará el producto por defecto en vez de crear un nuevo producto.')
+    
+    @api.model
+    def default_get(self, fields_list):
+        res = super(CfdiInvoiceAttachment, self).default_get(fields_list)
+        create_set = self.env['ir.config_parameter'].sudo().get_param('l10n_mx_sat_sync_itadmin.si_producto_no_tiene_codigo')
+        if create_set:
+            res['si_producto_no_tiene_codigo'] = create_set 
+        return res
     
     
     def import_xml_file(self):
@@ -882,8 +892,8 @@ class CfdiInvoiceAttachment(models.TransientModel):
             product_exist = product_obj.search([('name','=',product_name)],limit=1)
         #if buscar_producto_por_clave_sat and not product_exist:
         #    product_exist = product_obj.search([('clave_producto','=',clave_producto)],limit=1)
-        #if not product_exist and self.si_producto_no_tiene_codigo=='Buscar manual':
-        #    product_exist = self.product_id
+        if not product_exist and self.si_producto_no_tiene_codigo=='Buscar manual':
+            product_exist = self.product_id
         if not product_exist:
             um_descripcion = self.env['uom.uom'].search([('unspsc_code_id.code','=',clave_unidad)], limit=1)
             sat_code = self.env['product.unspsc.code'].search([('code','=',clave_producto)], limit=1)
