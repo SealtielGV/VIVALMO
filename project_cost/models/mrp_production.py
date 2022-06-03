@@ -6,16 +6,17 @@ class VivalmoMrpProduction(models.Model):
 
     x_studio_pr = fields.Many2one('project.task',string='PR')
     x_studio_cantidad_producida = fields.Float(readonly=True, compute='_compute_x_studio_cantidad_producida', store=True)
+    scrap_qty = fields.Float(default = 0.00, readonly=True, cumpute='_compute_x_studio_cantidad_producida')
 
-
-    @api.depends('scrap_ids')
+    @api.depends('scrap_ids','scrap_ids.scrap_qty')
     def _compute_x_studio_cantidad_producida(self):
-        if len(self.scrap_ids) > 0:
-            scrap = 0.00
-            for sq in self.scrap_ids:
-                scrap += sq.scrap_qty
-            for record in self:
+        for record in self:
+            if len(record.scrap_ids) > 0:
+                scrap = 0.00
+                for sq in record.scrap_ids:
+                    scrap += sq.scrap_qty
                 record.x_studio_cantidad_producida = record.product_qty - scrap
+                record.scrap_qty = scrap
 
 
     def button_mark_done(self):
