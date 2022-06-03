@@ -5,8 +5,8 @@ class VivalmoMrpProduction(models.Model):
 
 
     x_studio_pr = fields.Many2one('project.task',string='PR')
-    x_studio_cantidad_producida = fields.Float(readonly=True, compute='_compute_x_studio_cantidad_producida', store=True)
-    scrap_qty = fields.Float(default = 0.00, readonly=True, cumpute='_compute_x_studio_cantidad_producida')
+    x_studio_cantidad_producida = fields.Float(string='Cantidad Producida', readonly=True, compute='_compute_x_studio_cantidad_producida', store=True)
+    scrap_qty = fields.Float(string='Cantidad Desecho', default = 0.00, readonly=True, cumpute='_compute_x_studio_cantidad_producida')
 
     @api.depends('scrap_ids','scrap_ids.scrap_qty')
     def _compute_x_studio_cantidad_producida(self):
