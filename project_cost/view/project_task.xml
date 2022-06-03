@@ -64,7 +64,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='tag_ids']" position="after">
                     <group name="summary">
-                        <strong>Cant. Planeada: </strong><field name="product_qty" /><br/>
+                        <strong>Cant. Planeada: </strong><field name="produced_qty" /><br/>
                         <strong>Cant. Producida: </strong><field name="processed_qty" /><br/>
                         <strong>Desperdicio: </strong><field name="scrap_qty" />
                     </group>

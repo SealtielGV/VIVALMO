@@ -33,7 +33,7 @@ class VivalmoProjectTask(models.Model):
     porcentaje_utility  = fields.Float(digits=(32,2),string='Utilidad % MXN',compute='_compute_porcentaje_utility',
     help='Utilidad % MXN = Utilidad estimada por PR en MXN/(Precio de neto Bom x Cantidades Recibidas)')
     
-    product_qty = fields.Float(string='Cantidad Planeada', readonly=True, compute='_compute_product_qty', store=True)
+    produced_qty = fields.Float(string='Cantidad Planeada', readonly=True, compute='_compute_produced_qty', store=True)
     processed_qty = fields.Float(string='Cantidad Producida', readonly=True, compute='_compute_processed_qty', store=True)
     scrap_qty = fields.Float(string='Cantidad Desperdiciada', readonly=True, compute='_compute_scrap_qty', store=True)
     
@@ -41,13 +41,13 @@ class VivalmoProjectTask(models.Model):
     
     
     @api.depends('production_ids.product_qty', 'production_ids')
-    def _compute_product_qty(self):
+    def _compute_produced_qty(self):
         for record in self:
             qty = 0.00
-            for production in self.production_ids:
-               if production.state not in ['cancel', 'draft']:
+            for production in record.production_ids:
+                if production.state not in ['cancel', 'draft']:
                     qty += production.product_qty
-            record.product_qty = qty
+            record.produced_qty = qty
     
 
     @api.depends('production_ids.x_studio_cantidad_producida', 'production_ids')
@@ -60,13 +60,14 @@ class VivalmoProjectTask(models.Model):
             record.processed_qty = qty  
     
 
-    @api.depends('production_ids', 'production_ids.scrap_ids', 'scrap_ids')
+    @api.depends('production_ids', 'production_ids.scrap_ids', 'scrap_ids.scrap_qty')
     def _compute_scrap_qty(self):
         for record in self:
-            scrap = 0.00
-            for scrap_id in record.scrap_ids:
-                scrap += scrap_id.scrap_qty
-            record.scrap_qty = scrap
+            qty = 0.00
+            for production in record.production_ids:
+                if production.state not in ['cancel', 'draft']:
+                    qty += production.scrap_qty
+            record.scrap_qty = qty
 
 
     @api.depends('production_ids','production_ids.bom_id')
