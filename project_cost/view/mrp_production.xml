@@ -43,7 +43,7 @@
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_tree_view" />
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='product_qty']" position="inside">
+                <xpath expr="//field[@name='x_studio_cantidad_producida']" position="before">
                     <field name="scrap_qty" sum="Total Qty" string="Cantidad Desechos" readonly="1" optional="show"/>
                 </xpath>
             </field>
