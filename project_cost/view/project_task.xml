@@ -33,9 +33,9 @@
                 <xpath expr="//page[@name='extra_info']" position="before">
                     <page name="summary" string="Resumen">    
                         <group name="summary">
-                            <field name="produced_qty" />
-                            <field name="processed_qty" />
+                            <field name="planned_qty" />
                             <field name="scrap_qty" />
+                            <field name="produced_qty" />
                         </group>
                     </page>
                 </xpath>
@@ -64,9 +64,9 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='tag_ids']" position="after">
                     <group name="summary">
-                        <strong>Cant. Planeada: </strong><field name="produced_qty" /><br/>
-                        <strong>Cant. Producida: </strong><field name="processed_qty" /><br/>
-                        <strong>Desperdicio: </strong><field name="scrap_qty" />
+                        <strong>Cant. Planeada: </strong><field name="planned_qty" /><br/>
+                        <strong>Cant. Desechos: </strong><field name="scrap_qty" /><br/>
+                        <strong>Cant. Producida: </strong><field name="produced_qty" />
                     </group>
                 </xpath>
             </field>

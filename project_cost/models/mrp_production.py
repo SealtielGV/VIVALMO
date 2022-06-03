@@ -16,3 +16,9 @@ class VivalmoMrpProduction(models.Model):
                 scrap += sq.scrap_qty
             for record in self:
                 record.x_studio_cantidad_producida = record.product_qty - scrap
+
+
+    def button_mark_done(self):
+        super(VivalmoMrpProduction,self).button_mark_done()
+        self.x_studio_cantidad_producida = self.product_qty
+        return True
