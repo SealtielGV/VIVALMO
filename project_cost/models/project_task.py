@@ -42,34 +42,30 @@ class VivalmoProjectTask(models.Model):
     
     @api.depends('production_ids.product_qty', 'production_ids')
     def _compute_product_qty(self):
-        qty = 0.00
-        for production in self.production_ids:
-            if production.state not in ['cancel', 'draft']:
-                qty += production.product_qty
-
-
         for record in self:
+            qty = 0.00
+            for production in self.production_ids:
+               if production.state not in ['cancel', 'draft']:
+                    qty += production.product_qty
             record.product_qty = qty
     
 
     @api.depends('production_ids.x_studio_cantidad_producida', 'production_ids')
     def _compute_processed_qty(self):
-        qty = 0.00
-        for production in self.production_ids:
-            if production.state not in ['cancel', 'draft']:
-                qty += production.x_studio_cantidad_producida
-        
-
         for record in self:
-            record.processed_qty = qty
+            qty = 0.00
+            for production in record.production_ids:
+                if production.state not in ['cancel', 'draft']:
+                    qty += production.x_studio_cantidad_producida
+            record.processed_qty = qty  
     
 
     @api.depends('production_ids', 'production_ids.scrap_ids', 'scrap_ids')
     def _compute_scrap_qty(self):
-        scrap = 0.00
-        for scrap_id in self.scrap_ids:
-                scrap += scrap_id.scrap_qty
         for record in self:
+            scrap = 0.00
+            for scrap_id in record.scrap_ids:
+                scrap += scrap_id.scrap_qty
             record.scrap_qty = scrap
 
 
