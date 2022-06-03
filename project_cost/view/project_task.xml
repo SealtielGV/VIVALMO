@@ -30,7 +30,8 @@
                     </field>
                 </xpath>
                 <xpath expr="//field[@name='planned_date_begin' ]" position="after">
-                    <field name="date_end" attrs="{'invisible':[('is_end_stage', '=', False)], readonly: [('is_end_stage', '=', False)]}" />
+                    <field name="is_end_stage" attrs="{'invisible': 1}" />
+                    <field name="date_end" attrs="{'invisible':[('is_end_stage', '=', False)]}" />
                 </xpath>
                 <xpath expr="//page[@name='extra_info']" position="before">
                     <page name="summary" string="Resumen">    

@@ -37,7 +37,7 @@ class VivalmoProjectTask(models.Model):
     planned_qty = fields.Float(string='Cantidad Planeada', readonly=True, compute='_compute_planned_qty', store=True)
     produced_qty = fields.Float(string='Cantidad Producida', readonly=True, compute='_compute_produced_qty', store=True)
     scrap_qty = fields.Float(string='Cantidad Desperdiciada', readonly=True, compute='_compute_scrap_qty', store=True)
-    is_end_stage = fields.Boolean(related='stage_id.is_closed', readonly=True, nocopy=True)
+    is_end_stage = fields.Boolean(related='stage_id.is_closed', readonly=True, nocopy=True, default=False)
     #metodos compute para calcular los valores esperados por el cliente
     
     
