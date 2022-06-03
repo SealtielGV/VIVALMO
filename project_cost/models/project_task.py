@@ -65,8 +65,8 @@ class VivalmoProjectTask(models.Model):
         for record in self:
             qty = 0.00
             for production in record.production_ids:
-                if production.state not in ['cancel', 'draft']:
-                    qty += production.scrap_qty
+                for i in production.scrap_ids:
+                    qty += i.scrap_qty
             record.scrap_qty = qty
 
 

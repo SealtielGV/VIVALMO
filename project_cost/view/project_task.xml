@@ -33,7 +33,7 @@
                 <xpath expr="//page[@name='extra_info']" position="before">
                     <page name="summary" string="Resumen">    
                         <group name="summary">
-                            <field name="product_qty" />
+                            <field name="produced_qty" />
                             <field name="processed_qty" />
                             <field name="scrap_qty" />
                         </group>
