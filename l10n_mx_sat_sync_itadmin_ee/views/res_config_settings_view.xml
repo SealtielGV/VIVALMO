@@ -36,6 +36,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="o_setting_left_pane">            
+                        </div>
+	                <div class="o_setting_right_pane">
+	                    <label for="si_producto_no_tiene_codigo"/>
+                            <div class="content-group">
+                                 <field name="si_producto_no_tiene_codigo" class="o_light_label mt16" widget="radio"/>
+                            </div>
+	                </div>
                     </div>
                 </div>
             </xpath>

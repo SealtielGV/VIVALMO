@@ -6,9 +6,11 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <!--Campo extra agregado para verificar el nombre del cliente-->
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="partner_name" invisible="1"/>
                 </xpath>
+                <!--Hace las columnas invisibles para cuando el cliente es diferente de coppel-->
                 <xpath expr="//field[@name='x_qty']" position="attributes">
                     <attribute name="attrs">{ 'column_invisible': [('parent.partner_name','!=', 'COPPEL S.A. DE C.V.')]}</attribute>
                 </xpath>

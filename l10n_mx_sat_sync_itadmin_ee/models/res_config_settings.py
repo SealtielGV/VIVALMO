@@ -18,7 +18,7 @@ class ResConfigSettings(models.TransientModel):
              'A service is a non-material product you provide.\n'
              'A digital content is a non-material product you sell online. The files attached to the products are the one that are sold on '
              'the e-commerce such as e-books, music, pictures,... The "Digital Product" module has to be installed.')
-    
+    si_producto_no_tiene_codigo = fields.Selection([('Crear automatico', 'Crear automatico'),('Buscar manual', 'Usar producto por defecto')], 'Si producto no se encuentra')
     solo_documentos_de_proveedor = fields.Boolean("Solo documentos de proveedor", related="company_id.solo_documentos_de_proveedor", readonly=False)
     
         
@@ -26,7 +26,8 @@ class ResConfigSettings(models.TransientModel):
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
         res.update(
-            product_type_default=self.env['ir.config_parameter'].with_user(self.env.user).get_param('l10n_mx_sat_sync_itadmin.product_type_default')
+            product_type_default=self.env['ir.config_parameter'].with_user(self.env.user).get_param('l10n_mx_sat_sync_itadmin.product_type_default'),
+            si_producto_no_tiene_codigo=self.env['ir.config_parameter'].with_user(self.env.user).get_param('l10n_mx_sat_sync_itadmin.si_producto_no_tiene_codigo'),
         )
         return res
 
@@ -34,6 +35,7 @@ class ResConfigSettings(models.TransientModel):
     def set_values(self):
         res = super(ResConfigSettings, self).set_values()
         self.env['ir.config_parameter'].with_user(self.env.user).set_param('l10n_mx_sat_sync_itadmin.product_type_default', self.product_type_default)
+        self.env['ir.config_parameter'].with_user(self.env.user).set_param('l10n_mx_sat_sync_itadmin.si_producto_no_tiene_codigo', self.si_producto_no_tiene_codigo)
         return res
     
     

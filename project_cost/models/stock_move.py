@@ -6,7 +6,7 @@ class VivalmoStockMove(models.Model):
 
     task_id = fields.Many2one('project.task',string='Tarea',)
     
-    
+    #este metood identifica si trae una orden de producción para que se agregue a la tarea del proyecto y tenga relación con lo de vivalmo
     def write(self,vals):
         res = super(VivalmoStockMove, self).write(vals)
         if self.raw_material_production_id and self.stock_valuation_layer_ids.filtered(lambda s: s.production_id == False):

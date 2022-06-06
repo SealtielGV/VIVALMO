@@ -95,6 +95,14 @@
                                         <span t-esc="','.join(doc.x_studio_estilos_bom.mapped('name')).strip()"/>
                                     </div>
                                 </div>
+                                <div t-if="doc.x_studio_tecnologia_bom" class="row">
+                                    <div class="col-6 text-right">
+                                        <strong>Tecnología: </strong>
+                                    </div> 
+                                    <div class="col-6">
+                                        <span t-esc="','.join(doc.x_studio_tecnologia_bom.mapped('name')).strip()"/>
+                                    </div>
+                                </div>
                                 <div t-if="doc.x_studio_instrucciones_de_lavado" class="row">
                                     <div class="col-6 text-right">
                                         <strong>Instrucciones de lavado húmedos: </strong> 

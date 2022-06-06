@@ -1,3 +1,4 @@
+from operator import is_
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
@@ -33,7 +34,43 @@ class VivalmoProjectTask(models.Model):
     porcentaje_utility  = fields.Float(digits=(32,2),string='Utilidad % MXN',compute='_compute_porcentaje_utility',
     help='Utilidad % MXN = Utilidad estimada por PR en MXN/(Precio de neto Bom x Cantidades Recibidas)')
     
+    planned_qty = fields.Float(string='Cantidad Planeada', readonly=True, compute='_compute_planned_qty', store=True)
+    produced_qty = fields.Float(string='Cantidad Producida', readonly=True, compute='_compute_produced_qty', store=True)
+    scrap_qty = fields.Float(string='Cantidad Desechos', readonly=True, compute='_compute_scrap_qty', store=True)
+    is_end_stage = fields.Boolean(related='stage_id.is_closed', readonly=True, nocopy=True, default=False)
+    #metodos compute para calcular los valores esperados por el cliente
     
+    
+    @api.depends('production_ids.product_qty', 'production_ids')
+    def _compute_planned_qty(self):
+        for record in self:
+            qty = 0.00
+            for production in record.production_ids:
+                if production.state not in ['cancel', 'draft']:
+                    qty += production.product_qty
+            record.planned_qty = qty
+    
+
+    @api.depends('production_ids.x_studio_cantidad_producida', 'production_ids')
+    def _compute_produced_qty(self):
+        for record in self:
+            qty = 0.00
+            for production in record.production_ids:
+                if production.state not in ['cancel', 'draft']:
+                    qty += production.x_studio_cantidad_producida
+            record.produced_qty = qty  
+    
+
+    @api.depends('production_ids', 'production_ids.scrap_ids', 'scrap_ids.scrap_qty')
+    def _compute_scrap_qty(self):
+        for record in self:
+            qty = 0.00
+            for production in record.production_ids:
+                for i in production.scrap_ids:
+                    qty += i.scrap_qty
+            record.scrap_qty = qty
+
+
     @api.depends('production_ids','production_ids.bom_id')
     def get_price_unit_bom(self):
         for task in self:
@@ -77,7 +114,11 @@ class VivalmoProjectTask(models.Model):
     def _compute_costo_total(self):
         for task in self:
             task.x_studio_costo_total = task.x_studio_costo_de_materiales+task.x_studio_costo_de_operaciones
-        
 
-
-    
+    def write(self, vals):
+        res = super(VivalmoProjectTask, self).write(vals)
+        if 'stage_id' in vals.keys():
+            is_end_stage = True if self.env['project.task.type'].search([('id', '=', vals['stage_id'])]).is_closed == True else False
+            if is_end_stage:
+                vals['date_end'] = lambda self: fields.Date.today()
+        return res

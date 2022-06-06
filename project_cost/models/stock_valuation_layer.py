@@ -12,7 +12,7 @@ class VivalmoStockValuationLayer(models.Model):
         ],related='production_id.state',string="Estado Producción")
     location_id = fields.Many2one('stock.location',string='Ubicación',related='stock_move_id.location_id')
     
-    
+    #agrega los valores de la producción para que se relacionen con la tarea
     @api.model
     def create(self,vals):
         res = super(VivalmoStockValuationLayer,self).create(vals)

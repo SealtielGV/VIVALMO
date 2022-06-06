@@ -49,8 +49,12 @@ class ReportPaymentFromXMLFile(models.AbstractModel):
     def l10n_mx_edi_get_payment_etree(self, cfdi):
         if not hasattr(cfdi, 'Complemento'):
             return None
-        attribute = '//pago10:DoctoRelacionado'
-        namespace = {'pago10': 'http://www.sat.gob.mx/Pagos'}
+        if cfdi.get("Version",'4.0'):
+           attribute = '//pago20:DoctoRelacionado'
+           namespace = {'pago20': 'http://www.sat.gob.mx/Pagos20'}
+        else:
+           attribute = '//pago10:DoctoRelacionado'
+           namespace = {'pago10': 'http://www.sat.gob.mx/Pagos'}
         node = cfdi.Complemento.xpath(attribute, namespaces=namespace)
         return node
     
@@ -85,14 +89,17 @@ class ReportPaymentFromXMLFile(models.AbstractModel):
             return None
         attribute = 'tfd:TimbreFiscalDigital[1]'
         namespace = {'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital'}
-        node = cfdi.Complemento.xpath(attribute, namespaces=namespace)
+        for Complemento in cfdi.Complemento:
+            node = Complemento.xpath(attribute, namespaces=namespace)
+            if node:
+                break
         return node[0] if node else None
-    
+
     @api.model
     def l10n_mx_edi_generate_cadena(self, xslt_path, cfdi_as_tree):
         xslt_root = etree.parse(tools.file_open(xslt_path))
         return str(etree.XSLT(xslt_root)(cfdi_as_tree))
-    
+
     @api.model
     def _get_l10n_mx_edi_cadena(self, cfdi):
         
