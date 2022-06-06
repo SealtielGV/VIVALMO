@@ -414,6 +414,7 @@ class ProductecaConnectionBindingSaleOrder(models.Model):
     warehouseIntegration = fields.Text(string="WarehouseIntegration",index=True)
 
     amount = fields.Float(string="Amount",index=True)
+    couponAmount = fields.Float(string="couponAmount",index=True)
     shippingCost = fields.Float(string="Shipping Cost",index=True)
     financialCost = fields.Float(string="Financial Cost",index=True)
     paidApproved = fields.Float(string="Paid Approved",index=True)
