@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        
+        <!-- Vista de Formulario heredada de MrpProduction  -->
         <record model="ir.ui.view" id="mrp_production_form_inherit_pr_context">
             <field name="name">mrp.production.form.inherit.pr.context</field>
             <field name="model">mrp.production</field>
@@ -8,6 +10,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='product_id']" position="before">
                     <field name="x_studio_pr" invisible="1"/>
+                </xpath>
+                <xpath expr="//label[@for='lot_producing_id']" position="before">
+                    <field name="scrap_qty" readonly="1" optional="show"/>
+                </xpath>
+                <xpath expr="//field[@name='scrap_qty']" position="after">
+                    <field name="x_studio_cantidad_producida" readonly="1" optional="show"/>
                 </xpath>
                 <xpath expr="//field[@name='move_raw_ids']" position="attributes">
                     <attribute name="context">{
@@ -24,6 +32,19 @@
                 </xpath>
                 <xpath expr="//field[@name='move_raw_ids']//tree//field[@name='product_id']" position="after">
                     <field name="task_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista de lista heredada de MrpProduction -->
+
+        <record id="mrp_production_list_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.list.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="studio_customization.odoo_studio_mrp_prod_3d606ad7-408a-4be1-9773-3eacd9a58fe6" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='x_studio_cantidad_producida']" position="before">
+                    <field name="scrap_qty" sum="Total Qty" string="Cantidad Desechos" readonly="1" optional="show"/>
                 </xpath>
             </field>
         </record>
