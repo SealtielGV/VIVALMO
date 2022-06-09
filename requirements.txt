@@ -12,3 +12,4 @@ python-dateutil==2.7.3
 xmltodict==0.11.0
 M2Crypto==0.35.2
 cfdiclient==1.2.0
+python3-openssl
